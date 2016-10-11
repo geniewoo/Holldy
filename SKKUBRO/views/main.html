@@ -12,7 +12,14 @@
 	<div class="header_nav_container" id="header_nav_container">
 	</div>
 	<div class="main_container">
-		<div class="main_img"></div>
+		<div class="main_img">
+			<form>
+				<input type="date" placeholder="출발일"/>
+				<input type="date" placeholder="도착일" disabled/>
+				<input type="range" min="1" max="100" value="20" oninput="rangevalue.value=value"></input>
+				<input id="rangevalue" placeholder="100명이 넘는경우 직접 입력해 주세요"></input>
+			</form>
+		</div>
 	</div>
 </body>
 </html>
