@@ -1,8 +1,205 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	margin : 0px;
+	font: 14px JejuGothic, "Lucida Grande", Helvetica, Arial, sans-serif;
+	min-width: 320px;
+}
+
+@font-face{
+	font-family:JejuGothic;
+	src:url("font/JejuGothic.eot");
+	src:local(""),url("font/JejuGothic.woff") format("woff");
+	src:local(""),url("font/JejuGothic.ttf")format("truetype");
 }
 
 a {
-  color: #00B7FF;
+	text-decoration: none;
+}
+
+lu{
+	list-style:none;
+}
+
+.main_img{
+	height: 300px;
+	width: 1200px;
+	background-image: url("http://placehold.it/1200x300");
+	position: fixed;
+	z-index: 1;
+	min-width: 320px;
+}
+
+.header_nav_container{
+	background-color: #222;
+	height: 40px;
+}
+
+.main_container{
+	width: 100%;
+}
+
+.header_nav a{
+	color: #fff;
+}
+
+.header_nav a:hover{
+	color: #bbb;
+}
+
+a.nav_foodBtn{
+	background-image: url('../images/nav_foodBtn.png');
+}
+
+a.nav_foodBtn:hover{
+	color: transparent;
+	background-image: url('../images/nav_foodBtn_hover.png');
+}
+
+a.nav_pensionBtn{
+	background-image: url('../images/nav_pensionBtn.png');
+}
+
+a.nav_pensionBtn:hover{
+	color: transparent;
+	background-image: url('../images/nav_pensionBtn_hover.png');
+}
+
+
+a.nav_busBtn{
+	background-image: url('../images/nav_busBtn.png');
+}
+
+a.nav_busBtn:hover{
+	color: transparent;
+	background-image: url('../images/nav_busBtn_hover.png');
+}
+
+.header_nav_right > a.nav_btn{
+	height: 23px;
+	width: 35px;
+	background-image: url('../images/nav_menuBtn.png');
+	margin: 8px !important;
+	background-size: cover;
+	float: right;
+}
+
+.header_nav_right > a.nav_btn:active{
+	background-image: url('../images/nav_menuBtn_hover.png');
+}
+
+
+.header_nav > .header_nav_left{
+	width: 25%;
+	height: 40px;
+	float: left;
+	overflow: hidden;
+}
+
+.header_nav > .header_nav_mid{
+	width: 50%;
+	height: 40px;
+	float: left;
+	overflow: hidden;
+}
+
+.header_nav > .header_nav_right{
+	width: 25%;
+	height: 40px;
+	float: right;
+	overflow: hidden;
+}
+
+
+.header_nav > .header_nav_left a{
+	font-size: 14px;
+	margin: 13px 5px;
+	float: left;
+}
+
+.header_nav > .header_nav_mid a{
+	float: left;
+	color: transparent !important;
+	background-size: cover;
+	height: 30px;
+	width: 25px;
+	margin: 5px 10px;
+}
+
+.header_nav > .header_nav_right > lu.mobile > li > a{
+	font-size: 18px;
+	margin: 13px 13px;
+}
+.header_nav > .header_nav_right >lu.mobile > li {
+	width: 300px;
+	height: 18px;
+	padding: 16px 0;
+}
+
+.header_nav > .header_nav_right >lu.mobile{
+	z-index: 10;
+	background-color: #222;
+	top:40px !important;
+	position: fixed;
+	right:0;
+	height: 150px;
+	width: 300px;
+	display: none;
+}
+
+@media(min-width: 768px){
+
+	.header_nav > .header_nav_left{
+		width: 20%;
+	}
+
+	.header_nav > .header_nav_mid{
+		width: 40%;
+	}
+
+	.header_nav > .header_nav_right{
+		width: 40%;
+	}
+
+	.header_nav > .header_nav_left a{
+		font-size: 18px;
+		margin: 11px;
+	}
+
+	.header_nav > .header_nav_mid a{
+		width: 30px;
+		height: 16px;
+		color: #fff !important;
+		background-image: none;
+		font-size: 16px;
+		margin: 12px 30px;
+	}
+
+	.header_nav > .header_nav_right >lu{
+		display: block !important;
+	}
+
+	.header_nav > .header_nav_right >lu a{
+		font-size: 12px;
+		margin: 14px 13px;
+		float: right;
+	}
+
+
+	.header_nav_right > a.nav_btn{
+		display: none;
+	}
+
+	.header_nav_right > li > a.nav_list{
+		display: block;
+	}
+}
+
+@media(min-width : 1200px){
+	.header_nav{
+		width: 1200px;
+		margin: 0 auto;
+	}
+	.main_container{
+		margin: 0 auto;
+		width: 1200px;
+	}
 }

@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.send('없는 페이지거나 잘못된 접근입니다.');
 });
 
 module.exports = router;
