@@ -26,7 +26,7 @@ $(function(){
 });
 
 var checkIsOverSize1200 = function(){
-	if($(window).width() < 1200){
+	if(window.innerWidth < 1200){
 		return false;
 	}else{
 		return true;
@@ -34,7 +34,7 @@ var checkIsOverSize1200 = function(){
 }
 
 var checkIsOverSize768 = function(){
-	if($(window).width() < 768){
+	if(window.innerWidth < 768){
 		return false;
 	}else{
 		return true;
