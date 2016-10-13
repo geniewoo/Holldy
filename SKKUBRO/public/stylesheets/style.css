@@ -15,48 +15,113 @@ a {
 	text-decoration: none;
 }
 
-form{
+input{
 	border-radius: 5px;
 	border-color: transparent;
 	height: 25px;
 }
-
-lu{
+li{
 	list-style:none;
 }
 
+.tail_table li{
+	margin-left :20px;
+	font-size: 12px;
+}
+.tail_table p{
+	font-size: 14px;
+}
+
+.tail_table{
+	background-color: #000;
+	color: #bbb;
+}
+
+.tail_table ul{
+	margin: 0 4%;
+	width: 30%;
+	display: inline-block;
+}
+
+.main_sub_img_container{
+	width: 100%;
+	height: 150px;
+}
+.main_sub_img_container > a{
+	width: 100%;
+	float: left;
+	height: 100px;
+	background-size: cover;
+	background-position: center center;
+	background-image: url("http://placehold.it/500x250");
+}
+
+.imp_custom_form .travelDate_container{
+	margin : 0 5%;
+}
+.imp_custom_form .travelNum_container{
+	margin : 0 5%;
+}
+
+.imp_custom_form .travelDate_container > p{
+	margin : 0;
+	color: #fff;
+}
+.imp_custom_form .travelNum_container > p{
+	margin : 0;
+	color: #fff;
+}
+.imp_custom_form .travelNum_col .travelNum_btn{
+	padding: 0;
+	text-align: center;
+	font-size: 15px;
+	width: 100%;
+}
+.imp_custom_form .travelNum_col > p{
+	margin : 5px 0;
+	text-align: center;
+	color: #fff;
+}
+.imp_custom_form .travelNum_col{
+	display: inline-block;
+	margin: 5px 3%;
+	width: 20%;
+}
+.imp_custom_form .travelNum_aft{
+	display: inline-block;
+	height: 25px;
+	padding: 0;
+	width: 15%;
+	text-align: center;
+	position: relative;
+	bottom: 25px;
+	font: 18px JejuGothic;
+}
 .imp_custom_form{
+	padding: 10px 0;
+	background-color: #444;
 	position: relative;
 	z-index: 2;
-	padding-top: 230px;
-	padding-left: 5%;
 }
 
 .imp_custom_form .travelDate{
-	width: 33%;
+	margin : 10px 0;
+	display: block;
+	width: 90%;
 	font: 14px JejuGothic;
-	padding-left: 5%;
-}
-
-.imp_custom_form .travelDate_betw{
-	display: inline;
-	height: 25px;
-	margin: 0 5%;
-	text-align: center;
-	font: 22px JejuGothic;
+	padding-left: 20px;
 }
 
 .main_img{
-	height: 300px;
-	width: 1200px;
+	background-position: center center;
+	background-size: cover;
+	height: 200px;
+	width: 100%;
 	background-image: url("http://placehold.it/1200x300");
 	position: relative;
 	z-index: 1;
-	min-width: 320px;
 }
 .main_img_container{
-	height: 0;
-	width: 0;
 }
 
 .header_nav_container{
@@ -174,12 +239,32 @@ a.nav_busBtn:hover{
 	display: none;
 }
 @media(min-width: 500px){
-	.imp_custom_form .travelDate{
-		width: 25%;
+	.main_sub_img_container{
+		width: 100%;
+		height: 256px;
+	}
+	.main_sub_img_container > a{
+		margin-top: 3px;
+		width: 33.13%;
+		height: 250px;
 	}
 
-	.imp_custom_form .travelDate_betw{
-		margin: 0 3%;
+	.main_sub_img_container > a.mid_img{
+		margin-left: 0.3%;
+		margin-right: 0.3%;
+	}
+
+	.imp_custom_form .travelDate_container{
+		width: 35%;
+		display: inline-block;
+	}
+	.imp_custom_form .travelNum_container{
+		width: 35%;
+		display: inline-block;
+	}
+
+	.main_img{
+		height: 300px;
 	}
 
 	.header_nav > .header_nav_right >lu.mobile{
@@ -189,13 +274,22 @@ a.nav_busBtn:hover{
 }
 
 @media(min-width: 768px){
-	.imp_custom_form .travelDate{
-		padding-left: 35px;
-		width: 200px;
+
+	.imp_custom_form .travelDate_container{
+		width: 300px;
+		display: inline-block;
+		margin: 0 30px;
 	}
 
-	.imp_custom_form .travelDate_betw{
-		margin: 0 20px;
+	.imp_custom_form .travelNum_container{
+		width: 300px;
+		display: inline-block;
+		margin: 0 30px;
+	}
+
+	.imp_custom_form .travelDate{
+		padding-left: 20px;
+		width: 200px;
 	}
 
 	.header_nav > .header_nav_left{
@@ -213,6 +307,10 @@ a.nav_busBtn:hover{
 	.header_nav > .header_nav_left a{
 		font-size: 18px;
 		margin: 11px;
+	}
+
+	.header_nav > .header_nav_mid a:hover{
+		color: #bbb !important;
 	}
 
 	.header_nav > .header_nav_mid a{
@@ -250,6 +348,11 @@ a.nav_busBtn:hover{
 		margin: 0 auto;
 	}
 	.main_container{
+		margin: 0 auto;
+		width: 1200px;
+	}
+
+	.tail_table{
 		margin: 0 auto;
 		width: 1200px;
 	}

@@ -1,11 +1,27 @@
 <form class="imp_custom_form">
-	<div>
+	<div class="travelDate_container">
+		<p>날자</p>
 		<input type="text" class="travelDate" id="datePicker1" placeholder="출발일"/>
-		<p class="travelDate_betw">~</p>
-		<input type="text" class="travelDate" id="datePicker2" placeholder="도착일" disabled/>
+		<!--p class="travelDate_betw">~</p==-->
+		<input type="text" class="travelDate" id="datePicker2" placeholder="귀가일" disabled/>
 	</div>
-	<div>
-		<input type="range" min="1" max="100" value="20" oninput="rangevalue.value=value"></input>
-		<input id="rangevalue" placeholder="100명이 넘는경우 직접 입력해 주세요"></input>
+	<div class="travelNum_container">
+		<p>인원</p>
+		<div class="travelNum_col">
+			<input class="travelNum_btn" type="button" id="travelNum_btn1" btnNum="1" value="∧" />
+			<p id="travelNum_p1">0</p>
+			<input class="travelNum_btn" type="button" id="travelNum_btn2" btnNum="2" value="∨" />
+		</div>
+		<div class="travelNum_col">
+			<input class="travelNum_btn" type="button" id="travelNum_btn3" btnNum="3" value="∧"/>
+			<p id="travelNum_p2">0</p>
+			<input class="travelNum_btn" type="button" id="travelNum_btn4" btnNum="4" value="∨" />
+		</div>
+		<div class="travelNum_col">
+			<input class="travelNum_btn" type="button" id="travelNum_btn5" btnNum="5" value="∧" />
+			<p id="travelNum_p3">0</p>
+			<input class="travelNum_btn" type="button" id="travelNum_btn6" btnNum="6" value="∨" />
+		</div>
+		<p class="travelNum_aft">명</p>
 	</div>
 </form>

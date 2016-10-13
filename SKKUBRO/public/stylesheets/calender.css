@@ -9,6 +9,10 @@
 .ccal .calbody li.preselected span { background: #f0f0f0; }
 .ccal * { -moz-user-select: -moz-none; -khtml-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
 .today { font-weight: bold; }
+.ccal .calbody > ul > li:hover, .ccal .calbody > ul > li:active{
+	color: #aaa;
+}
+
 .calendar-canvas { 
 	border-radius: 10px;
 	text-align: center;
