@@ -5,7 +5,6 @@ $(function(){
 		var isClicked = false;
 		var $nav_lu = $('.header_nav_right_lu');
 		if(!checkIsOverSize768()){
-			console.log("어째서");
 			$nav_lu.addClass('mobile');
 		}
 

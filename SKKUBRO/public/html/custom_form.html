@@ -1,6 +1,11 @@
-<form class="main_form">
-	<input type="text" id="datePicker1" placeholder="출발일"/>
-	<input type="text" class="datePicker" placeholder="도착일" disabled/>
-	<input type="range" min="1" max="100" value="20" oninput="rangevalue.value=value"></input>
-	<input id="rangevalue" placeholder="100명이 넘는경우 직접 입력해 주세요"></input>
+<form class="imp_custom_form">
+	<div>
+		<input type="text" class="travelDate" id="datePicker1" placeholder="출발일"/>
+		<p class="travelDate_betw">~</p>
+		<input type="text" class="travelDate" id="datePicker2" placeholder="도착일" disabled/>
+	</div>
+	<div>
+		<input type="range" min="1" max="100" value="20" oninput="rangevalue.value=value"></input>
+		<input id="rangevalue" placeholder="100명이 넘는경우 직접 입력해 주세요"></input>
+	</div>
 </form>

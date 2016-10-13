@@ -516,7 +516,7 @@
 
       var i,
         render = this.options.template,
-        regexp, curDate,
+        regexp, curDate, 
         varMonth = 0,
         selected = this._getSelected(),
         monthStack = this._getMonthStack(displayedMonth.getMonth(), displayedMonth.getFullYear());
@@ -799,7 +799,7 @@
     },
 
     _dateToString = function( date ) {
-      return _fZ(date.getDate()) + '/' + _fZ(date.getMonth()+1) + '/' + date.getFullYear();
+      return date.getFullYear() + '-' + _fZ(date.getMonth()+1) + '-' + _fZ(date.getDate()) ;
     },
 
     _fZ = function( n ) {

@@ -15,11 +15,35 @@ a {
 	text-decoration: none;
 }
 
+form{
+	border-radius: 5px;
+	border-color: transparent;
+	height: 25px;
+}
+
 lu{
 	list-style:none;
 }
 
-.main_form{
+.imp_custom_form{
+	position: relative;
+	z-index: 2;
+	padding-top: 230px;
+	padding-left: 5%;
+}
+
+.imp_custom_form .travelDate{
+	width: 33%;
+	font: 14px JejuGothic;
+	padding-left: 5%;
+}
+
+.imp_custom_form .travelDate_betw{
+	display: inline;
+	height: 25px;
+	margin: 0 5%;
+	text-align: center;
+	font: 22px JejuGothic;
 }
 
 .main_img{
@@ -29,6 +53,10 @@ lu{
 	position: relative;
 	z-index: 1;
 	min-width: 320px;
+}
+.main_img_container{
+	height: 0;
+	width: 0;
 }
 
 .header_nav_container{
@@ -141,11 +169,34 @@ a.nav_busBtn:hover{
 	background-color: #222;
 	position: relative;
 	height: 150px;
-	width: 300px;
+	right: 300%;
+	width: 400%;
 	display: none;
+}
+@media(min-width: 500px){
+	.imp_custom_form .travelDate{
+		width: 25%;
+	}
+
+	.imp_custom_form .travelDate_betw{
+		margin: 0 3%;
+	}
+
+	.header_nav > .header_nav_right >lu.mobile{
+		right: 100%;
+		width: 200%;
+	}
 }
 
 @media(min-width: 768px){
+	.imp_custom_form .travelDate{
+		padding-left: 35px;
+		width: 200px;
+	}
+
+	.imp_custom_form .travelDate_betw{
+		margin: 0 20px;
+	}
 
 	.header_nav > .header_nav_left{
 		width: 20%;
