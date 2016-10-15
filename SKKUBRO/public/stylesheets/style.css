@@ -24,19 +24,19 @@ li{
 	list-style:none;
 }
 
-.food_container > ul{
+.food_categories > ul{
 	display: inline;
 	width: 100%;
 	margin: 0;
 	padding: 0;
 }
 
-.food_container > ul > li{
+.food_categories > ul > li{
 	width: 25%;
 	display: inline-block;
 }
 
-.food_container > ul > li > a{
+.food_categories > ul > li > a{
 	border: 1px solid #ddd;
 	padding-top: 12px;
 	text-align: center;
@@ -301,7 +301,7 @@ a.nav_busBtn:hover{
 		background-color: #851;
 	}
 
-	.food_container > ul > li{
+	.food_categories > ul > li{
 		width: 12.5%;
 	}
 

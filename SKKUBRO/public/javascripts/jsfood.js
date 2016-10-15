@@ -1,16 +1,17 @@
 $(function(){
 	var catNum = 8;
+	$food_products = $('#food_products');
+	$food_categories = $('#food_categories');
+
 	$.get('food/get_product', function(data){
 		if(data.code === 1){
-			insertCartegory($('#food_container'), catNum);
+			insertCartegory($food_categories, catNum);
 			for(var i = 0; i < catNum ; i ++){
 				var id = "#food_cat" + (i + 1);
 				$(id).on('click',function(){
-					console.log(this.getAttribute('catNum'), data.data);
 					for(var product = data.data, i = 0; i < data.data.length; i++){
-						console.log(product[i].category);
 						if(product[i].category == this.getAttribute('catNum')){
-							//여까지댐
+							$food_products.append(insertProduct(product[i]));
 						}
 					}
 				});
@@ -19,7 +20,7 @@ $(function(){
 	});
 });
 
-var insertCartegory = function($food_container, catNum){
+var insertCartegory = function($food_categories, catNum){
 	var catName = ['육류 / 쌀 / 김치', '쌈 / 야채', '라면', '과자', '음료', '어묵 / 냉동', '일회용기', '기타'];
 	var catStr = '';
 	for(var i = 0 ; i <= (catNum - 1) / 4 ; i++){
@@ -35,7 +36,30 @@ var insertCartegory = function($food_container, catNum){
 		}
 		catStr += '</ul>';
 	}
-	$food_container.html(catStr);
+	$food_categories.html(catStr);
+}
+
+var insertProduct = function(product){
+	productStr = '<li>'
+				+ '<a href="#" class="food_products_a"></a>'
+				+ '<div>'
+				+	'<div>'
+				+	 	'<p class="food_products_name">' + product.name + '</p>'
+				+ 		'<p class="food_products_price">' + product.price + '</p>'
+				+	'</div>'
+				+	'<div>'
+				+		'<p class="food_products_content">' + product.content + '</p>'
+				+		'<p class="food_products_unit">' + product.unit + '</p>'
+				+		'<p class="food_products_totalprice">' + '추후 조정' + '</p>'
+				+	'</div>'
+				+ '</div>'
+				+ '<div>'
+				+	'<a class="food_products_numBtn">위</a>'
+				+	'<input type="number" class="food_products_input"/>'
+				+	'<a class="food_products_numBtn">아래</a>'
+				+ '</div>'
+				+'</li>';
+	return productStr;
 }
 	//ajax요청으로 미리 모든 카테고리에 대한 데이터를 가져옴
 	//만약 물품을 선택하면 미리 받아놓은 제이슨으로
