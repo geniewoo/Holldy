@@ -15,9 +15,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/get_product', function(req, res, next) {
-	db.product.find(){
-		
-	}
+	db.product.find(function(error, data){
+		if(error){
+			res.json({'code' : 0, 'err_msg' : 'db검색 오류'});
+		}else{
+			res.json({'code' : 1, 'data' : data});
+		}
+	});
 });
 
 module.exports = router;
