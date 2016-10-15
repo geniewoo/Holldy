@@ -1,52 +1,52 @@
 $(function(){
-	$custom_form = $('#main_custom_form');
-	$custom_form.load("html/custom_form.html", function(){
-		setCibulCalendar( 'datePicker1', {
-			lang : 'kr',
-			filter: function(date, classes) {
-				if (date.getDay() == 6 || date.getDay() == 0) classes.push('weekend');
+	$.get('/travelCookies', function(data){
+		$custom_form = $('#main_custom_form');
+		$custom_form.load("html/custom_form.html", function(){
+			setCibulCalendar( 'datePicker1', {
+				lang : 'kr',
+				filter: function(date, classes) {
+					if (date.getDay() == 6 || date.getDay() == 0) classes.push('weekend');
+					var today = new Date();
+					if (isFirstDayBigger(today, date)) classes.push('unclickable');
+					return classes;
+				}
+			});
+			if(data.code === 1){
+				$('#datePicker1').val(data.travelForm.travelDate1);
+				$('#datePicker2').val(data.travelForm.travelDate2);
+				$('#travelNum_p1').text(data.travelForm.travelNum.substring(0,1));
+				$('#travelNum_p2').text(data.travelForm.travelNum.substring(1,2));
+				$('#travelNum_p3').text(data.travelForm.travelNum.substring(2,3));
+			}else{
 				var today = new Date();
-				if (isFirstDayBigger(today, date)) classes.push('unclickable');
-				return classes;
+				$('#datePicker1').val(date2String(new Date()));
+				setDatePicker2($('#datePicker1'),$('#datePicker2'));
 			}
-		});
-		$('#datePicker1').on('change',function(){
-			var nyears = $('#datePicker1').val().substring(0,4);
-			var nmonth = $('#datePicker1').val().substring(5,7);
-			var ndate = $('#datePicker1').val().substring(8,10);
-			var nextDay = new Date(nyears, Number(nmonth) - 1, Number(ndate) + 1);
-			var nextStr = nextDay.getFullYear();
-			if(nextDay.getMonth() + 1 < 10){
-				nextStr += '-0' + (nextDay.getMonth() + 1);
-			}else{
-				nextStr += '-' + (nextDay.getMonth() + 1);
-			}
-			if(nextDay.getDate() < 10){
-				nextStr += '-0' + nextDay.getDate();
-			}else{
-				nextStr += '-' + nextDay.getDate();
-			}
-			$('#datePicker2').val(nextStr);
-		});
-		$('#travelNum_btn1').on('click', function(){
-			changeTravelNum($('#travelNum_btn1'))
-		});
-		$('#travelNum_btn2').on('click', function(){
-			changeTravelNum($('#travelNum_btn2'))
-		});
-		$('#travelNum_btn3').on('click', function(){
-			changeTravelNum($('#travelNum_btn3'))
-		});
-		$('#travelNum_btn4').on('click', function(){
-			changeTravelNum($('#travelNum_btn4'))
-		});
-		$('#travelNum_btn5').on('click', function(){
-			changeTravelNum($('#travelNum_btn5'))
-		});
-		$('#travelNum_btn6').on('click', function(){
-			changeTravelNum($('#travelNum_btn6'))
+
+			$('#datePicker1').on('change',function(){
+				setDatePicker2($('#datePicker1'), $('#datePicker2'));
+			});
+			$('#travelNum_btn1').on('click', function(){
+				changeTravelNum($('#travelNum_btn1'))
+			});
+			$('#travelNum_btn2').on('click', function(){
+				changeTravelNum($('#travelNum_btn2'))
+			});
+			$('#travelNum_btn3').on('click', function(){
+				changeTravelNum($('#travelNum_btn3'))
+			});
+			$('#travelNum_btn4').on('click', function(){
+				changeTravelNum($('#travelNum_btn4'))
+			});
+			$('#travelNum_btn5').on('click', function(){
+				changeTravelNum($('#travelNum_btn5'))
+			});
+			$('#travelNum_btn6').on('click', function(){
+				changeTravelNum($('#travelNum_btn6'))
+			});
 		});
 	});
+	
 });
 
 var isFirstDayBigger = function(day1, day2){
@@ -101,4 +101,27 @@ var subNum = function(num){
 	}else{
 		return num;
 	}
+}
+
+var setDatePicker2 = function($datePicker1, $datePicker2){
+	var nyears = $datePicker1.val().substring(0,4);
+	var nmonth = $datePicker1.val().substring(5,7);
+	var ndate = $datePicker1.val().substring(8,10);
+	var nextDay = new Date(nyears, Number(nmonth) - 1, Number(ndate) + 1);
+	$($datePicker2).val(date2String(nextDay));
+}
+
+var date2String = function(date){
+	var dateStr = date.getFullYear();
+	if(date.getMonth() + 1 < 10){
+		dateStr += '-0' + (date.getMonth() + 1);
+	}else{
+		dateStr += '-' + (date.getMonth() + 1);
+	}
+	if(date.getDate() < 10){
+		dateStr += '-0' + date.getDate();
+	}else{
+		dateStr += '-' + date.getDate();
+	}
+	return dateStr;
 }

@@ -1,11 +1,22 @@
 $(function(){
-
 	$header_nav_container = $('#header_nav_container');
 	$header_nav_container.load("html/header_nav.html", function(){
 		var isClicked = false;
 		var $nav_lu = $('.header_nav_right_lu');
 		if(!checkIsOverSize768()){
 			$nav_lu.addClass('mobile');
+		}
+
+		switch($header_nav_container.attr("clicked")){
+			case "pension":
+			$('.nav_pensionBtn').addClass('clicked');
+			break;
+			case "bus":
+			$('.nav_busBtn').addClass('clicked');
+			break;
+			case "food":
+			$('.nav_foodBtn').addClass('clicked');
+			break;
 		}
 
 		$(window).on('resize',function(){
@@ -24,7 +35,7 @@ $(function(){
 		
 		$('.nav_foodBtn').on('click',function(event){
 			event.preventDefault();
-			if($('#travelNum_p1').val()){
+			if($('#travelNum_p1').text()){
 				var date1 = getTravelDate1();
 				var date2 = getTravelDate2();
 				var number = getTravelNum();
@@ -35,7 +46,7 @@ $(function(){
 		});
 		$('.nav_pensionBtn').on('click',function(event){
 			event.preventDefault();
-			if($('#travelNum_p1').val()){
+			if($('#travelNum_p1').text()){
 				var date1 = getTravelDate1();
 				var date2 = getTravelDate2();
 				var number = getTravelNum();
@@ -46,7 +57,7 @@ $(function(){
 		});
 		$('.nav_busBtn').on('click',function(event){
 			event.preventDefault();
-			if($('#travelNum_p1').val()){
+			if($('#travelNum_p1').text()){
 				var date1 = getTravelDate1();
 				var date2 = getTravelDate2();
 				var number = getTravelNum();
