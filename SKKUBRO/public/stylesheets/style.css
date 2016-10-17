@@ -33,6 +33,30 @@ input[type=number]::-webkit-inner-spin-button {
 input[type=number] {
 	-moz-appearance:textfield;
 }
+
+div.subPage_container{
+	text-align: center;
+
+}
+
+div.subPage_container > a{
+	display: inline-block;
+	font-size: 18px;
+	color: #888;
+}
+
+
+div.subPage_container > a.clicked{
+	display: inline-block;
+	color: #000;
+}
+
+div.subPage_container > p{
+	margin-top: : 20px;
+	width: 30px;
+	display: inline-block;
+}
+
 ul.food_products{
 	padding: 0;
 }
