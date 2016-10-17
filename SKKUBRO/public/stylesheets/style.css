@@ -24,6 +24,104 @@ li{
 	list-style:none;
 }
 
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type=number] {
+	-moz-appearance:textfield;
+}
+ul.food_products{
+	padding: 0;
+}
+
+ul.food_products > li{
+	width: 50%;
+	display: inline-block;
+}
+
+.food_products .food_products_img > a{
+	display: block;
+	padding-top: 100%;
+	width: 100%;
+	background-size: cover;
+	background-position: center center;
+}
+
+.food_products div.food_products_info > div{
+	display: inline-block;
+}
+
+.food_products div.food_products_res{
+	width: 75%;
+}
+
+.food_products p.food_products_content{
+	margin-top: 15px;
+	margin-bottom: 0;
+	font-size: 12px;
+	color: #aaa;
+}
+
+.food_products p.food_products_totalprice{
+	margin-top: 5px;
+	margin-bottom: 0;
+	font-size: 12px;
+	color: #aaa;
+}
+
+.food_products div.food_products_info{
+	padding: 0 10px;
+}
+
+.food_products div.food_products_info > p.food_products_name{
+	margin: 8px 0;
+	height: 28px;
+}
+
+.food_products p.food_products_price{
+	margin: 0;
+	font-weight: bold;
+	font-size: 16px;
+	display: inline;
+}
+
+.food_products p.food_products_won{
+	margin: 0;
+	font-size: 11px;
+	display: inline;
+}
+
+.food_products .food_products_con{
+	width: 25%;
+}
+
+.food_products .food_products_con > a, .food_products .food_products_con > input{
+	width: 100%;
+	display: block;
+	height: 15px;
+	text-align: center;
+	outline: none;
+}
+
+.food_products .food_products_con > a{
+	padding-top: 5px;
+	border-radius: 5px;
+	background-color: #aaa;
+	color: #fff;
+	font-size: 10px
+}
+.food_products .food_products_con > input{
+	margin: 2px 0;
+	padding: 3px 0;
+	box-shadow:inset 0px 0px 0px 4px #9ee;
+	border-width: 0;
+	font-size: 16px;
+	font-weight: bold;
+}
+
 .food_categories > ul{
 	display: inline;
 	width: 100%;
@@ -36,6 +134,10 @@ li{
 	display: inline-block;
 }
 
+.food_categories > ul > li > a.clicked{
+	background-color: #7d7;
+}
+
 .food_categories > ul > li > a{
 	border: 1px solid #ddd;
 	padding-top: 12px;
@@ -45,6 +147,10 @@ li{
 	width: 100%;
 	color: #000;
 	font-size: 12px;
+}
+
+.food_categories > ul > li > a:hover{
+	background-color: #7d7;
 }
 .tail_table li{
 	margin-left :20px;
@@ -261,6 +367,14 @@ a.nav_busBtn:hover{
 	display: none;
 }
 @media(min-width: 500px){
+	.main_container{
+		min-height: 700px;
+	}
+	ul.food_products > li{
+		width: 240px;
+		display: inline-block;
+		margin: 0 auto;
+	}
 
 	.main_sub_img_container{
 		width: 100%;
@@ -280,6 +394,7 @@ a.nav_busBtn:hover{
 	.imp_custom_form .travelDate_container{
 		width: 35%;
 		display: inline-block;
+		float: left
 	}
 	.imp_custom_form .travelNum_container{
 		width: 35%;
@@ -307,7 +422,6 @@ a.nav_busBtn:hover{
 
 	.imp_custom_form .travelDate_container{
 		width: 300px;
-		display: inline-block;
 		margin: 0 30px;
 	}
 
@@ -344,7 +458,7 @@ a.nav_busBtn:hover{
 	}
 
 	.header_nav > .header_nav_mid a{
-		width: 30px;
+		width: 32px;
 		height: 16px;
 		color: #fff !important;
 		background-image: none;
