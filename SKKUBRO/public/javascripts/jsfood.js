@@ -3,9 +3,12 @@ $(function(){
 	var catNum = 8;
 	var proNum = 12;
 	var nowTab = 1;
+	var totalPriceArr = [];
+	var totalPrice = 0;
 	$food_products = $('#food_products');
 	$food_categories = $('#food_categories');
 	$food_tabs = $('#food_tabs');
+	$total_price = $('#total_price');
 	var products = [JSON.parse(product_infos.pro1),
 	JSON.parse(product_infos.pro2),
 	JSON.parse(product_infos.pro3),
@@ -15,19 +18,21 @@ $(function(){
 	JSON.parse(product_infos.pro7),
 	JSON.parse(product_infos.pro8),
 	];
-	console.log(products);
 
 	$.get('travelCookies', function(data){
 		for(var i = 0 ; i < catNum ; i++){
 			var product = products[i];
 			for(var j = 0; j < product.length; j++){
 				if(product[j].default && data.travelForm){
-					product[j].num = (Number(data.travelForm.travelNum) + products[i].default - 1) / products[i].default;
+					product[j].num = (Number(data.travelForm.travelNum) + product[i].default - 1) / product[i].default;
+					totalPriceArr.push(product[j]);
 				}else{
 					product[j].num = 0;
 				}
 			}
 		}
+		setTotalPrice(totalPriceArr, $total_price);
+		
 		insertCartegory($food_categories, catNum);
 		for(var i = 0; i < catNum ; i ++){
 			var id = "#food_cat" + (i + 1);
@@ -40,13 +45,14 @@ $(function(){
 				$('#food_cat' + thisNum).addClass('clicked');
 				nowAct = thisNum;
 				
-				$food_products.html('');
+				$food_tabs.html('');
 				var product = products[Number(thisNum)-1];
 				var tabNum = makeSubPage($food_tabs, product.length, proNum);
-				for(int j = 0 ; j < tabNum ; j++){
-					$('#subpage_' + (j + 1)).on('click',function(){
+				for(var j = 0 ; j < tabNum ; j++){
+					$('#subpage_' + (j + 1)).on('click',function(){	//밑에 1/2/3/4/5 같은거 누르면 실행
+						$food_products.html('');
 						thisTab = this.getAttribute('tabNum');
-						changeSubPage($food_products, thisTab, product[thisTab], proNum);
+						changeSubPage($food_products, thisTab, product, proNum, $total_price, totalPriceArr);//pro목록 배치
 						$('#subPage_' + nowTab).removeClass('clicked');
 						$('#subPage_' + thisTab).addClass('clicked');
 						nowTab = thisTab;
@@ -80,9 +86,7 @@ var insertCartegory = function($food_categories, catNum){
 
 var insertProduct = function(product){
 	var content_res, price_res, init_num;
-
 	init_num = product.num;
-	console.log(init_num);
 	content_res = init_num * product.content;
 	price_res = init_num * product.price;
 
@@ -112,7 +116,7 @@ var insertProduct = function(product){
 	return productStr;
 }
 
-var makeConnection = function($product_up, $product_down, $product_input, $product_content, $product_price, product){
+var makeConnection = function($product_up, $product_down, $product_input, $product_content, $product_price, product, $total_price, totalPriceArr){//각종 ui들을 연결한다.
 	$product_up.on('click', function(event){
 		event.preventDefault();
 		$product_input.val(Number($product_input.val()) + 1);
@@ -127,46 +131,144 @@ var makeConnection = function($product_up, $product_down, $product_input, $produ
 		}
 	});
 
-	$product_input.on('change', function(){
-		if($product_input.val() < 0){
+	$product_input.on('change', function(){	//input값이 바뀌면
+		if($product_input.val() < 0){	//0이하일때
 			$product_input.val(0);
 			$product_content.text('0' + product.unit);
 			$product_price.text('0원');
 			product.num = 0;
-		}else{
+			find_removeTotalIndex(product._id, totalPriceArr);//total에서 인덱스를 찾아낸다 찾으면 배열에서 제외하고 반환한다.
+		}else{	//아닐때
 			$product_content.text(product.content * $product_input.val() + product.unit);
 			$product_price.text(product.price * $product_input.val() + '원');
 			product.num = $product_input.val();
+			var totalPrice = insert_updateTotalIndex(product._id, totalPriceArr, product);	//totalArr에서 인덱스를 찾아 업데이트 하던지 새로 넣는다.
+			setTotalPriceHtml($total_price, totalPrice);
 		}
 	});
 }
 
-var showProducts = function($food_products, product){
-	$food_products.append(insertProduct(product));
+var showProducts = function($food_products, product, $total_price, totalPriceArr){	//각종 ui를 만들고 연결시키는 함수를 부른다.
+	$food_products.append(insertProduct(product));	//ui만들기
 	$('#product_img_' + product._id).css('background-image', 'url("http://placehold.it/500x250")');//'url("../' + product.url + '")'
 	$product_up = $('#product_up_' + product._id);
 	$product_down = $('#product_down_' + product._id);
 	$product_input = $('#product_input_' + product._id);
 	$product_content = $('#product_content_' + product._id);
 	$product_price = $('#product_price_' + product._id);
-	makeConnection($product_up, $product_down, $product_input, $product_content, $product_price, product);
+	makeConnection($product_up, $product_down, $product_input, $product_content, $product_price, product, $total_price, totalPriceArr);//각종 ui 연결한다.
 }
 
 var makeSubPage = function($food_products, length, proNum){
 	var subPageStr = '<div>';
 	subPageStr += '<div class="subPage_container">';
 	subPageStr += '<p> </p>';
-	for(var i = 0 ; i < length / proNum ; i++){
+	var i = 0;
+	for( ; i < length / proNum ; i++){
 		subPageStr += '<a href="#" id="subpage_' + (i + 1) + '" tabNum="' + (i + 1) + '">' + (i + 1) + '</a><p> </p>';
 	}
 	subPageStr += '</div>';
 	subPageStr += '</div>';
 	$food_products.append(subPageStr);
+	return i;
 }
 
-var changeSubPage = function($food_products, tabNum, product, proNum){
-	for(var i = (tabNum - 1) * proNum ; i < tabNum * proNum ; i++){
-		showProducts($food_products, product[i]);
+var changeSubPage = function($food_products, tabNum, product, proNum, $total_price, totalPriceArr){//밑에 1/2/3/4/5 이런 페이지를 누르면 위에 pro목록이 뜬다.
+	for(var i = (tabNum - 1) * proNum ; i < tabNum * proNum && i < product.length ; i++){
+		showProducts($food_products, product[i], $total_price, totalPriceArr);
+	}
+}
+
+var setTotalPrice = function(totalPriceArr, $total_price){
+	var totalPrice = 0;
+	totalPriceArr.forEach(function(totalProduct){
+		totalPrice += totalProduct.num * totalProduct.price;
+	});
+	setTotalPriceHtml($total_price, totalPrice);
+}
+
+var setTotalPriceHtml = function($total_price, totalPrice){
+	$total_price.html('<p>총 ' + totalPrice + '</p>');
+}
+var find_removeTotalIndex = function(_id, totalPriceArr){	//total에서 인덱스를 찾아낸다 총합을 리턴한다.
+	var i = 0;
+	var totalPrice = 0;
+	for(; i < totalPriceArr.length ; i++){
+		if(totalPriceArr[i]._id === _id){
+			break;
+		}
+		totalPrice += totalPriceArr[i].num * totalPriceArr[i].price;
+	}
+	if(i === totalPriceArr.length){
+		return totalPrice;
+	}else{
+		for(var j = i; j < totalPriceArr.length - 1; j++){
+			totalPriceArr[j] = totalPriceArr[j+1];
+			totalPrice += totalPriceArr[j].num * totalPriceArr[j].price;
+		}
+		totalPriceArr.pop();
+		return totalPrice;
+	}
+}
+
+var insert_updateTotalIndex = function(_id, totalPriceArr, product){	//넣거나 업데이트시킨다. 총합을 리턴한다.
+	var i = 0;
+	var isFind = 0; // 0 : 못찾고 끝에 추가해야 할 때, 1 찾았을때, -1 못찾고 중간에 추가해야 할 때
+	var totalPrice = 0;
+	for(; i < totalPriceArr.length ; i++){
+		var compare_res = compare_id(_id, totalPriceArr[i]._id);
+		if(compare_res === 1){
+			continue;
+		}else if(compare_res === 0){
+			isFind = 1;
+			break;
+		}else{
+			isFind = -1;
+			break;
+		}
+		totalPrice += totalPriceArr[i].num * totalPriceArr[i].price;
+	}
+	if(isFind === 0){
+		totalPriceArr.push(product);
+		totalPrice += product.num * product.price;
+		return totalPrice;
+	}else if(isFind === -1){
+		totalPriceArr.push('trash');
+		for(var j = totalPriceArr.length - 1; i < j; j--){
+			totalPriceArr[j] = totalPriceArr[j-1];
+			totalPrice = totalPriceArr[j].num * totalPriceArr[j].price;
+		}
+		totalPriceArr[i] = product;
+		totalPrice += product.num * product.price;
+		return totalPrice;
+	}else{
+		for(; i<totalPriceArr.length ; i++){
+			totalPrice += totalPriceArr[i].num * totalPriceArr[i].price;
+		}
+		return totalPrice;
+	}
+}
+
+var compare_id = function(id1, id2){	//비교해서 앞숫자가 크면 1, 작으면 -1, 같으면 0 반환
+	var id1Sub = id1.substring(3).split('-');
+	var id1_cat = Number(id1Sub[0]);
+	var id2Sub = id2.substring(3).split('-');
+	var id2_cat = Number(id2Sub[0]);
+	
+	if(id1_cat > id2_cat){
+		return 1;
+	}else if(id1_cat < id2_cat){
+		return -1;
+	}else{
+		var id1_pro = Number(id1Sub[1]);
+		var id2_pro = Number(id2Sub[1]);
+		if(id1_pro > id2_pro){
+			return 1;
+		}else if(id1_pro < id2_pro){
+			return -1;
+		}else{
+			return 0;
+		}
 	}
 }
 
