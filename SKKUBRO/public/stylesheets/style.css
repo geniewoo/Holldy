@@ -12,10 +12,14 @@ body {
 }
 
 a {
+	background-size: cover;
+	background-position: center center;
 	text-decoration: none;
+	color: #000;
 }
 
 input{
+	outline: none;
 	border-radius: 5px;
 	border-color: transparent;
 	height: 25px;
@@ -34,6 +38,112 @@ input[type=number] {
 	-moz-appearance:textfield;
 }
 
+table {
+	border-collapse: collapse;
+}
+table td, table th {
+	border: 1px solid #ddd;
+}
+table tr:first-child th {
+	border-top: 0;
+}
+table tr:last-child td {
+	border-bottom: 0;
+}
+table tr td:first-child,
+table tr th:first-child {
+	border-left: 0;
+}
+table tr td:last-child,
+table tr th:last-child {
+	border-right: 0;
+}
+
+table.selected_table{
+	margin-left: 1%;
+	margin-bottom: 10px; 
+	width: 98%;
+}
+table.selected_table > tbody > tr > td{
+	font-size: 10px
+}
+table.selected_table > tbody > tr > td.selected_table_check{
+	width: 10px;
+}
+table.selected_table > tbody > tr > td.selected_table_img > a{
+	display: block;
+	width: 70px;
+}
+
+table.selected_table > tbody > tr > td.selected_table_img{
+	width: 70px;
+}
+
+table.selected_table > tbody > tr > td.selected_table_name{
+	width: 45%;
+}
+
+table.selected_table > tbody > tr > td.selected_table_info{
+	width: 14%;
+}
+table.selected_table > tbody > tr > td.selected_table_total{
+	min-width: 80px;
+}
+table.selected_table > tbody > tr > td.selected_table_num, table.selected_table > tbody > tr > td.selected_table_num > *{
+	text-align: center;
+	width: 35px;
+}
+table.selected_table > tbody > tr > td.selected_table_num > input{
+	display: block;
+	box-sizing: border-box;
+	border-radius: 3px;
+	border: 3px solid #ccf;
+}
+table.selected_table > tbody > tr > td.selected_table_num > a{
+	margin: 3px 0;
+	font-size: 18px;
+	display: block;
+}
+.food_selected_title > h1{
+	display: inline-block;
+	padding: 0 20px;
+	color: #000;
+	font-size: 20px;
+}
+
+.food_selected_title > p{
+	display: inline-block;
+	color: #000;
+	font-size: 12px;
+}
+
+div.next_page_btn{
+	text-align: center;
+	padding: 0;
+}
+
+div.next_page_btn > a{
+	display: inline-block;
+	padding: 10px 0;
+	margin: 10px 5%;
+	height: 30px;
+	width: 200px;
+	font-size: 30px;
+	border-radius: 10px;
+	background-color: #eee;
+	color: #b00;
+}
+
+div.next_page_btn > a{
+	color: #00b;
+}
+
+div.total_price > p{
+	margin-left: 20px;
+	color: #777;
+	font-size: 18px;
+}
+
 div.subPage_container{
 	margin: 10px;
 	text-align: center;
@@ -43,13 +153,15 @@ div.subPage_container{
 div.subPage_container > a{
 	display: inline-block;
 	font-size: 18px;
-	color: #888;
+	color: #999;
 }
 
 
 div.subPage_container > a.clicked{
+	font-weight: bold;
 	display: inline-block;
 	color: #000;
+	pointer-events: none;
 }
 
 div.subPage_container > p{
@@ -58,16 +170,16 @@ div.subPage_container > p{
 	display: inline-block;
 }
 
-ul.food_products{
+div.food_products > ul{
 	padding: 0;
 }
 
-ul.food_products > li{
+div.food_products > ul > li{
 	width: 50%;
 	display: inline-block;
 }
 
-.food_products .food_products_img > a{
+div.food_products .food_products_img > a{
 	display: block;
 	padding-top: 100%;
 	width: 100%;
@@ -75,70 +187,69 @@ ul.food_products > li{
 	background-position: center center;
 }
 
-.food_products div.food_products_info > div{
+div.food_products div.food_products_info > div{
 	display: inline-block;
 }
 
-.food_products div.food_products_res{
+div.food_products div.food_products_res{
 	width: 75%;
 }
 
-.food_products p.food_products_content{
+div.food_products p.food_products_content{
 	margin-top: 15px;
 	margin-bottom: 0;
 	font-size: 12px;
 	color: #aaa;
 }
 
-.food_products p.food_products_totalprice{
+div.food_products p.food_products_totalprice{
 	margin-top: 5px;
 	margin-bottom: 0;
 	font-size: 12px;
 	color: #aaa;
 }
 
-.food_products div.food_products_info{
+div.food_products div.food_products_info{
 	padding: 8px 10px;
 }
 
-.food_products div.food_products_info > p.food_products_name{
+div.food_products div.food_products_info > p.food_products_name{
 	margin: 8px 0;
 	height: 28px;
 }
 
-.food_products p.food_products_price{
+div.food_products p.food_products_price{
 	margin: 0;
 	font-weight: bold;
 	font-size: 16px;
 	display: inline;
 }
 
-.food_products p.food_products_won{
+div.food_products p.food_products_won{
 	margin: 0;
 	font-size: 11px;
 	display: inline;
 }
 
-.food_products .food_products_con{
+div.food_products .food_products_con{
 	width: 25%;
 }
 
-.food_products .food_products_con > a, .food_products .food_products_con > input{
+div.food_products .food_products_con > a, .food_products .food_products_con > input{
 	width: 100%;
 	display: block;
 	height: 15px;
 	text-align: center;
-	outline: none;
 }
 
-.food_products .food_products_con > a{
+div.food_products .food_products_con > a{
 	padding-top: 5px;
 	border-radius: 5px;
 	background-color: #aaa;
 	color: #fff;
 	font-size: 10px
 }
-.food_products .food_products_con > input{
+div.food_products .food_products_con > input{
 	margin: 2px 0;
 	padding: 3px 0;
 	box-shadow:inset 0px 0px 0px 4px #9ee;
@@ -331,7 +442,7 @@ a.nav_busBtn:hover{
 	float: right;
 }
 
-.header_nav_right > a.nav_btn:active{
+.header_nav_right > a.nav_btn:hover, .header_nav_right > a.nav_btn:active{
 	background-image: url('../images/nav_menuBtn_hover.png');
 }
 
@@ -392,13 +503,39 @@ a.nav_busBtn:hover{
 	display: none;
 }
 @media(min-width: 500px){
-	.main_container{
-		min-height: 700px;
+
+	table.selected_table > tbody > tr > td{
+		font-size: 14px
 	}
-	ul.food_products > li{
+
+	table.selected_table{
+		margin-left: 5%;
+		margin-bottom: 10px; 
+		width: 90%;
+
+	}
+
+	table.selected_table > tbody > tr > td.selected_table_img > a{
+		width: 90px;
+		height: 90px;
+	}
+
+	.food_selected_title > h1{
+		font-size: 30px;
+	}
+
+	.food_selected_title > p{
+		font-size: 14px;
+	}
+
+	div.food_products > ul > li{
 		width: 240px;
 		display: inline-block;
-		margin: 0 auto;
+	}
+
+	div.food_products > ul {
+		width: 480px;
+		margin: 0px auto;
 	}
 
 	.main_sub_img_container{
@@ -433,6 +570,12 @@ a.nav_busBtn:hover{
 	.header_nav > .header_nav_right >lu.mobile{
 		right: 100%;
 		width: 200%;
+	}
+}
+
+@media(min-width: 750px){
+	div.food_products > ul {
+		width: 720px;
 	}
 }
 
@@ -512,7 +655,19 @@ a.nav_busBtn:hover{
 	}
 }
 
+@media(min-width : 900px){
+	div.food_products > ul {
+		width: 870px;
+	}
+	div.food_products > ul > li{
+		width: 290px;
+	}
+}
+
 @media(min-width : 1200px){
+	div.food_products > ul {
+		width: 1160px;
+	}
 	.header_nav{
 		width: 1200px;
 		margin: 0 auto;

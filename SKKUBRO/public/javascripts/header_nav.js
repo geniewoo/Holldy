@@ -1,6 +1,6 @@
 $(function(){
 	$header_nav_container = $('#header_nav_container');
-	$header_nav_container.load("html/header_nav.html", function(){
+	$header_nav_container.load("/html/header_nav.html", function(){
 		var isClicked = false;
 		var $nav_lu = $('.header_nav_right_lu');
 		if(!checkIsOverSize768()){
@@ -39,9 +39,9 @@ $(function(){
 				var date1 = getTravelDate1();
 				var date2 = getTravelDate2();
 				var number = getTravelNum();
-				window.location.href = 'food?' + makeParam(date1, date2, number);
+				window.location.href = '/food?' + makeParam(date1, date2, number);
 			}else{
-				window.location.href = 'food';
+				window.location.href = '/food';
 			}
 		});
 		$('.nav_pensionBtn').on('click',function(event){
@@ -50,9 +50,9 @@ $(function(){
 				var date1 = getTravelDate1();
 				var date2 = getTravelDate2();
 				var number = getTravelNum();
-				window.location.href = 'pension?' + makeParam(date1, date2, number);
+				window.location.href = '/pension?' + makeParam(date1, date2, number);
 			}else{
-				window.location.href = 'pension';
+				window.location.href = '/pension';
 			}
 		});
 		$('.nav_busBtn').on('click',function(event){
@@ -61,9 +61,9 @@ $(function(){
 				var date1 = getTravelDate1();
 				var date2 = getTravelDate2();
 				var number = getTravelNum();
-				window.location.href = 'bus?' + makeParam(date1, date2, number);
+				window.location.href = '/bus?' + makeParam(date1, date2, number);
 			}else{
-				window.location.href = 'bus';
+				window.location.href = '/bus';
 			}
 		});
 		

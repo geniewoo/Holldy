@@ -5,24 +5,18 @@
 	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script src="/javascripts/header_nav.js"></script>
 	<script src="/javascripts/tail_table.js"></script>
-	<script src="/javascripts/jsfood.js"></script>
-	<script type="text/javascript" src="/json/products_infos_1.json"></script>
+	<script src="/javascripts/jsfood_selected.js"></script>
 	<link rel="stylesheet" href="/stylesheets/style.css"/>
 	<title></title>
 </head>
 <body>
 	<div class="header_nav_container" id="header_nav_container" clicked="food"></div>
 	<div class="main_container">
-		<div class="food_container">
-			<div class="food_categories" id="food_categories"></div>
-			<div class="food_products">
-				<ul id="food_products"></ul>
+		<div class="food_selected_title"><h1>물품 목록</h1><p>물품 목록을 확인 후 구매해 주세요</p></div>
+		<div>
+			<div id="food_selected_table">
 			</div>
-			<div id="food_tabs"></div>
-			<div id="total_price" class="total_price"></div>
-			<div class="next_page_btn">
-				<a id="shopping_end" href="#">쇼핑 완료</a>
-			</div>
+			<div id="food_selected_total"></div>
 		</div>
 	</div>
 	<div id="tail_table_container" class="tail_table_container"></div>

@@ -1,15 +1,15 @@
 $(function(){
-	var nowAct = 1;
-	var catNum = 8;
-	var proNum = 12;
-	var nowTab = 1;
-	var totalPriceArr = [];
-	var totalPrice = 0;
+	var nowAct = 1;	//지금 보고있는 카테고리 cat을 act로 잘못쓴듯
+	var catNum = 8;	//총 카테고리 수
+	var proNum = 12;	//한 페이지 안에 있는 제품수
+	var nowTab = 1;	//제품 페이지 수
+	var totalPriceArr = [];	//제품 추가 되면 여기 배열에 추가된다.
+	var totalPrice = 0;	//총 가격
 	$food_products = $('#food_products');
 	$food_categories = $('#food_categories');
 	$food_tabs = $('#food_tabs');
 	$total_price = $('#total_price');
-	var products = [JSON.parse(product_infos.pro1),
+	var products = [JSON.parse(product_infos.pro1),	//파일에서 가져옴
 	JSON.parse(product_infos.pro2),
 	JSON.parse(product_infos.pro3),
 	JSON.parse(product_infos.pro4),
@@ -19,14 +19,14 @@ $(function(){
 	JSON.parse(product_infos.pro8),
 	];
 
-	$.get('travelCookies', function(data){
+	$.get('travelCookies', function(data){//쿠키 있으면 가져옴
 		for(var i = 0 ; i < catNum ; i++){
 			var product = products[i];
 			for(var j = 0; j < product.length; j++){
-				if(product[j].default && data.travelForm){
+				if(product[j].default && data.travelForm){//쿠키랑 default값이 모두 있으면 먼저 num;
 					product[j].num = (Number(data.travelForm.travelNum) + product[i].default - 1) / product[i].default;
 					totalPriceArr.push(product[j]);
-				}else{
+				}else{//없으면 num = 0;
 					product[j].num = 0;
 				}
 			}
@@ -53,8 +53,8 @@ $(function(){
 						$food_products.html('');
 						thisTab = this.getAttribute('tabNum');
 						changeSubPage($food_products, thisTab, product, proNum, $total_price, totalPriceArr);//pro목록 배치
-						$('#subPage_' + nowTab).removeClass('clicked');
-						$('#subPage_' + thisTab).addClass('clicked');
+						$('#subpage_' + nowTab).removeClass('clicked');
+						$('#subpage_' + thisTab).addClass('clicked');
 						nowTab = thisTab;
 					});
 				}
@@ -62,6 +62,16 @@ $(function(){
 			});
 		}
 		$('#food_cat' + nowAct).trigger('click');
+	});
+
+	$('#shopping_end').on('click', function(event){
+		event.preventDefault();
+		jQuery.ajaxSettings.traditional = true;
+		$.post('/food/post_selected', {products : JSON.stringify(totalPriceArr)}, function(result){
+			if(result.code === 1){
+				window.location.href = "/food/selected";
+			}
+		});
 	});
 });
 
@@ -188,7 +198,8 @@ var setTotalPrice = function(totalPriceArr, $total_price){
 }
 
 var setTotalPriceHtml = function($total_price, totalPrice){
-	$total_price.html('<p>총 ' + totalPrice + '</p>');
+	var totalPriceStr = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	$total_price.html('<p>총 ' + totalPriceStr + '원' + '</p>');
 }
 var find_removeTotalIndex = function(_id, totalPriceArr){	//total에서 인덱스를 찾아낸다 총합을 리턴한다.
 	var i = 0;
@@ -218,6 +229,7 @@ var insert_updateTotalIndex = function(_id, totalPriceArr, product){	//넣거나
 	for(; i < totalPriceArr.length ; i++){
 		var compare_res = compare_id(_id, totalPriceArr[i]._id);
 		if(compare_res === 1){
+			totalPrice += totalPriceArr[i].num * totalPriceArr[i].price;
 			continue;
 		}else if(compare_res === 0){
 			isFind = 1;
@@ -226,7 +238,6 @@ var insert_updateTotalIndex = function(_id, totalPriceArr, product){	//넣거나
 			isFind = -1;
 			break;
 		}
-		totalPrice += totalPriceArr[i].num * totalPriceArr[i].price;
 	}
 	if(isFind === 0){
 		totalPriceArr.push(product);

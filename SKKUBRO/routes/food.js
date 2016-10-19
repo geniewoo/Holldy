@@ -8,19 +8,25 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	ck.saveCookie(req.query, res, function(){
-		fs.readFile('views/food.html',function(error, data){
+		fs.readFile('views/food.html', function(error, data){
 			res.send(data.toString());
 		});
 	});
 });
 
-router.get('/get_product', function(req, res, next) {
-	db.product.find(function(error, data){
-		if(error){
-			res.json({'code' : 0, 'err_msg' : 'db검색 오류'});
-		}else{
-			res.json({'code' : 1, 'data' : data});
-		}
+router.get('/get_food_selected', function(req, res, next) {
+	res.json({'food_selected' : req.session.food_selected});
+});
+
+router.post('/post_selected', function(req, res, next){
+	console.log(JSON.parse(req.body.products));
+	req.session.food_selected = req.body.products;
+	res.json({'code' : 1});
+});
+
+router.get('/selected', function(req, res, next){
+	fs.readFile('views/food_selected.html',function(error, data){
+		res.send(data.toString());
 	});
 });
 
