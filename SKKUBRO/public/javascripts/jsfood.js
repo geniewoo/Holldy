@@ -23,7 +23,7 @@ $(function(){
 		for(var i = 0 ; i < catNum ; i++){
 			var product = products[i];
 			for(var j = 0; j < product.length; j++){
-				if(product[j].default && data.travelForm){//쿠키랑 default값이 모두 있으면 먼저 num;
+				if(product[j].default && data.travelForm && data.travelForm.travelNum != 0){//쿠키랑 default값이 모두 있으면 먼저 num;
 					product[j].num = (Number(data.travelForm.travelNum) + product[i].default - 1) / product[i].default;
 					totalPriceArr.push(product[j]);
 				}else{//없으면 num = 0;
@@ -66,7 +66,10 @@ $(function(){
 
 	$('#shopping_end').on('click', function(event){
 		event.preventDefault();
-		jQuery.ajaxSettings.traditional = true;
+		if(totalPriceArr.length===0){
+			alert('최소 하나의 물품을 선택해야 합니다');
+			return;
+		}
 		$.post('/food/post_selected', {products : JSON.stringify(totalPriceArr)}, function(result){
 			if(result.code === 1){
 				window.location.href = "/food/selected";
