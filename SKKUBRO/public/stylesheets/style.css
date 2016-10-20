@@ -129,13 +129,14 @@ table.selected_table > tbody > tr > td.selected_table_num, table.selected_table 
 	width: 35px;
 }
 table.selected_table > tbody > tr > td.selected_table_num > input{
+	margin: 0 auto;
 	display: block;
 	box-sizing: border-box;
 	border-radius: 3px;
 	border: 3px solid #ccf;
 }
 table.selected_table > tbody > tr > td.selected_table_num > a{
-	margin: 3px 0;
+	margin: 3px auto;
 	font-size: 18px;
 	display: block;
 }
@@ -514,7 +515,7 @@ a.nav_busBtn:hover{
 	color: transparent !important;
 	background-size: cover;
 	height: 30px;
-	width: 25px;
+	width: 23px;
 	margin: 5px 10px;
 }
 

@@ -70,11 +70,16 @@ $(function(){
 			alert('최소 하나의 물품을 선택해야 합니다');
 			return;
 		}
+		$(window).unbind('beforeunload');
 		$.post('/food/post_selected', {products : JSON.stringify(totalPriceArr)}, function(result){
 			if(result.code === 1){
 				window.location.href = "/food/selected";
 			}
 		});
+	});
+
+	$(window).bind('beforeunload', function(){
+		return '페이지에서 나가면 변경사항이 저장되지 않습니다.';
 	});
 });
 
@@ -204,6 +209,7 @@ var setTotalPriceHtml = function($total_price, totalPrice){
 	var totalPriceStr = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	$total_price.html('<p>총 ' + totalPriceStr + '원' + '</p>');
 }
+
 var find_removeTotalIndex = function(_id, totalPriceArr){	//total에서 인덱스를 찾아낸다 총합을 리턴한다.
 	var i = 0;
 	var totalPrice = 0;

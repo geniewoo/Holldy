@@ -4,7 +4,20 @@ $(function(){
 
 	$.get('/food/get_food_selected', function(result){
 		var selected_products = JSON.parse(result.food_selected);	//골랐던 물품 목록 // 테이블 헤더만들기
+		var selected_products_copy = selected_products.slice(0);
 		makeSelectedTable(selected_products, $food_selected_table);
+		makeTableConnect(selected_products);
+		changeSelectedProducts(selected_products_copy);
+
+		$('shopping_bascket').on('click', function(event){
+			event.preventDefault();
+			$.post('/myCart/post_foodProducts');
+		});
+
+		$('buy_products').on('click', function(event){
+			event.preventDefault();
+			$.post('/order/post_foodProducts');
+		});
 	});
 });
 
@@ -55,19 +68,37 @@ var makeSelectedTable = function(selected_products, $food_selected_table){
 	+			'<td colspan = 6>'
 	+				'<a href="#" id="shopping_bascket">장바구니</a>'
 	+				'<a href="#" id="buy_products">구매하기</a>'
-	+				'<p id="selected_table_total">총 계 : 12340원</p>'
+	+				'<p id="selected_table_total"></p>'
 	+			'</td>'
 	+		'</tr>'
 	+	'</tfoot>'
 	+	'</table>';
 	$food_selected_table.append(selected_table_str);
 
-	makeTableConnect(selected_products);
 
 }
 
 var makeTableConnect = function(selected_products){
-	for(var i = 0 ; i < selected_products.length ; i++){	//input과 total 연결시키기
+
+
+
+	$pro_all_check = $('#product_all_checkbox');	//테이블 가장 위 왼쪽에 있는 체크박스
+	$pro_all_check.on('click', function(){
+		console.log('clicked');
+		if(($pro_all_check).is(':checked')){
+			console.log('checked');
+			$("input[name=product_checkbox]:checkbox").each(function() {
+				$(this).prop("checked", true);
+			});
+		}else{
+			console.log('unchecked');
+			$("input[name=product_checkbox]:checkbox").each(function() {
+				$(this).prop("checked", false);
+			});
+		}
+	});
+
+	for(var i = 0 ; i < selected_products.length ; i++){	//input과 위아래 버튼, total 연결시키기
 		$('#selected_product_up_' + (i + 1)).on('click', function(event){
 			event.preventDefault();
 			var index = this.getAttribute('index');
@@ -94,12 +125,48 @@ var makeTableConnect = function(selected_products){
 			$selected_product_content = $('#selected_product_content_' + index);
 			$selected_product_price.text(num * selected_products[index - 1].price + '원');
 			$selected_product_content.text(num * selected_products[index - 1].content + selected_products[index - 1].unit);
-				$('#selected_product_img_' + index).css('background-image', 'url("../images/nav_busBtn_hover.png")');//'url("../' + product.url + '")'
-			});
+			
+			var totalPrice = 0;
+			for(var i = 0; i < selected_products.length; i++){ // 총 합 값 변경
+				totalPrice += selected_products[i].num * selected_products[i].price;
+			}
+			$('#selected_table_total').text('총 계 : ' + totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원');
+
+		});
+		$('#selected_product_img_' + (i + 1)).css('background-image', 'url("../images/nav_busBtn_hover.png")');//'url("../' + product.url + '")'
 		$('#selected_product_input_' + (i + 1)).trigger('change');
 	}
 }
 
+var changeSelectedProducts = function(selected_products_copy){	//selected_table_del 을 눌렀을 때 목록에서 삭제하는 코드, copy는 원래 products의 복사본이고 tmp는 이 click됐을 때에만 만들어서 쓰는 함수이다.
+	
+	$('#selected_table_del').on('click', function(event){
+		var count = 0;
+		var selected_products_tmp = selected_products_copy.slice(0);
+		event.preventDefault();
+		$("input[name=product_checkbox]:checkbox").each(function() {
+			if($(this).is(":checked")){
+				var index = this.getAttribute('index') - count;
+				count ++;
+				console.log("index", index);
+				for(var i = index; i < selected_products_tmp.length; i++){
+					selected_products_tmp[i-1] = selected_products_tmp[i];
+				}
+				selected_products_tmp.pop();
+			}
+		});
+		if(selected_products_tmp.length === 0){
+			alert('적어도 하나의 상품은 남겨야 합니다');
+			return;
+		}else{
+			$.post('/food/post_selected', {products : JSON.stringify(selected_products_tmp)}, function(result){
+				if(result.code === 1){
+					window.location.replace("/food/selected");
+				}
+			});
+		}
+	});
+}
 /*
 		$("#checkAll").click(function() {
 			$("input[name=box]:checkbox").each(function() {
