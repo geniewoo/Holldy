@@ -518,7 +518,13 @@ a.nav_busBtn:hover{
 	width: 23px;
 	margin: 5px 10px;
 }
-
+.header_nav > .header_nav_right > lu > li > #header_login{
+	background-image: url(../images/FB_btn.png);
+	background-position: left;
+	background-size: contain;
+	background-repeat: no-repeat;
+	padding-left: 23px;
+}
 .header_nav > .header_nav_right > lu.mobile > li > a{
 	font-size: 18px;
 	margin: 13px 13px;
@@ -621,6 +627,9 @@ a.nav_busBtn:hover{
 }
 
 @media(min-width: 750px){
+	.header_nav > .header_nav_right > lu > li > #header_login{
+		padding-left: 17px;
+	}
 	div.food_products > ul {
 		width: 720px;
 	}
@@ -682,23 +691,19 @@ a.nav_busBtn:hover{
 		margin: 0;
 	}
 
-	.header_nav > .header_nav_right >lu{
+	.header_nav > div.header_nav_right >lu{
 		display: block !important;
 	}
 
-	.header_nav > .header_nav_right >lu a{
+	.header_nav > div.header_nav_right >lu a{
 		font-size: 12px;
 		margin: 14px 13px;
 		float: right;
 	}
 
 
-	.header_nav_right > a.nav_btn{
+	div.header_nav_right > a.nav_btn{
 		display: none;
-	}
-
-	.header_nav_right > li > a.nav_list{
-		display: block;
 	}
 }
 

@@ -105,7 +105,7 @@ function FB_Connect(){
 					} else {
 						// 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
 					}
-				});
+				},{scope: 'public_profile,email'});
     		});
     		testAPI();
     	} else {
@@ -115,8 +115,8 @@ function FB_Connect(){
 			//document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
 			$login_btn.text('login');
 			$login_btn.on('click',function(){
-				FB.login(function(){
-    				console.log(response);
+				FB.login(function(response){
+					console.log(response);
 					location.reload(true);
 					if (response.status === 'connected') {
 						console.log('9');
@@ -128,7 +128,8 @@ function FB_Connect(){
 						console.log('8');
 						// 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
 					}
-				});
+				}, {scope: 'email, public_profile',
+				return_scopes: true});
 			});
 		}
 	}
