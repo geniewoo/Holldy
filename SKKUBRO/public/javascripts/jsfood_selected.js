@@ -4,14 +4,18 @@ $(function(){
 
 	$.get('/food/get_food_selected', function(result){
 		var selected_products = JSON.parse(result.food_selected);	//골랐던 물품 목록 // 테이블 헤더만들기
-		var selected_products_copy = selected_products.slice(0);
+		var selected_products_copy = selected_products.slice(0);	//체크박스에서 목록 지울때만 사용
 		makeSelectedTable(selected_products, $food_selected_table);
 		makeTableConnect(selected_products);
 		changeSelectedProducts(selected_products_copy);
 
 		$('shopping_bascket').on('click', function(event){
 			event.preventDefault();
-			$.post('/myCart/post_foodProducts');
+			$.post('/myCart/post_foodProducts', {cart_product : JSON.stringify(selected_products)}, function(data){
+				if(data.code === 1){
+					window.location.href = '/myCart';
+				}
+			});
 		});
 
 		$('buy_products').on('click', function(event){
@@ -74,8 +78,6 @@ var makeSelectedTable = function(selected_products, $food_selected_table){
 	+	'</tfoot>'
 	+	'</table>';
 	$food_selected_table.append(selected_table_str);
-
-
 }
 
 var makeTableConnect = function(selected_products){

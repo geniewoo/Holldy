@@ -11,6 +11,7 @@ var err_page = require('./routes/err_page');
 var main = require('./routes/main');
 var food = require('./routes/food');
 var travelCookies = require('./routes/travelCookies');
+var myCart = require('./routes/myCart');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(session({
 app.use('/', routes);
 app.use('/main', main);
 app.use('/food', food);
+app.use('/myCart', myCart);
 app.use('/travelCookies', travelCookies);
 app.use('/*', err_page);
 

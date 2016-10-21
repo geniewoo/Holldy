@@ -469,6 +469,21 @@ a.nav_busBtn:hover{
 	background-image: url('../images/nav_busBtn_hover.png');
 }
 
+div.main_container > div.food_zoomed{
+	display: none;
+	position: fixed;
+	width: 100%;
+	border: 3px solid black;
+	background-color: #fff;
+}
+
+div.main_container > div.food_zoomed > img{
+
+}
+
+div.main_container > div.food_zoomed > p{
+}
+
 .header_nav_right > a.nav_btn{
 	height: 23px;
 	width: 35px;
@@ -704,6 +719,12 @@ a.nav_busBtn:hover{
 
 	div.header_nav_right > a.nav_btn{
 		display: none;
+	}
+
+	div.main_container > div.food_zoomed{
+		display: none;
+		position: fixed;
+		width: 600px;
 	}
 }
 

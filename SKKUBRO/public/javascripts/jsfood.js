@@ -9,6 +9,10 @@ $(function(){
 	$food_categories = $('#food_categories');
 	$food_tabs = $('#food_tabs');
 	$total_price = $('#total_price');
+
+	$('#food_zoomed').on('click', function(){//zoomed 토글
+		$(this).slideToggle();
+	});
 	var products = [JSON.parse(product_infos.pro1),	//파일에서 가져옴
 	JSON.parse(product_infos.pro2),
 	JSON.parse(product_infos.pro3),
@@ -169,6 +173,12 @@ var makeConnection = function($product_up, $product_down, $product_input, $produ
 var showProducts = function($food_products, product, $total_price, totalPriceArr){	//각종 ui를 만들고 연결시키는 함수를 부른다.
 	$food_products.append(insertProduct(product));	//ui만들기
 	$('#product_img_' + product._id).css('background-image', 'url("http://placehold.it/500x250")');//'url("../' + product.url + '")'
+	$('#product_img_' + product._id).on('click', function(event){
+		event.preventDefault();
+		$('#food_zoomed').slideToggle();
+		$('#food_zoomed_img').attr('src', 'http://placehold.it/500x250')//'../' + product.url +
+		$('#food_zoomed_info').text('나중에 넣을 것입니다.');//후에 만들것 product.info
+	});
 	$product_up = $('#product_up_' + product._id);
 	$product_down = $('#product_down_' + product._id);
 	$product_input = $('#product_input_' + product._id);
