@@ -16,7 +16,7 @@ $(function(){
 			$('.nav_busBtn').addClass('clicked');
 			break;
 			case "food":
-			$('.nav_foodBtn').addClass('clicked');
+			$('.nav_foodBtn').addClass('food_clicked');
 			break;
 		}
 
@@ -70,18 +70,13 @@ $(function(){
 	});
 });
 function FB_Connect(){
-	console.log('0');
 	$login_btn = $('#header_login');
 	function statusChangeCallback(response) {
-		console.log('1');
-		console.log('statusChangeCallback');
-		console.log(response);
     	// The response object is returned with a status field that lets the
     	// app know the current login status of the person.
     	// Full docs on the response object can be found in the documentation
     	// for FB.getLoginStatus().
     	if (response.status === 'connected') {
-    		console.log('1');
     		// Logged into your app and Facebook.
     		$login_btn.text('logout');
     		$login_btn.on('click',function(){
@@ -91,7 +86,6 @@ function FB_Connect(){
     		});
     		testAPI();
     	} else if (response.status === 'not_authorized') {
-    		console.log('2');
     		// The person is logged into Facebook, but not your app.
     		//document.getElementById('status').innerHTML = 'Please log ' + 'into this app.';
     		$login_btn.text('login');
@@ -109,23 +103,18 @@ function FB_Connect(){
     		});
     		testAPI();
     	} else {
-    		console.log('3');
 			// The person is not logged into Facebook, so we're not sure if
 			// they are logged into this app or not.
 			//document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
 			$login_btn.text('login');
 			$login_btn.on('click',function(){
 				FB.login(function(response){
-					console.log(response);
 					location.reload(true);
 					if (response.status === 'connected') {
-						console.log('9');
 					    // 페이스북과 앱에 같이 로그인되어 있다.
 					} else if (response.status === 'not_authorized') {
-						console.log('7');
 						// 페이스북에는 로그인 되어있으나, 앱에는 로그인 되어있지 않다.
 					} else {
-						console.log('8');
 						// 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
 					}
 				}, {scope: 'email, public_profile',
@@ -141,23 +130,19 @@ function FB_Connect(){
 	}
 
 	window.fbAsyncInit = function() {
-		console.log('0');
 		FB.init({
 			appId      : '1705601633093320',
 			cookie     : true,  // enable cookies to allow the server to access 
 			xfbml      : true,  // parse social plugins on this page
-			version    : 'v2.5' // use graph api version 2.5
+			version    : 'v2.8' // use graph api version 2.5
 		});
-		console.log('1122');
 
 		FB.getLoginStatus(function(response) {
-			console.log('ㄹㄹ');
 			statusChangeCallback(response);
 		});
 	};
 	
 	(function(d, s, id) {
-		console.log('123');
 		var js, fjs = d.getElementsByTagName(s)[0];
 		if (d.getElementById(id)) return;
 		js = d.createElement(s); js.id = id;
@@ -166,10 +151,8 @@ function FB_Connect(){
 	}(document, 'script', 'facebook-jssdk'));
 
 	function testAPI() {
-		console.log('Welcome!  Fetching your information.... ');
 		FB.api('/me', function(response) {
-			console.log('Successful login for: ' + response.name);
-			document.getElementById('status').innerHTML =
+			//document.getElementById('status').innerHTML =
 			'Thanks for logging in, ' + response.name + '!';
 		});
 	}

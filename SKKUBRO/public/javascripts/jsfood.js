@@ -5,54 +5,50 @@ $(function(){
 	var nowTab = 1;	//제품 페이지 수
 	var totalPriceArr = [];	//제품 추가 되면 여기 배열에 추가된다.
 	var totalPrice = 0;	//총 가격
-	$food_products = $('#food_products');
-	$food_categories = $('#food_categories');
-	$food_tabs = $('#food_tabs');
-	$total_price = $('#total_price');
-
+	var products = [[],[],[],[],[],[],[],[]];
+	var $food_products = $('#food_products');
+	var $food_categories = $('#food_categories');
+	var $food_tabs = $('#food_tabs');
+	var $total_price = $('#total_price');
 	$('#food_zoomed').on('click', function(){//zoomed 토글
 		$(this).slideToggle();
 	});
-	var products = [JSON.parse(product_infos.pro1),	//파일에서 가져옴
-	JSON.parse(product_infos.pro2),
-	JSON.parse(product_infos.pro3),
-	JSON.parse(product_infos.pro4),
-	JSON.parse(product_infos.pro5),
-	JSON.parse(product_infos.pro6),
-	JSON.parse(product_infos.pro7),
-	JSON.parse(product_infos.pro8),
-	];
 
-	$.get('travelCookies', function(data){//쿠키 있으면 가져옴
-		for(var i = 0 ; i < catNum ; i++){
-			var product = products[i];
-			for(var j = 0; j < product.length; j++){
-				if(product[j].default && data.travelForm && data.travelForm.travelNum != 0){//쿠키랑 default값이 모두 있으면 먼저 num;
-					product[j].num = (Number(data.travelForm.travelNum) + product[i].default - 1) / product[i].default;
-					totalPriceArr.push(product[j]);
-				}else{//없으면 num = 0;
-					product[j].num = 0;
+	$.get('food/get_products', function(result){
+		$.get('travelCookies', function(data){//쿠키 있으면 가져옴
+			result.products.forEach(function(item){
+				if(item.default && data.travelForm && data.travelForm.travelNum != 0){
+					console.log('if');
+					item.num = (Number(data.travelForm.travelNum) + item.default - 1) / item.default;
+					totalPriceArr.push(item);
+				}else{
+					item.num = 0;
+					console.log('else');
 				}
-			}
-		}
-		setTotalPrice(totalPriceArr, $total_price);
-		
-		insertCartegory($food_categories, catNum);
-		for(var i = 0; i < catNum ; i ++){
-			var id = "#food_cat" + (i + 1);
-			$(id).on('click',function(event){
-				event.preventDefault();
+				products[item.category - 1].push(item);
+				console.log('pushed');
+			});
 
-				nowTab = 1;
-				var thisNum = this.getAttribute('catNum');
-				$('#food_cat' + nowAct).removeClass('clicked');
-				$('#food_cat' + thisNum).addClass('clicked');
-				nowAct = thisNum;
-				
-				$food_tabs.html('');
-				var product = products[Number(thisNum)-1];
-				var tabNum = makeSubPage($food_tabs, product.length, proNum);
-				for(var j = 0 ; j < tabNum ; j++){
+			console.log(products);
+			setTotalPrice(totalPriceArr, $total_price);
+
+			insertCartegory($food_categories, catNum);
+
+			for(var i = 0; i < catNum ; i ++){
+				var id = "#food_cat" + (i + 1);
+				$(id).on('click',function(event){
+					event.preventDefault();
+
+					nowTab = 1;
+					var thisNum = this.getAttribute('catNum');
+					$('#food_cat' + nowAct).removeClass('clicked');
+					$('#food_cat' + thisNum).addClass('clicked');
+					nowAct = thisNum;
+
+					$food_tabs.html('');
+					var product = products[Number(thisNum)-1];
+					var tabNum = makeSubPage($food_tabs, product.length, proNum);
+					for(var j = 0 ; j < tabNum ; j++){
 					$('#subpage_' + (j + 1)).on('click',function(){	//밑에 1/2/3/4/5 같은거 누르면 실행
 						$food_products.html('');
 						thisTab = this.getAttribute('tabNum');
@@ -64,22 +60,28 @@ $(function(){
 				}
 				$('#subpage_' + nowTab).trigger('click');
 			});
-		}
-		$('#food_cat' + nowAct).trigger('click');
+			}
+			$('#food_cat' + nowAct).trigger('click');
+		});;
 	});
-
 	$('#shopping_end').on('click', function(event){
 		event.preventDefault();
 		if(totalPriceArr.length===0){
 			alert('최소 하나의 물품을 선택해야 합니다');
 			return;
+		}else{
+			$(window).unbind('beforeunload');
+			var totalArr = [];
+			totalPriceArr.forEach(function(item, index){
+				totalArr.push({'num' : item.num, '_id' : item._id});
+			});
+			console.log(totalArr);
+			$.post('/food/post_selected', {products : JSON.stringify(totalArr)}, function(result){
+				if(result.code === 1){
+					window.location.href = "/food/selected";
+				}
+			});
 		}
-		$(window).unbind('beforeunload');
-		$.post('/food/post_selected', {products : JSON.stringify(totalPriceArr)}, function(result){
-			if(result.code === 1){
-				window.location.href = "/food/selected";
-			}
-		});
 	});
 
 	$(window).bind('beforeunload', function(){

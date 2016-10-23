@@ -3,24 +3,25 @@ $(function(){
 	$food_selected_total = $('#food_selected_total');
 
 	$.get('/food/get_food_selected', function(result){
+		console.log(result);
+		if(result.code === 0){
+			window.location.replace('/food');
+		}
+		console.log(result);
 		var selected_products = JSON.parse(result.food_selected);	//골랐던 물품 목록 // 테이블 헤더만들기
 		var selected_products_copy = selected_products.slice(0);	//체크박스에서 목록 지울때만 사용
 		makeSelectedTable(selected_products, $food_selected_table);
 		makeTableConnect(selected_products);
 		changeSelectedProducts(selected_products_copy);
-
-		$('shopping_bascket').on('click', function(event){
+		$('#shopping_bascket').on('click', function(event){
 			event.preventDefault();
-			$.post('/myCart/post_foodProducts', {cart_product : JSON.stringify(selected_products)}, function(data){
-				if(data.code === 1){
+			$.post('/myCart/post_foodProducts', {cart_product : JSON.stringify(arrTo_idnumArr(selected_products))}, function(result){
+				if(result.code === 1){
+					console.log(result);
 					window.location.href = '/myCart';
+					console.log('끝');
 				}
 			});
-		});
-
-		$('buy_products').on('click', function(event){
-			event.preventDefault();
-			$.post('/order/post_foodProducts');
 		});
 	});
 });
@@ -70,8 +71,7 @@ var makeSelectedTable = function(selected_products, $food_selected_table){
 	+	'<tfoot>'
 	+		'<tr>'
 	+			'<td colspan = 6>'
-	+				'<a href="#" id="shopping_bascket">장바구니</a>'
-	+				'<a href="#" id="buy_products">구매하기</a>'
+	+				'<a href="#" id="shopping_bascket">장바구니담기</a>'
 	+				'<p id="selected_table_total"></p>'
 	+			'</td>'
 	+		'</tr>'
@@ -86,14 +86,11 @@ var makeTableConnect = function(selected_products){
 
 	$pro_all_check = $('#product_all_checkbox');	//테이블 가장 위 왼쪽에 있는 체크박스
 	$pro_all_check.on('click', function(){
-		console.log('clicked');
 		if(($pro_all_check).is(':checked')){
-			console.log('checked');
 			$("input[name=product_checkbox]:checkbox").each(function() {
 				$(this).prop("checked", true);
 			});
 		}else{
-			console.log('unchecked');
 			$("input[name=product_checkbox]:checkbox").each(function() {
 				$(this).prop("checked", false);
 			});
@@ -161,42 +158,19 @@ var changeSelectedProducts = function(selected_products_copy){	//selected_table_
 			alert('적어도 하나의 상품은 남겨야 합니다');
 			return;
 		}else{
-			$.post('/food/post_selected', {products : JSON.stringify(selected_products_tmp)}, function(result){
+			$.post('/food/post_selected', {products : JSON.stringify(arrTo_idnumArr(selected_products_tmp))}, function(result){
 				if(result.code === 1){
-					window.location.replace("/food/selected");
+					window.location.href = "/food/selected";
 				}
 			});
 		}
 	});
 }
-/*
-		$("#checkAll").click(function() {
-			$("input[name=box]:checkbox").each(function() {
-				$(this).attr("checked", true);
-			});
-		});
 
-		// 체크 박스 모두 해제
-		$("#uncheckAll").click(function() {
-			$("input[name=box]:checkbox").each(function() {
-				$(this).attr("checked", false);
-			});
-		});
-
-		// 체크 되어 있는 값 추출
-		$("#getCheckedAll").click(function() {
-			$("input[name=box]:checked").each(function() {
-				var test = $(this).val();
-				console.log(test);
-			});
-		});
-
-		// 서버에서 받아온 데이터 체크하기 (콤마로 받아온 경우)
-		$("#updateChecked").click(function() {
-			var splitCode = $("#splitCode").val().split(",");
-			for (var idx in splitCode) {
-				$("input[name=box][value=" + splitCode[idx] + "]").attr("checked", true);
-			}
-		});
-
-*/
+var arrTo_idnumArr = function(arr){
+	var totalArr = [];
+	arr.forEach(function(item, index){
+		totalArr.push({'num' : item.num, '_id' : item._id});
+	});
+	return totalArr;
+}
