@@ -1,9 +1,8 @@
 var express = require('express');
 var fs = require('fs');
-var mongojs = require('mongojs');
-var db = mongojs('SKKUBRO', ['products']);
 var ck = require('./ck.js');
 var router = express.Router();
+var productsDao = require('./productsDao.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -19,13 +18,10 @@ router.get('/get_food_selected', function(req, res, next) {
 		var food_selected = JSON.parse(req.session.food_selected)
 		var food_selected_Arr = [];
 		food_selected.forEach(function(item, index){
-			db.products.findOne({'_id' : item._id}, function(error, data){
-				data.num = item.num;
-				food_selected_Arr.push(data);
-				if(food_selected.length === index + 1){
-					res.json({'code' : 1, 'food_selected' : JSON.stringify(food_selected_Arr)});
-				}
-			});
+			food_selected_Arr.push({'_id' : item._id});
+		});
+		productsDao.getProducts(food_selected_Arr, {}, {_id : 1}, function(data){
+			res.json({'code' : 1, 'food_selected' : JSON.stringify(data)});
 		});
 	}else{
 		res.json({'code' : 0, 'err_msg' : 'there is no food_selected session'});
@@ -44,7 +40,7 @@ router.get('/selected', function(req, res, next){
 });
 
 router.get('/get_products', function(req, res, next){
-	db.products.find().sort({_id : 1}, function(error, data){
+	productsDao.getProducts([],{},{_id : 1}, function(data){
 		res.json({'products' : data});
 	});
 });
