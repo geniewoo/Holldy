@@ -1,7 +1,7 @@
 $(function(){
 	$header_nav_container = $('#header_nav_container');
 	$header_nav_container.load("/html/header_nav.html", function(){
-		FB_Connect();
+		//FB_Connect();
 		var isClicked = false;
 		var $nav_lu = $('.header_nav_right_lu');
 		if(!checkIsOverSize768()){
@@ -10,13 +10,13 @@ $(function(){
 
 		switch($header_nav_container.attr("clicked")){
 			case "pension":
-			$('.nav_pensionBtn').addClass('clicked');
+			$('.nav_pensionBtn').addClass('pension_background');
 			break;
 			case "bus":
-			$('.nav_busBtn').addClass('clicked');
+			$('.nav_busBtn').addClass('bus_background');
 			break;
 			case "food":
-			$('.nav_foodBtn').addClass('food_clicked');
+			$('.nav_foodBtn').addClass('food_background');
 			break;
 		}
 

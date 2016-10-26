@@ -54,7 +54,7 @@ router.get('/get_foodProducts', function(req, res, next){
 		});
 	}
 	else{
-		res.json({'code' : 0, 'err_msg' : 'there is no food_selected session'});
+		res.json({'code' : 0, 'err_msg' : 'there is no food_selected coockies'});
 	}
 });
 module.exports = router;

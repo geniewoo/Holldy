@@ -54,6 +54,15 @@ table tr td:last-child,
 table tr th:last-child {
 	border-right: 0;
 }
+.pension_background{
+	background-color: #f44;
+}
+.bus_background{
+	background-color: #3c3;
+}
+.food_background{
+	background-color: #0cf;
+}
 div.food_selected_del{
 	color: #357;
 	margin-left: 5%;
@@ -375,9 +384,6 @@ div.main_container{
 div.header_nav a{
 	color: #fff;
 }
-div.header_nav > div.header_nav_mid > a.food_clicked{
-	background-color: #0cf;
-}
 div.header_nav > div.header_nav_mid > a.nav_foodBtn{
 	background-image: url('../images/nav_foodBtn.png');
 }
@@ -385,18 +391,12 @@ div.header_nav > div.header_nav_mid > a.nav_foodBtn:hover{
 	color: transparent;
 	background-color: #0cf;
 }
-div.header_nav > div.header_nav_mid > a.pension_clicked{
-	background-color: #f44;
-}
 div.header_nav > div.header_nav_mid > a.nav_pensionBtn{
 	background-image: url('../images/nav_pensionBtn.png');
 }
 div.header_nav > div.header_nav_mid > a.nav_pensionBtn:hover{
 	color: transparent;
 	background-color: #f44;
-}
-div.header_nav > div.header_nav_mid > a.bus_clicked{
-	background-color: #3c3;
 }
 div.header_nav > div.header_nav_mid > a.nav_busBtn{
 	background-image: url('../images/nav_busBtn.png');
@@ -509,7 +509,7 @@ div.header_nav > div.header_nav_right >lu.mobile{
 		width: 90px;
 		height: 90px;
 	}
-	div.food_selected_title > h1{{
+	div.food_selected_title > h1{
 		font-size: 30px;
 	}
 	div.food_selected_title > p{
