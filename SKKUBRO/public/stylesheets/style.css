@@ -54,6 +54,29 @@ table tr td:last-child,
 table tr th:last-child {
 	border-right: 0;
 }
+div.cart_container > div > div > input{
+	height: 40px;
+	width: 40px;
+	margin: 0;
+	border-radius: 0;
+	margin-left: 5px;
+}
+div.cart_container > div > div > h1{
+	padding-left: 2%;
+	margin: 0;
+	float: left;
+	padding: 6px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+div.cart_container > div{
+	margin: 20px 0;
+}
+div.cart_container > div > div{
+	height: 40px;
+	margin: 5px 0;
+}
 .pension_background{
 	background-color: #f44;
 }
@@ -88,10 +111,10 @@ table.selected_table > tfoot > tr > td > a{
 	font-size: 18px;
 	text-align: center;
 }
-table.selected_table{
-	margin-left: 1%;
+table.skb_table{
+	margin-left: 2%;
 	margin-bottom: 10px; 
-	width: 98%;
+	width: 96%;
 }
 table.selected_table > tbody > tr > td{
 	font-size: 12px
@@ -485,6 +508,11 @@ div.header_nav > div.header_nav_right >lu.mobile{
 	display: none;
 }
 @media(min-width: 500px){
+
+	div.cart_container > div > div > h1{
+		padding-left: 5%;
+	}
+
 	table.selected_table > tbody > tr > td.selected_table_name{
 		padding-left: 2%;
 	}
@@ -497,7 +525,7 @@ div.header_nav > div.header_nav_right >lu.mobile{
 	table.selected_table > tbody > tr > td{
 		font-size: 14px
 	}
-	table.selected_table{
+	table.skb_table{
 		margin-left: 5%;
 		margin-bottom: 10px; 
 		width: 90%;

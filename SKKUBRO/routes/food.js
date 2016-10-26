@@ -17,11 +17,13 @@ router.get('/get_food_selected', function(req, res, next) {
 	if(req.session.food_selected){
 		var food_selected = JSON.parse(req.session.food_selected)
 		var food_selected_Arr = [];
+		var food_selected_Num = [];
 		food_selected.forEach(function(item, index){
 			food_selected_Arr.push({'_id' : item._id});
+			food_selected_Num.push(item.num);
 		});
-		productsDao.getProducts(food_selected_Arr, {}, {_id : 1}, function(data){
-			res.json({'code' : 1, 'food_selected' : JSON.stringify(data)});
+		productsDao.getProducts(food_selected_Arr, {category : 0, default : 0, info : 0}, {_id : 1}, function(data){
+			res.json({'code' : 1, 'food_selected_Arr' : JSON.stringify(data), 'food_selected_Num' : JSON.stringify(food_selected_Num)});
 		});
 	}else{
 		res.json({'code' : 0, 'err_msg' : 'there is no food_selected session'});

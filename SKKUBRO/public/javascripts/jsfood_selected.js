@@ -8,7 +8,11 @@ $(function(){
 			window.location.replace('/food');
 		}
 		console.log(result);
-		var selected_products = JSON.parse(result.food_selected);	//골랐던 물품 목록 // 테이블 헤더만들기
+		var selected_products = JSON.parse(result.food_selected_Arr);	//골랐던 물품 목록 // 테이블 헤더만들기
+		var selected_products_Num = JSON.parse(result.food_selected_Num);
+		selected_products.forEach(function(item, index){
+			item.num = selected_products_Num[index];
+		});
 		var selected_products_copy = selected_products.slice(0);	//체크박스에서 목록 지울때만 사용
 		makeSelectedTable(selected_products, $food_selected_table);
 		makeTableConnect(selected_products);
@@ -28,7 +32,7 @@ $(function(){
 
 var makeSelectedTable = function(selected_products, $food_selected_table){
 
-	var selected_table_str = '<table class = "selected_table">'//
+	var selected_table_str = '<table class = "selected_table skb_table">'//
 	+'<thead>'
 	+ 	'<tr>'
 	+ 		'<th><input type = "checkbox" id="product_all_checkbox"/></th>'

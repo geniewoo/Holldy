@@ -75,7 +75,6 @@ $(function(){
 			totalPriceArr.forEach(function(item, index){
 				totalArr.push({'num' : item.num, '_id' : item._id});
 			});
-			console.log(totalArr);
 			$.post('/food/post_selected', {products : JSON.stringify(totalArr)}, function(result){
 				if(result.code === 1){
 					window.location.href = "/food/selected";

@@ -32,23 +32,21 @@ router.get('/', function(req, res, next){
 });
 router.get('/get_foodProducts', function(req, res, next){
 	var cart_food = req.cookies.cart_food;
-	console.log('get_foodProducts1');
 	if(cart_food){
-		console.log('get_foodProducts2');
 		var cart_food_Arr = [];
+		var cart_food_Num = [];
 		cart_food.forEach(function(carts, index1){
-			console.log('get_foodProducts3');
 			var carts_Arr = [];
+			var carts_Num = [];
 			carts.forEach(function(item){
-				console.log('get_foodProducts4');
 				carts_Arr.push({'_id' : item._id});
+				carts_Num.push(item.num);
 			});
-			console.log('get_foodProducts5');
-			productsDao.getProducts(carts_Arr, {}, {_id : 1}, function(data){
-				console.log('get_foodProducts6');
+			productsDao.getProducts(carts_Arr, {category : 0, content : 0, default : 0, info : 0, url : 0, unit : 0}, {_id : 1}, function(data){
 				cart_food_Arr.push(data);
+				cart_food_Num.push(carts_Num);
 				if(index1 + 1 === cart_food.length){
-					res.json({'code' : 1, 'cart_food' : JSON.stringify(cart_food_Arr)});
+					res.json({'code' : 1, 'cart_food_Arr' : JSON.stringify(cart_food_Arr), 'cart_food_Num' : JSON.stringify(cart_food_Num)});
 				}
 			});
 		});

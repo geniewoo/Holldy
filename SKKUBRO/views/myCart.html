@@ -15,32 +15,57 @@
 		<div class="food_selected_title"><h1>장바구니</h1><p>원하는 서비스를 선택 한 후 결재가가능합니다.</p></div>
 		<div class="cart_container">
 			<div>
-				<h2 class="pension_background">펜션</h2><input type="checkbox"/>
-				<table>
+				<div>
+					<h1 class="pension_background">펜션</h1>
+					<input type="checkbox"/>
+				</div>
+				<table class="bus_cart_table skb_table">
 					<thead>
-						<thead></thead>
-						<tbody></tbody>
+						<tr>
+							<th class="cart_table_checkbox"></th>
+							<th><p>구매 목록</p></th>
+							<th><p>가격</p></th>
+						</tr>
 					</thead>
+					<tbody></tbody>
 				</table>
 			</div>
+			<hr size=2 align="left" color="#f44"/>
 			<div>
-				<h2 class="bus_background">버스</h2><input type="checkbox"/>
-				<table>
+				<div>
+					<h1 class="bus_background">버스</h1>
+					<input type="checkbox"/>
+				</div>
+				<table class="bus_cart_table skb_table">
 					<thead>
-						<thead></thead>
-						<tbody></tbody>
+						<tr>
+							<th class="cart_table_checkbox"></th>
+							<th><p>구매 목록</p></th>
+							<th><p>가격</p></th>
+						</tr>
 					</thead>
+					<tbody></tbody>
 				</table>
 			</div>
+			<hr size=2 align="left" color="#3c3"/>
 			<div>
-				<h2 class="food_background">식품</h2><input type="checkbox"/>
-				<table>
+				<div>
+					<h1 class="food_background">식품</h1>
+					<input type="checkbox"/>
+				</div>
+				<table class="food_cart_table skb_table">
 					<thead>
-						<thead></thead>
-						<tbody></tbody>
+						<tr>
+							<th class="cart_table_checkbox"></th>
+							<th><p>구매 목록</p></th>
+							<th><p>가격</p></th>
+						</tr>
 					</thead>
+					<tbody id="cart_food">
+					</tbody>
 				</table>
 			</div>
+			<hr size=2 align="left" color="#0cf"/>
 		</div>
 	</div>
 	<div id="tail_table_container" class="tail_table_container"></div>
