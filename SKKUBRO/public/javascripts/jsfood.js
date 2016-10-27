@@ -18,18 +18,13 @@ $(function(){
 		$.get('travelCookies', function(data){//쿠키 있으면 가져옴
 			result.products.forEach(function(item){
 				if(item.default && data.travelForm && data.travelForm.travelNum != 0){
-					console.log('if');
 					item.num = (Number(data.travelForm.travelNum) + item.default - 1) / item.default;
 					totalPriceArr.push(item);
 				}else{
 					item.num = 0;
-					console.log('else');
 				}
 				products[item.category - 1].push(item);
-				console.log('pushed');
 			});
-
-			console.log(products);
 			setTotalPrice(totalPriceArr, $total_price);
 
 			insertCartegory($food_categories, catNum);

@@ -17,7 +17,7 @@
 			<div>
 				<div>
 					<h1 class="pension_background">펜션</h1>
-					<input type="checkbox"/>
+					<input type="checkbox" id="pension_check" />
 				</div>
 				<table class="bus_cart_table skb_table">
 					<thead>
@@ -27,14 +27,14 @@
 							<th><p>가격</p></th>
 						</tr>
 					</thead>
-					<tbody></tbody>
+					<tbody id="cart_pension""></tbody>
 				</table>
 			</div>
 			<hr size=2 align="left" color="#f44"/>
 			<div>
 				<div>
 					<h1 class="bus_background">버스</h1>
-					<input type="checkbox"/>
+					<input type="checkbox" id="bus_check"/>
 				</div>
 				<table class="bus_cart_table skb_table">
 					<thead>
@@ -44,14 +44,14 @@
 							<th><p>가격</p></th>
 						</tr>
 					</thead>
-					<tbody></tbody>
+					<tbody id="cart_bus"></tbody>
 				</table>
 			</div>
 			<hr size=2 align="left" color="#3c3"/>
 			<div>
 				<div>
 					<h1 class="food_background">식품</h1>
-					<input type="checkbox"/>
+					<input type="checkbox" id="food_check"/>
 				</div>
 				<table class="food_cart_table skb_table">
 					<thead>
@@ -66,6 +66,10 @@
 				</table>
 			</div>
 			<hr size=2 align="left" color="#0cf"/>
+		</div>
+		<div>
+			<a href="#">결재하기</a>
+			<p id="totalPrice">총 : 0000 원</p>
 		</div>
 	</div>
 	<div id="tail_table_container" class="tail_table_container"></div>
