@@ -33,6 +33,7 @@ var makeBusTable = function(){
 }
 var makeFoodTable = function(){
 	$.get('/myCart/get_foodProducts', function(result){//ajax에서 장바구니 가져오기
+		console.log(result);
 		$food_check = $('#food_check');
 		$cart_food = $('#cart_food');
 		if(result.code === 1){
@@ -45,17 +46,14 @@ var makeFoodTable = function(){
 				});
 				$food_check.trigger('click');//큰버튼 한번 눌러준다.
 			}else{
-				var tableHTML = '';
-				tableHTML += '<tr>';
-				tableHTML += 	'<td colspan="3">';
-				tableHTML += 	'<p> 장바구니 목록이 없습니다. <p>';
-				tableHTML += 	'</td>';
-				tableHTML += '</tr>';
+				var tableHTML = makeNoCartString();
 				$cart_food.html(tableHTML);
 				$food_check.attr('disabled', true);
 			}
 		}else{
-			console.log('error', result.err_msg);
+			var tableHTML = makeNoCartString();
+			$cart_food.html(tableHTML);
+			$food_check.attr('disabled', true);
 		}
 	});
 }
@@ -66,22 +64,22 @@ var makeFoodTableBody = function($food_check, cart_food_Arr, cart_food_Num){
 			var aCartName = '';
 			var aCartPrice = 0;
 			carts.forEach(function(item, index2){
-				aCartName += item.name + 'x' + cart_food_Num[index1][index2] + ',   ';
+				aCartName += item.name + 'x' + cart_food_Num[index1][index2] + ',  ';
 				aCartPrice += item.price * cart_food_Num[index1][index2];
 			});
 			tableHTML += '<tr>';
 			tableHTML += 	'<td class="cart_table_check">';
 			tableHTML += 	'<input type="checkbox" name="food_cart" id="' + 'food_cart_checkbox_' + (index1 + 1) + '" index="' + (index1 + 1) + '"/>';
+			tableHTML +=	'<a name="food_cart" href="#" index="' + (index1 + 1) + '"></a>';
 			tableHTML += 	'</td>';
 			tableHTML += 	'<td class="cart_table_name">';
-			tableHTML += 		'<a>' + aCartName + '</a>';
+			tableHTML += 		'<a href="/food/selected?cart=true&index=' + (index1 + 1) + '">' + aCartName + '</a>';
 			tableHTML += 	'</td>';
 			tableHTML += 	'<td class="cart_table_price">';
 			tableHTML += 		'<p id="food_cart_price_' + (index1 + 1) + '">' + String(aCartPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</p>' + '<p>원</p>';
 			tableHTML += 	'</td>';
 			tableHTML += '</tr>';
 		});
-
 		$cart_food.html(tableHTML);
 		console.log('1');
 	}else{
@@ -107,6 +105,17 @@ var connectFoodCartCheckBox = function(){
 		});
 	});
 	$('#totalPrice').trigger('total');
+	$('a[name="food_cart"]').each(function(index){
+		$(this).on('click', function(event){
+			event.preventDefault();
+			$.get('/myCart/get_changeFoodCart?index=' + $(this).attr('index'), function(result){
+				console.log(result.code);
+				if(result.code === 1){
+					window.location.reload(true);
+				}
+			});
+		});
+	});
 }
 
 var calLastPrice = function(){
@@ -116,4 +125,14 @@ var calLastPrice = function(){
 		var totalPrice = $('#food_cart_price_' + food_index).text()// +펜션 프라이스, + 버스 프라이스
 		$(this).text('총 : ' + totalPrice + ' 원');
 	});
+}
+
+var makeNoCartString = function(){
+	var tableHTML = '';
+	tableHTML += '<tr>';
+	tableHTML += 	'<td colspan="3">';
+	tableHTML += 	'<p> 장바구니 목록이 없습니다. <p>';
+	tableHTML += 	'</td>';
+	tableHTML += '</tr>';
+	return tableHTML;
 }

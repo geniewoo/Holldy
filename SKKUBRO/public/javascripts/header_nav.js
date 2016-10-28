@@ -33,7 +33,7 @@ $(function(){
 				$nav_lu.slideToggle();
 			}
 		});
-		
+		/*
 		$('.nav_foodBtn').on('click',function(event){
 			event.preventDefault();
 			if($('#travelNum_p1').text()){
@@ -67,6 +67,7 @@ $(function(){
 				window.location.href = '/bus';
 			}
 		});
+		*/
 	});
 });
 function FB_Connect(){
@@ -174,18 +175,8 @@ var checkIsOverSize768 = function(){
 	}
 }
 
-var getTravelNum = function(){
-	return $('#travelNum_p1').text() + $('#travelNum_p2').text() + $('#travelNum_p3').text();
-}
-
-var getTravelDate1 = function(){
-	return $('#datePicker1').val();
-}
-
-var getTravelDate2 = function(){
-	return $('#datePicker2').val();
-}
-
+/*
 var makeParam = function(date1, date2, number){
 	return 'travelDate1=' + date1 + '&travelDate2=' + date2 + '&travelNum='	+ number;
 }
+*/

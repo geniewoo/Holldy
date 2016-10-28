@@ -4,6 +4,7 @@ $(function(){
 		$custom_form.load("html/custom_form.html", function(){
 			setCibulCalendar( 'datePicker1', {
 				lang : 'kr',
+				range : false,
 				filter: function(date, classes) {
 					if (date.getDay() == 6 || date.getDay() == 0) classes.push('weekend');
 					var today = new Date();
@@ -24,29 +25,30 @@ $(function(){
 			}
 
 			$('#datePicker1').on('change',function(){
+				setTravelCookie();
 				setDatePicker2($('#datePicker1'), $('#datePicker2'));
 			});
 			$('#travelNum_btn1').on('click', function(){
-				changeTravelNum($('#travelNum_btn1'))
+				changeTravelNum($('#travelNum_btn1'));
 			});
 			$('#travelNum_btn2').on('click', function(){
-				changeTravelNum($('#travelNum_btn2'))
+				changeTravelNum($('#travelNum_btn2'));
 			});
 			$('#travelNum_btn3').on('click', function(){
-				changeTravelNum($('#travelNum_btn3'))
+				changeTravelNum($('#travelNum_btn3'));
 			});
 			$('#travelNum_btn4').on('click', function(){
-				changeTravelNum($('#travelNum_btn4'))
+				changeTravelNum($('#travelNum_btn4'));
 			});
 			$('#travelNum_btn5').on('click', function(){
-				changeTravelNum($('#travelNum_btn5'))
+				changeTravelNum($('#travelNum_btn5'));
 			});
 			$('#travelNum_btn6').on('click', function(){
-				changeTravelNum($('#travelNum_btn6'))
+				changeTravelNum($('#travelNum_btn6'));
 			});
 		});
 	});
-	
+	bindUnload();
 });
 
 var isFirstDayBigger = function(day1, day2){
@@ -62,6 +64,15 @@ var isFirstDayBigger = function(day1, day2){
 		}
 	}
 	return false;
+}
+var setTravelCookie = function(){
+	var travelDate1 = getTravelDate1();
+	var travelDate2 = getTravelDate2();
+	var travelNum = getTravelNum();
+	var travelInfo = {'travelDate1' : travelDate1, 'travelDate2' : travelDate2, 'travelNum' : travelNum};
+	$.post('/form/post_travelInfo', {travelForm : JSON.stringify(travelInfo)}, function(result){
+		console.log(result);
+	});
 }
 
 var changeTravelNum = function($travelNum_btn){
@@ -85,6 +96,7 @@ var changeTravelNum = function($travelNum_btn){
 		$('#travelNum_p3').text(subNum(Number( $('#travelNum_p3').text() ) -1 ));
 		break;
 	}
+	setTravelCookie();
 }
 
 var addNum = function(num){
@@ -124,4 +136,16 @@ var date2String = function(date){
 		dateStr += '-' + date.getDate();
 	}
 	return dateStr;
+}
+
+var getTravelNum = function(){
+	return $('#travelNum_p1').text() + $('#travelNum_p2').text() + $('#travelNum_p3').text();
+}
+
+var getTravelDate1 = function(){
+	return $('#datePicker1').val();
+}
+
+var getTravelDate2 = function(){
+	return $('#datePicker2').val();
 }

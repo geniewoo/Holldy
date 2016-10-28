@@ -54,11 +54,27 @@ table tr td:last-child,
 table tr th:last-child {
 	border-right: 0;
 }
+div.cart_charge > a{
+	margin-left: 10%;
+	font-size: 25px;
+	padding: 10px;
+	display: inline-block;
+	border: solid 2px #aaa;
+	border-radius: 10px;
+}
+div.cart_charge > p{
+	float: right;
+	display: inline-block;
+	margin-right: 10%;
+}
+div.cart_charge{
+	margin: 10px 0;
+}
 table > tbody > tr{
 	height: 70px;
 }
 table > tbody > tr > td.cart_table_check{
-	width: 25px;
+	width: 40px;
 }
 table > tbody > tr > td.cart_table_name{
 	font-size: 11px;
@@ -70,8 +86,21 @@ table > tbody > tr > td.cart_table_price{
 	font-size: 11px;
 	width: 80px;
 }
-table > tbody > tr > td >input{
+table > tbody > tr > td > input{
+	box-shadow: 0;
+	background-color: #fff;
+	margin: 0;
 	width: 25px;
+}
+table > tbody > tr > td.cart_table_check > a{
+	display: block;
+	width: 23px;
+	height: 23px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	background-size: 20px;
+	background-repeat: no-repeat;
+	background-image: url(../images/delete.png); 
 }
 table > thead > tr > th > input{
 	width: 25px;
@@ -600,6 +629,13 @@ div.header_nav > div.header_nav_right >lu.mobile{
 	div.header_nav > div.header_nav_right >lu.mobile{
 		right: 100%;
 		width: 200%;
+	}	
+	table > tbody > tr > td.cart_table_name{
+		font-size: 14px;
+	}
+	table > tbody > tr > td.cart_table_price{
+		font-size: 14px;
+		width: 100px;
 	}
 }
 @media(min-width: 750px){

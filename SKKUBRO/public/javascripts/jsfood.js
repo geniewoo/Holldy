@@ -16,6 +16,7 @@ $(function(){
 
 	$.get('food/get_products', function(result){
 		$.get('travelCookies', function(data){//쿠키 있으면 가져옴
+			console.log(data);
 			result.products.forEach(function(item){
 				if(item.default && data.travelForm && data.travelForm.travelNum != 0){
 					item.num = (Number(data.travelForm.travelNum) + item.default - 1) / item.default;

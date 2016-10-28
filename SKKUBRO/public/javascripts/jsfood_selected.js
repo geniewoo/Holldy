@@ -1,36 +1,48 @@
 $(function(){
-	$food_selected_table = $('#food_selected_table');
-	$food_selected_total = $('#food_selected_total');
-
-	$.get('/food/get_food_selected', function(result){
-		console.log(result);
+	var url;
+	var type;
+	if($.getUrlVar('cart')==='true'){
+		url = '/food/get_food_selected?cart=true&index=' + $.getUrlVar('index');
+		type = 1;
+	}else{
+		url = '/food/get_food_selected';
+		type = 2;
+	}
+	$.get(url, function(result){
+		$food_selected_table = $('#food_selected_table');
+		$food_selected_total = $('#food_selected_total');
 		if(result.code === 0){
 			window.location.replace('/food');
 		}
-		console.log(result);
 		var selected_products = JSON.parse(result.food_selected_Arr);	//골랐던 물품 목록 // 테이블 헤더만들기
 		var selected_products_Num = JSON.parse(result.food_selected_Num);
 		selected_products.forEach(function(item, index){
 			item.num = selected_products_Num[index];
 		});
 		var selected_products_copy = selected_products.slice(0);	//체크박스에서 목록 지울때만 사용
-		makeSelectedTable(selected_products, $food_selected_table);
+		makeSelectedTable(selected_products, $food_selected_table, type);
 		makeTableConnect(selected_products);
-		changeSelectedProducts(selected_products_copy);
+		changeSelectedProducts(selected_products_copy, type);
 		$('#shopping_bascket').on('click', function(event){
 			event.preventDefault();
-			$.post('/myCart/post_foodProducts', {cart_product : JSON.stringify(arrTo_idnumArr(selected_products))}, function(result){
-				if(result.code === 1){
-					console.log(result);
-					window.location.href = '/myCart';
-					console.log('끝');
-				}
-			});
+			if(type === 1){
+				$.post('/myCart/post_foodProducts', {cart_product : JSON.stringify(arrTo_idnumArr(selected_products)), index : $.getUrlVar('index')}, function(result){
+					if(result.code === 1){
+						window.location.href = '/myCart';
+					}
+				});
+			}else{
+				$.post('/myCart/post_foodProducts', {cart_product : JSON.stringify(arrTo_idnumArr(selected_products))}, function(result){
+					if(result.code === 1){
+						window.location.href = '/myCart';
+					}
+				});
+			}
 		});
 	});
 });
 
-var makeSelectedTable = function(selected_products, $food_selected_table){
+var makeSelectedTable = function(selected_products, $food_selected_table, type){
 
 	var selected_table_str = '<table class = "selected_table skb_table">'//
 	+'<thead>'
@@ -71,11 +83,17 @@ var makeSelectedTable = function(selected_products, $food_selected_table){
 		+	'</td>'
 		+'</tr>';
 	}
+	var cartStr;
+	if(type === 1){
+		cartStr = '장바구니변경';
+	}else{
+		cartStr = '장바구니담기';
+	}
 	selected_table_str += '</tbody>'
 	+	'<tfoot>'
 	+		'<tr>'
 	+			'<td colspan = 6>'
-	+				'<a href="#" id="shopping_bascket">장바구니담기</a>'
+	+				'<a href="#" id="shopping_bascket">' + cartStr + '</a>'
 	+				'<p id="selected_table_total"></p>'
 	+			'</td>'
 	+		'</tr>'
@@ -141,7 +159,7 @@ var makeTableConnect = function(selected_products){
 	}
 }
 
-var changeSelectedProducts = function(selected_products_copy){	//selected_table_del 을 눌렀을 때 목록에서 삭제하는 코드, copy는 원래 products의 복사본이고 tmp는 이 click됐을 때에만 만들어서 쓰는 함수이다.
+var changeSelectedProducts = function(selected_products_copy, type){	//selected_table_del 을 눌렀을 때 목록에서 삭제하는 코드, copy는 원래 products의 복사본이고 tmp는 이 click됐을 때에만 만들어서 쓰는 함수이다.
 	
 	$('#selected_table_del').on('click', function(event){
 		var count = 0;
@@ -162,11 +180,19 @@ var changeSelectedProducts = function(selected_products_copy){	//selected_table_
 			alert('적어도 하나의 상품은 남겨야 합니다');
 			return;
 		}else{
-			$.post('/food/post_selected', {products : JSON.stringify(arrTo_idnumArr(selected_products_tmp))}, function(result){
-				if(result.code === 1){
-					window.location.href = "/food/selected";
-				}
-			});
+			if(type === 1){
+				$.post('/myCart/post_foodProducts', {cart_product : JSON.stringify(arrTo_idnumArr(selected_products_tmp)), index : $.getUrlVar('index')}, function(result){
+					if(result.code === 1){
+						window.location.reload(true);
+					}
+				});
+			}else{
+				$.post('/food/post_selected', {products : JSON.stringify(arrTo_idnumArr(selected_products_tmp))}, function(result){
+					if(result.code === 1){
+						window.location.reload(true);
+					}
+				});
+			}
 		}
 	});
 }
@@ -178,3 +204,19 @@ var arrTo_idnumArr = function(arr){
 	});
 	return totalArr;
 }
+$.extend({
+	getUrlVars: function(){
+		var vars = [], hash;
+		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		for(var i = 0; i < hashes.length; i++)
+		{
+			hash = hashes[i].split('=');
+			vars.push(hash[0]);
+			vars[hash[0]] = hash[1];
+		}
+		return vars;
+	},
+	getUrlVar: function(name){
+		return $.getUrlVars()[name];
+	}
+});

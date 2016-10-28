@@ -1,21 +1,23 @@
 var express = require('express');
 var fs = require('fs');
-var ck = require('./ck.js');
 var router = express.Router();
 var productsDao = require('./productsDao.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	ck.saveCookie(req.query, res, function(){
-		fs.readFile('views/food.html', function(error, data){
-			res.send(data.toString());
-		});
+	fs.readFile('views/food.html', function(error, data){
+		res.send(data.toString());
 	});
 });
 
 router.get('/get_food_selected', function(req, res, next) {
-	if(req.session.food_selected){
-		var food_selected = JSON.parse(req.session.food_selected)
+	if(req.session.food_selected || req.query.cart){
+		var food_selected;
+		if(req.query.cart==='true'){
+			food_selected = req.cookies.cart_food[req.query.index - 1];
+		}else{
+			food_selected = JSON.parse(req.session.food_selected);
+		}
 		var food_selected_Arr = [];
 		var food_selected_Num = [];
 		food_selected.forEach(function(item, index){
