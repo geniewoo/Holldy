@@ -18,9 +18,9 @@ $(function() {
         });
         socket.on('help_get_msg', function(data) {
             var msg = data.msg;
-            var isClient = data.isClient;\
+            var isClient = data.isClient;
             var text = makeOthersText(msg, isClient);
-            $chatContent.append(text)
+            $chatContent.append(text);
         });
     });
 });

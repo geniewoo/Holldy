@@ -279,7 +279,8 @@ div.food_products > ul > li > div.food_products_info > div{
 	display: inline-block;
 }
 div.food_products > ul > li > div.food_products_info > div.food_products_res{
-	width: 75%;
+	margin-left: 50%;
+	width: 25%;
 }
 div.food_products > ul > li > div.food_products_info > div.food_products_res > div > p.food_products_content{
 	margin-top: 15px;
@@ -297,8 +298,8 @@ div.food_products > ul > li > div.food_products_info{
 	padding: 8px 10px;
 }
 div.food_products > ul > li > div.food_products_info > p.food_products_name{
-	margin: 8px 0;
-	height: 28px;
+	margin: 10px 0;
+	font-size: 16px;
 }
 div.food_products > ul > li > div.food_products_info > div.food_products_res > div > p.food_products_price{
 	margin: 0;
@@ -317,21 +318,33 @@ div.food_products > ul > li > div.food_products_info > div.food_products_con{
 div.food_products > ul > li > div.food_products_info > div.food_products_con > a, div.food_products > ul > li > div.food_products_info > div.food_products_con > input{
 	width: 100%;
 	display: block;
-	height: 15px;
 	text-align: center;
+	border-radius: 0;
 }
-div.food_products > ul > li > div.food_products_info > div.food_products_con > a{
-	padding-top: 5px;
-	border-radius: 5px;
-	background-color: #aaa;
+div.food_products > ul > li > div.food_products_info > div.food_products_con > a.food_products_con_top{
+	padding-top: 2px;
+	padding-bottom: 3px;
+	background-color: #999;
 	color: #fff;
-	font-size: 10px
+	font-size: 12px;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+}
+div.food_products > ul > li > div.food_products_info > div.food_products_con > a.food_products_con_bot{
+	padding-bottom: 2px;
+	padding-top: 3px;
+	background-color: #999;
+	color: #fff;
+	font-size: 12px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
 }
 div.food_products > ul > li > div.food_products_info > div.food_products_con > input{
-	margin: 2px 0;
+	margin: 0 0;
 	padding: 3px 0;
-	box-shadow:inset 0px 0px 0px 4px #9ee;
+	box-shadow:inset 0px 0px 0px 2px #999;
 	border-width: 0;
+	height: 20px;
 	font-size: 16px;
 	font-weight: bold;
 }
@@ -344,6 +357,7 @@ div.food_categories > ul{
 div.food_categories > ul > li{
 	width: 25%;
 	display: inline-block;
+
 }
 div.food_categories > ul > li > a.clicked{
 	background-color: #7d7;
@@ -399,7 +413,7 @@ form.imp_custom_form > div.travelDate_container > p, form.imp_custom_form div.tr
 	margin : 0;
 	color: #fff;
 }
-form.imp_custom_form div.travelNum_container > div.travelNum_col > input.travelNum_btn{
+/*form.imp_custom_form div.travelNum_container > div.travelNum_col > input.travelNum_btn{
 	padding: 0;
 	text-align: center;
 	font-size: 15px;
@@ -411,19 +425,25 @@ form.imp_custom_form div.travelNum_container > div.travelNum_col > p{
 	color: #fff;
 }
 form.imp_custom_form div.travelNum_container > div.travelNum_col{
+display: inline-block;
+margin: 5px 3%;
+width: 20%;
+}*/
+form.imp_custom_form div.travelNum_container > div > input.travelNum_input{
+	font-size: 14px;
+	text-align: center;
 	display: inline-block;
-	margin: 5px 3%;
-	width: 20%;
+	width: 43%;
 }
-form.imp_custom_form > div.travelNum_container > p.travelNum_aft{
-	display: inline-block;
+form.imp_custom_form > div.travelNum_container > div > p.travelNum_aft{
 	height: 25px;
+	display: inline-block;
 	padding: 0;
 	width: 15%;
 	text-align: center;
-	position: relative;
 	bottom: 25px;
 	font: 18px JejuGothic;
+	color: #fff;
 }
 form.imp_custom_form{
 	padding: 10px 0;
@@ -433,10 +453,10 @@ form.imp_custom_form{
 }
 form.imp_custom_form > div.travelDate_container > input.travelDate{
 	margin : 10px 0;
-	display: block;
-	width: 90%;
+	display: inline-block;
+	width: 43%;
 	font: 14px JejuGothic;
-	padding-left: 20px;
+	text-align: center;
 }
 div.main_img{
 	background-position: center center;
@@ -615,12 +635,14 @@ div.header_nav > div.header_nav_right >lu.mobile{
 		margin-right: 0.3%;
 	}
 	form.imp_custom_form > div.travelDate_container{
-		width: 35%;
+		width: 45%;
+		margin : 0 2.5%;
 		display: inline-block;
 		float: left
 	}
 	form.imp_custom_form > div.travelNum_container{
-		width: 35%;
+		width: 45%;
+		margin : 0 2.5%;
 		display: inline-block;
 	}
 	div.main_img{
@@ -651,17 +673,18 @@ div.header_nav > div.header_nav_right >lu.mobile{
 		width: 12.5%;
 	}
 	form.imp_custom_form > div.travelDate_container{
-		width: 300px;
-		margin: 0 30px;
+		width: 45%;
+		margin: 0 2.5%;
 	}
 	form.imp_custom_form > div.travelNum_container{
-		width: 300px;
+		width: 45%;
 		display: inline-block;
-		margin: 0 30px;
 	}
 	form.imp_custom_form > div.travelDate_container > input.travelDate{
-		padding-left: 20px;
-		width: 200px;
+		width: 140px;
+	}
+	form.imp_custom_form div.travelNum_container > div > input.travelNum_input{
+		width: 140px;
 	}
 	div.header_nav > div.header_nav_left{
 		width: 20%;

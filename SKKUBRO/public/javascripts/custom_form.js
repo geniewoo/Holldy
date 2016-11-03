@@ -15,9 +15,10 @@ $(function(){
 			if(data.code === 1){
 				$('#datePicker1').val(data.travelForm.travelDate1);
 				$('#datePicker2').val(data.travelForm.travelDate2);
-				$('#travelNum_p1').text(data.travelForm.travelNum.substring(0,1));
+				$('#travelNum').val(data.travelForm.travelNum);
+				/*$('#travelNum_p1').text(data.travelForm.travelNum.substring(0,1));
 				$('#travelNum_p2').text(data.travelForm.travelNum.substring(1,2));
-				$('#travelNum_p3').text(data.travelForm.travelNum.substring(2,3));
+				$('#travelNum_p3').text(data.travelForm.travelNum.substring(2,3));*/
 			}else{
 				var today = new Date();
 				$('#datePicker1').val(date2String(new Date()));
@@ -28,6 +29,14 @@ $(function(){
 				setTravelCookie();
 				setDatePicker2($('#datePicker1'), $('#datePicker2'));
 			});
+
+			$('#travelNum').on('change', function(){
+				if($(this).val() <= 0){
+					$(this).val(1);
+				}
+				setTravelCookie();
+			});
+			/*
 			$('#travelNum_btn1').on('click', function(){
 				changeTravelNum($('#travelNum_btn1'));
 			});
@@ -46,6 +55,7 @@ $(function(){
 			$('#travelNum_btn6').on('click', function(){
 				changeTravelNum($('#travelNum_btn6'));
 			});
+			*/
 		});
 	});
 });
@@ -74,7 +84,7 @@ var setTravelCookie = function(){
 	});
 }
 
-var changeTravelNum = function($travelNum_btn){
+/*var changeTravelNum = function($travelNum_btn){
 	switch($travelNum_btn.attr("btnNum")){
 		case "1" :
 		$('#travelNum_p1').text(addNum(Number( $('#travelNum_p1').text() ) +1 ));
@@ -96,8 +106,8 @@ var changeTravelNum = function($travelNum_btn){
 		break;
 	}
 	setTravelCookie();
-}
-
+}*/
+/*
 var addNum = function(num){
 	if(num >= 10){
 		return 0;
@@ -113,7 +123,7 @@ var subNum = function(num){
 		return num;
 	}
 }
-
+*/
 var setDatePicker2 = function($datePicker1, $datePicker2){
 	var nyears = $datePicker1.val().substring(0,4);
 	var nmonth = $datePicker1.val().substring(5,7);
@@ -137,8 +147,11 @@ var date2String = function(date){
 	return dateStr;
 }
 
-var getTravelNum = function(){
+/*var getTravelNum = function(){
 	return $('#travelNum_p1').text() + $('#travelNum_p2').text() + $('#travelNum_p3').text();
+}*/
+var getTravelNum = function(){
+	return $('#travelNum').val();
 }
 
 var getTravelDate1 = function(){

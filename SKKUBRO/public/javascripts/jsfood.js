@@ -85,7 +85,7 @@ $(function(){
 });
 
 var insertCartegory = function($food_categories, catNum){
-	var catName = ['육류 / 쌀 / 김치', '쌈 / 야채', '라면', '과자', '음료', '어묵 / 냉동', '일회용기', '기타'];
+	var catName = ['육류 · 쌀 · 김치', '채소', '라면', '스낵', '음료', '냉동식품', '일회용품', '기타'];
 	var catStr = '';
 	for(var i = 0 ; i <= (catNum - 1) / 4 ; i++){
 		catStr += '<ul>';
@@ -115,6 +115,11 @@ var insertProduct = function(product){
 	+'</div>'
 	+'<div class="food_products_info">'
 	+	'<p class="food_products_name">' + product.name + ' ' + product.content + product.unit + '</p>'
+	+	'<div class="food_products_con">'
+	+		'<a href="#" class="food_products_con_top" id="product_up_' + product._id + '">∧</a>'
+	+		'<input type="number" id="product_input_' + product._id +'" min="0" value="' + init_num + '"/>'
+	+		'<a href="#" class="food_products_con_bot" id="product_down_' + product._id + '">∨</a>'
+	+	'</div>'
 	+	'<div class="food_products_res">'
 	+		'<div>'
 	+			'<p class="food_products_price">' + product.price + '</p>'
@@ -124,11 +129,6 @@ var insertProduct = function(product){
 	+			'<p class="food_products_content" id="product_content_' + product._id +'">' + content_res + product.unit + '</p>'
 	+			'<p class="food_products_totalprice" id="product_price_' + product._id + '"">' + price_res + '원' + '</p>'
 	+		'</div>'
-	+	'</div>'
-	+	'<div class="food_products_con">'
-	+		'<a href="#" id="product_up_' + product._id + '">∧</a>'
-	+		'<input type="number" id="product_input_' + product._id +'" min="0" value="' + init_num + '"/>'
-	+		'<a href="#" id="product_down_' + product._id + '">∨</a>'
 	+	'</div>'
 	+'</div>'
 	+'</li>';
