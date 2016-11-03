@@ -48,7 +48,6 @@ $(function(){
 			});
 		});
 	});
-	bindUnload();
 });
 
 var isFirstDayBigger = function(day1, day2){

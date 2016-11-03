@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var socket_io = require('socket.io');
+var io = socket_io();
 
 var routes = require('./routes/index');
 var err_page = require('./routes/err_page');
@@ -13,8 +15,12 @@ var food = require('./routes/food');
 var travelCookies = require('./routes/travelCookies');
 var myCart = require('./routes/myCart');
 var form = require('./routes/form');
+var help = require('./routes/help')(io);
+var admin = require('./routes/admin')(io);
+var MTio = require('./routes/MTio')(io);
 
 var app = express();
+app.io = io;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,8 +45,9 @@ app.use('/food', food);
 app.use('/form', form);
 app.use('/myCart', myCart);
 app.use('/travelCookies', travelCookies);
+app.use('/help', help);
+app.use('/admin12345abcde', admin);
 app.use('/*', err_page);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+	<script src="/javascripts/admin_helpPopUp.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/stylesheets/help.css" />
+    <title></title>
+</head>
+
+<body>
+    <div>
+        <p class="chatTitle">상담 admin</p>
+        <p class="chatContent" id="chatContent"></p>
+        <div class="chatForm">
+            <textarea type="text" id="chatTextArea" placeholder="궁금한점을 적어주세요"></textarea>
+            <input type="button" id="chatSendBtn" value="전송" />
+        </div>
+    </div>
+</body>
+
+</html>
