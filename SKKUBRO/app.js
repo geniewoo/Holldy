@@ -18,6 +18,9 @@ var form = require('./routes/form');
 var help = require('./routes/help')(io);
 var admin = require('./routes/admin')(io);
 var MTio = require('./routes/MTio')(io);
+var pension = require('./routes/pension');
+var bus = require('./routes/bus');
+var community = require('./routes/community');
 
 var app = express();
 app.io = io;
@@ -47,6 +50,9 @@ app.use('/myCart', myCart);
 app.use('/travelCookies', travelCookies);
 app.use('/help', help);
 app.use('/admin12345abcde', admin);
+app.use('/pension', pension);
+app.use('/bus', bus);
+app.use('/community', community);
 app.use('/*', err_page);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

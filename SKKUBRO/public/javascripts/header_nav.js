@@ -1,7 +1,7 @@
 $(function() {
     $header_nav_container = $('#header_nav_container');
     $header_nav_container.load("/html/header_nav.html", function() {
-        //FB_Connect();
+        FB_Connect();
         var isClicked = false;
         var $nav_lu = $('.header_nav_right_lu');
         if (!checkIsOverSize768()) {

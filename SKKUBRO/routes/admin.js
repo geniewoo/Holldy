@@ -4,17 +4,16 @@ module.exports = function(io) {
     var router = express.Router();
     var adminRoom = 'admin_8972';
     var clientID = '';
+    var productsDao = require('./productsDao.js');
 
     router.get('/', function(req, res, nex) {
         fs.readFile('views/admin_login.html', function(error, data) {
             res.send(data.toString());
         });
     });
-
     router.post('/loginAdmin', function(req, res, next) {
         $adminID = req.body.ID;
         $adminPW = req.body.PW;
-
         if (isAdmin($adminID, $adminPW, req)) {
             res.json({
                 'code': 1
@@ -26,7 +25,6 @@ module.exports = function(io) {
             });
         }
     });
-
     router.get('/cat', function(req, res, next) {
         if (confirmAdmin(req)) {
             fs.readFile('views/admin_category.html', function(error, data) {
@@ -65,8 +63,82 @@ module.exports = function(io) {
             });
         }
     });
-    router.get('/get_help_clineID', function(req, res, next){
-        res.json({'clientID' : clientID});
+    router.get('/get_help_clineID', function(req, res, next) {
+        if (confirmAdmin(req)) {
+            res.json({
+                'clientID': clientID
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
+    router.get('/stock', function(req, res, next) {
+        if (confirmAdmin(req)) {
+            fs.readFile('views/admin_stock.html', function(error, data) {
+                res.send(data.toString());
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
+    router.post('/post_stockProducts', function(req, res, next) {
+        if (confirmAdmin(req)) {
+            console.log('1', JSON.parse(req.body.option));
+            productsDao.getProducts(JSON.parse(req.body.option), {}, {
+                _id: 1
+            }, function(data) {
+                console.log('2');
+                res.json({
+                    'code': 1,
+                    'stockProducts': JSON.stringify(data)
+                });
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
+    router.get('/stock/delete', function(req, res, next) {
+        if (confirmAdmin(req)) {
+            var _id = req.query._id;
+            console.log('_id', _id);
+            productsDao.delProducts({
+                '_id': _id
+            }, function(data) {
+                res.json({
+                    'code': 1,
+                });
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
+    router.post('/stock/insert', function(req, res, next) {
+        if (confirmAdmin(req)) {
+            var newProduct = JSON.parse(req.body.newProduct);
+            console.log('insert', newProduct);
+            productsDao.insProducts(newProduct, function() {
+                res.json({
+                    'code': 1,
+                });
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
     });
     return router;
 }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="/javascripts/admin_stock.js"></script>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <div>
+        <form action="index.html" method="post">
+            <p style="display : inline-block; margin-right : 10px;">_id</p><input id="newProduct_id" type="text" name="newProduct" value="" placeholder="pro01-001">
+            <p style="display : inline-block; margin-right : 10px;">이름</p><input id="newProduct_name" type="text" name="newProduct" value="" placeholder="새우깡">
+            <p style="display : inline-block; margin-right : 10px;">가격</p><input id="newProduct_price" type="text" name="newProduct" value="" placeholder="3000">
+            <p style="display : inline-block; margin-right : 10px;">용량</p><input id="newProduct_content" type="text" name="newProduct" value="" placeholder="200">
+            <p style="display : inline-block; margin-right : 10px;">용량 단위</p><input id="newProduct_unit" type="text" name="newProduct" value="" placeholder="g">
+            <p style="display : inline-block; margin-right : 10px;">사진이름</p><input id="newProduct_url" type="text" name="newProduct" value="" placeholder="shrimp.jpg">
+            <p style="display : inline-block; margin-right : 10px;">카테고리</p><input id="newProduct_category" type="text" name="newProduct" value="" placeholder="5">
+            <p style="display : inline-block; margin-right : 10px;">default</p><input id="newProduct_default" type="text" name="newProduct" value="" placeholder="1">
+            <p style="display : inline-block; margin-right : 10px;">정보</p><input id="newProduct_info" type="text" name="newProduct" value="" placeholder="맛나는 새우깡">
+            <input id="newProduct_Btn" type="button" name="newProduct" value="추가/수정">
+        </form>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        <p>_id</p>
+                    </th>
+                    <th>
+                        <p>이름</p>
+                    </th>
+                    <th>
+                        <p>가격</p>
+                    </th>
+                    <th>
+                        <p>용량</p>
+                    </th>
+                    <th>
+                        <p>용량 단위</p>
+                    </th>
+                    <th>
+                        <p>사진이름</p>
+                    </th>
+                    <th>
+                        <p>카테고리</p>
+                    </th>
+                    <th>
+                        <p>default값</p>
+                    </th>
+                    <th>
+                        <p>정보</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="table_stock">
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
