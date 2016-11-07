@@ -15,7 +15,7 @@ router.get('/get_loginStatus', function(req, res, next){
     console.log('get_loginStatus', req.session);
     session.loginStatus(req.session, function(result){
         console.log('status', result);
-        res.json({code : result});
+        res.json({'code': result});
     });
 });
 router.post('/post_checkLocal', function(req, res, next) {
@@ -40,6 +40,12 @@ router.post('/post_checkLocal', function(req, res, next) {
 router.get('/social_join', function(req, res, next) {
     fs.readFile('views/social_join.html', function(error, data) {
         res.send(data.toString());
+    });
+});
+
+router.get('/get_localLogout', function(req, res, next){
+    session.deleteLoginInfo(req.session, function(result){
+        res.json({'code' : result});
     });
 });
 

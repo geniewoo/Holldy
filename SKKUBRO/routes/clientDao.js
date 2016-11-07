@@ -13,7 +13,7 @@ exports.checkLocal = function(fb_ID, next) {
 
 exports.insertFBClient = function(insert_info, next) {
     db.clients.insert({
-        'local_id': insert_info.local_ID,
+        '_id': insert_info.local_ID,
         'fb_ID': insert_info.fb_ID,
         'name': insert_info.name
     }, function(error, data) {
