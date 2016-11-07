@@ -6,6 +6,12 @@ $(function() {
     var socket = io.connect();
     var roomName = '';
     socket.emit('help_request');
+    $chatTextArea.on('keydown', function(event){
+        console.log('event');
+        if(event.keyCode == 13){
+            $chatSendBtn.trigger('click');
+        }
+    });
     $chatSendBtn.on('click', function() { //전송 클릭하면 메세지 보냄
         var msg = $chatTextArea.val();
         $chatTextArea.val('');

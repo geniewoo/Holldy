@@ -22,6 +22,12 @@ $(function() {
             var text = makeOthersText(msg, isClient);
             $chatContent.append(text);
         });
+        $chatTextArea.on('keydown', function(event){
+            console.log('event');
+            if(event.keyCode == 13){
+                $chatSendBtn.trigger('click');
+            }
+        });
     });
 });
 

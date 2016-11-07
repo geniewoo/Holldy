@@ -34,7 +34,7 @@ $(function() {
         });
         $('#nav_helpBtn').on('click', function(event) {
             event.preventDefault();
-            window.open('/help',"상담","fullscreen=no,toolbar=no,status=no,menubar=no,scrollbars=no,resizeable=no,width=300,height=500");
+            window.open('/help', "상담", "fullscreen=no,toolbar=no,status=no,menubar=no,scrollbars=no,resizeable=no,width=300,height=500");
         });
         /*
         $('.nav_foodBtn').on('click',function(event){
@@ -74,8 +74,25 @@ $(function() {
     });
 });
 
+
 function FB_Connect() {
+    console.log('fb_connect');
     $login_btn = $('#header_login');
+    $.get('/login/get_loginStatus', function(result) {
+        consoel.log('status', result);
+        if (result.code === 1) {
+            alreadyLogin($login_btn);
+        } else {
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        }
+    });
 
     function statusChangeCallback(response) {
         // The response object is returned with a status field that lets the
@@ -83,53 +100,21 @@ function FB_Connect() {
         // Full docs on the response object can be found in the documentation
         // for FB.getLoginStatus().
         if (response.status === 'connected') {
+            if (!window.location.href.includes('/login/social_join')) {
+                window.location.replace('/login/social_join');
+            }
             // Logged into your app and Facebook.
-            $login_btn.text('logout');
-            $login_btn.on('click', function() {
-                FB.logout(function() {
-                    location.reload(true);
-                });
-            });
-            testAPI();
         } else if (response.status === 'not_authorized') {
+            if (!window.location.href.includes('/login/social_join')) {
+                window.location.replace('/login/social_join');
+            }
             // The person is logged into Facebook, but not your app.
             //document.getElementById('status').innerHTML = 'Please log ' + 'into this app.';
-            $login_btn.text('login');
-            $login_btn.on('click', function() {
-                FB.login(function(response) {
-                    if (response.status === 'connected') {
-                        location.reload(true);
-                        // 페이스북과 앱에 같이 로그인되어 있다.
-                    } else if (response.status === 'not_authorized') {
-                        // 페이스북에는 로그인 되어있으나, 앱에는 로그인 되어있지 않다.
-                    } else {
-                        // 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
-                    }
-                }, {
-                    scope: 'public_profile,email'
-                });
-            });
-            testAPI();
         } else {
             // The person is not logged into Facebook, so we're not sure if
             // they are logged into this app or not.
-            //document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
-            $login_btn.text('login');
-            $login_btn.on('click', function() {
-                FB.login(function(response) {
-                    location.reload(true);
-                    if (response.status === 'connected') {
-                        // 페이스북과 앱에 같이 로그인되어 있다.
-                    } else if (response.status === 'not_authorized') {
-                        // 페이스북에는 로그인 되어있으나, 앱에는 로그인 되어있지 않다.
-                    } else {
-                        // 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
-                    }
-                }, {
-                    scope: 'email, public_profile',
-                    return_scopes: true
-                });
-            });
+            //document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';';
+            notLogin($login_btn);
         }
     }
 
@@ -151,22 +136,6 @@ function FB_Connect() {
             statusChangeCallback(response);
         });
     };
-
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    function testAPI() {
-        FB.api('/me', function(response) {
-            //document.getElementById('status').innerHTML =
-            'Thanks for logging in, ' + response.name + '!';
-        });
-    }
 }
 
 var checkIsOverSize1200 = function() {
@@ -183,6 +152,67 @@ var checkIsOverSize768 = function() {
     } else {
         return true;
     }
+}
+
+var alreadyLogin = function($login_btn) {
+    console.log('alreadyLogin');
+    $login_btn.text('logout');
+    $login_btn.on('click', function(event) {
+        event.preventDefault();
+        $.get('/login/get_localLogout', function(result) {
+            if (result.code === 1) { //fblogin 인 경우 code === 1
+                FB.logout(function() {
+                    location.reload(true);
+                });
+            } else if (result.code === 2) {
+                location.reload(true);
+            } else {
+                console.log(result.err_msg);
+            }
+        });
+    });
+}
+
+var notLogin = function($login_btn) {
+    console.log('notLogin');
+    $login_btn.text('login');
+    $login_btn.click(function(event) {
+        event.preventDefault();
+        $.get(this.href, function(html) {
+            $(html).appendTo('body').modal();
+            $('#fbLogin_btn').on('click', function(event) {
+                console.log('fbLogin_btn');
+                event.preventDefault();
+                FB.login(function(response) {
+                    if (response.status === 'connected') {} else if (response.status === 'not_authorized') {
+                        FB.api('/me', function(response) {
+                            $.post('/login/post_checkLocal', {
+                                fb_ID: response.id,
+                                name: response.name
+                            }, function(result) {
+                                if (result.code === 1) {
+                                    location.reload(true);
+                                    console.log('회원가입 완료');
+                                    //회원가입 안해두 됨.
+                                } else if (result.code === 2) {
+                                    console.log('회원가입 덜됨');
+                                    if (!window.location.href.includes('/login/social_join')) {
+                                        window.location.replace('/login/social_join');
+                                    }
+                                }
+                            });
+                        });
+                        // 페이스북에는 로그인 되어있으나, 앱에는 로그인 되어있지 않다.
+                    } else {
+                        // 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
+                    }
+                }, {
+                    scope: 'email, public_profile',
+                    return_scopes: true
+                });
+            });
+        });
+    });
 }
 
 /*

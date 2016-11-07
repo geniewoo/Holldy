@@ -21,6 +21,7 @@ var MTio = require('./routes/MTio')(io);
 var pension = require('./routes/pension');
 var bus = require('./routes/bus');
 var community = require('./routes/community');
+var login = require('./routes/login');
 
 var app = express();
 app.io = io;
@@ -53,6 +54,7 @@ app.use('/admin12345abcde', admin);
 app.use('/pension', pension);
 app.use('/bus', bus);
 app.use('/community', community);
+app.use('/login', login);
 app.use('/*', err_page);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

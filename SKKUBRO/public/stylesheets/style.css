@@ -16,10 +16,17 @@ a {
 	color: #000;
 }
 input{
+	border-width: 3px;
 	outline: none;
 	border-radius: 5px;
 	border-color: transparent;
 	height: 25px;
+}
+input:hover{
+	border: 3px solid #feb;
+}
+input:focus{
+	border: 3px solid #feb;
 }
 li{
 	list-style:none;
@@ -53,6 +60,29 @@ table tr th:first-child {
 table tr td:last-child,
 table tr th:last-child {
 	border-right: 0;
+}
+div.login > a{
+	margin-top: 3px;
+	display: inline-block;
+	height: 30px;
+	background-color: #36a;
+}
+div.login > a > img{
+	margin: 3px;
+	display: block;
+	height: 24px;
+	width: 24px;
+	display: inline-block;
+	vertical-align: bottom;
+}
+div.login > input{
+	width: 32%;
+}
+div.login > a > p{
+	margin: 3px;
+	color: #fff;
+	font-size: 24px;
+	display: inline-block;
 }
 div.cart_charge > a{
 	margin-left: 10%;
@@ -100,7 +130,7 @@ table > tbody > tr > td.cart_table_check > a{
 	border-radius: 5px;
 	background-size: 20px;
 	background-repeat: no-repeat;
-	background-image: url(../images/delete.png); 
+	background-image: url(../images/delete.png);
 }
 table > thead > tr > th > input{
 	width: 25px;
@@ -163,7 +193,7 @@ table.selected_table > tfoot > tr > td > a{
 }
 table.skb_table{
 	margin-left: 2%;
-	margin-bottom: 10px; 
+	margin-bottom: 10px;
 	width: 96%;
 }
 table.selected_table > tbody > tr > td{
@@ -552,13 +582,6 @@ div.header_nav > div.header_nav_mid > a{
 	height: 40px;
 	width: 43px;
 }
-div.header_nav > div.header_nav_right > lu > li > #header_login{
-	background-image: url(../images/FB_btn.png);
-	background-position: left;
-	background-size: contain;
-	background-repeat: no-repeat;
-	padding-left: 23px;
-}
 div.header_nav > div.header_nav_right > lu.mobile > li > a{
 	font-size: 18px;
 	margin: 13px 13px;
@@ -597,7 +620,7 @@ div.header_nav > div.header_nav_right >lu.mobile{
 	}
 	table.skb_table{
 		margin-left: 5%;
-		margin-bottom: 10px; 
+		margin-bottom: 10px;
 		width: 90%;
 	}
 	table.selected_table > tbody > tr > td.selected_table_img{
@@ -651,7 +674,7 @@ div.header_nav > div.header_nav_right >lu.mobile{
 	div.header_nav > div.header_nav_right >lu.mobile{
 		right: 100%;
 		width: 200%;
-	}	
+	}
 	table > tbody > tr > td.cart_table_name{
 		font-size: 14px;
 	}
@@ -661,9 +684,6 @@ div.header_nav > div.header_nav_right >lu.mobile{
 	}
 }
 @media(min-width: 750px){
-	div.header_nav > div.header_nav_right > lu > li > #header_login{
-		padding-left: 17px;
-	}
 	div.food_products > ul {
 		width: 720px;
 	}
