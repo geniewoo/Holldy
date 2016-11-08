@@ -37,7 +37,7 @@ var makeFoodTable = function() {
         console.log(result);
         $food_check = $('#food_check');
         $cart_food = $('#cart_food');
-        if (result.code === 1) {
+        if (result.code === 1 || result.code === 2) { //나중에 2면 다른 코드사용 예정.
             console.log(result.code);
             var cart_food_Arr = JSON.parse(result.cart_food_Arr); //식품정보
             var cart_food_Num = JSON.parse(result.cart_food_Num); //장바구니 개수
