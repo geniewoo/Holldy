@@ -6,7 +6,6 @@ var productsDao = require('./productsDao.js');
 /* GET home page. */
 
 router.post('/post_foodProducts', function(req, res, next) {
-	
 	var cartCookiePush = function(nextfun){
 		cookies_cart_food.push(cart_food);
 		nextfun(sendJson);
