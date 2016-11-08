@@ -5,20 +5,23 @@ var clientDao = require('./clientDao.js');
 var crypto = require('./crypto.js');
 var session = require('./session.js');
 
-router.get('/modal', function(req, res, next) {
+router.get('/modal', function(req, res, next) {//모달 띄울 html전달
     console.log('modal');
     fs.readFile('views/login.html', function(error, data) {
         res.send(data.toString());
     });
 });
-router.get('/get_loginStatus', function(req, res, next){
+router.get('/get_loginStatus', function(req, res, next){//현재 로그인 되어있는지 확인 header를 쓰는 매 페이지마다 호출됨.
     console.log('get_loginStatus', req.session);
     session.loginStatus(req.session, function(result){
+        if(req.cookies.cart_food){
+            clientDao.insertCart_options()
+        }
         console.log('status', result);
         res.json({'code': result});
     });
 });
-router.post('/post_checkLocal', function(req, res, next) {
+router.post('/post_checkLocal', function(req, res, next) {//로컬아이디가 있는지 확인.
     console.log('checkLocal');
     clientDao.checkLocal(req.body.fb_ID, function(result) {
         if (result) {
@@ -37,19 +40,19 @@ router.post('/post_checkLocal', function(req, res, next) {
     });
 });
 
-router.get('/social_join', function(req, res, next) {
+router.get('/social_join', function(req, res, next) {//social_join 접속했을 때
     fs.readFile('views/social_join.html', function(error, data) {
         res.send(data.toString());
     });
 });
 
-router.get('/get_localLogout', function(req, res, next){
+router.get('/get_localLogout', function(req, res, next){//로그아웃 눌렀을 때 session 삭제하기
     session.deleteLoginInfo(req.session, function(result){
         res.json({'code' : result});
     });
 });
 
-router.post('/post_social_join', function(req, res, next) {
+router.post('/post_social_join', function(req, res, next) {//social_join에서 가입하기 눌렀을 때 암호화해서 clientDao에 집어넣기
     console.log('0', req.body);
     if (req.body.type == 1) {
         console.log('1');

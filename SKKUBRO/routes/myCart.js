@@ -3,6 +3,7 @@ var fs = require('fs');
 var router = express.Router();
 var async = require('async');
 var productsDao = require('./productsDao.js');
+var session = require('./session.js');
 /* GET home page. */
 
 router.post('/post_foodProducts', function(req, res, next) {

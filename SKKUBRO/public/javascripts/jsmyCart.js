@@ -38,13 +38,18 @@ var makeFoodTable = function() {
         $food_check = $('#food_check');
         $cart_food = $('#cart_food');
         if (result.code === 1) {
+            console.log(result.code);
             var cart_food_Arr = JSON.parse(result.cart_food_Arr); //식품정보
             var cart_food_Num = JSON.parse(result.cart_food_Num); //장바구니 개수
+            console.log(cart_food_Arr);
             if (cart_food_Arr.length > 0) {
+                console.log(cart_food_Arr.length);
                 $food_check.on('click', function() { //식품 옆에 있는 큰버튼 눌렀을 때
+                    console.log('click trigger');
                     makeFoodTableBody($food_check, cart_food_Arr, cart_food_Num); //테이블 tbody만듬
                     connectFoodCartCheckBox();
                 });
+                $food_check.prop('checked', false);// 뒤로 버튼을 누른다던가 하는 경우를 대비하여 무조건 이 페이지에 오면 처음 누른상태로 만들어주기 위함.
                 $food_check.trigger('click'); //큰버튼 한번 눌러준다.
             } else {
                 var tableHTML = makeNoCartString();
@@ -52,6 +57,7 @@ var makeFoodTable = function() {
                 $food_check.attr('disabled', true);
             }
         } else {
+            console.log(result.code);
             var tableHTML = makeNoCartString();
             $cart_food.html(tableHTML);
             $food_check.attr('disabled', true);
@@ -70,7 +76,7 @@ var makeFoodTableBody = function($food_check, cart_food_Arr, cart_food_Num) {
             });
             tableHTML += '<tr>';
             tableHTML += '<td class="cart_table_check">';
-            tableHTML += '<input type="checkbox" name="food_cart" id="' + 'food_cart_checkbox_' + (index1 + 1) + '" index="' + (index1 + 1) + '"/>';
+            tableHTML += '<input type="checkbox" name="food_cart" id="food_cart_checkbox_' + (index1 + 1) + '" index="' + (index1 + 1) + '"/>';
             tableHTML += '<a name="food_cart" href="#" index="' + (index1 + 1) + '"></a>';
             tableHTML += '</td>';
             tableHTML += '<td class="cart_table_name">';
