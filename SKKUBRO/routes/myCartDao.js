@@ -5,34 +5,69 @@ var db = mongojs('SKKUBRO', ['myCart']);
 exports.getMyCart = function(local_ID, type, next) {
     db.myCart.find({
         'local_ID': local_ID,
-        'cartType' : type
+        'cartType': type
     }, {
         'locao_ID': 0,
         'cartType': 0
     }, function(error, data) {
-        next(data);
+        if (error) {
+            next(false);
+        } else {
+            next(data);
+        }
     });
 }
-exports.deleteMyCart = function(cart_food_ID, session, type, next){
+exports.deleteMyCart = function(cart_food_ID, session, type, next) {
     console.log(cart_food_ID, type, session.localLogin.local_ID);
-    db.myCart.remove({'_id' :  mongojs.ObjectId(cart_food_ID), 'cartType' : type, 'local_ID' : session.localLogin.local_ID}, function(error, data){
+    db.myCart.remove({
+        '_id': mongojs.ObjectId(cart_food_ID),
+        'cartType': type,
+        'local_ID': session.localLogin.local_ID
+    }, function(error, data) {
         console.log('error', error, 'data', data);
-        if(error){
+        if (error) {
             next(false);
-        }else{
+        } else {
             next(true);
         }
     });
 }
-exports.getMyCartOne = function(local_ID, type, cart_food_ID, next){
-
+exports.getMyCartOne = function(type, session, cart_food_ID, next) {
+    db.myCart.findOne({
+        '_id': mongojs.ObjectId(cart_food_ID),
+        'cartType': type,
+        'local_ID': session.localLogin.local_ID
+    }, {
+        'locao_ID': 0,
+        'cartType': 0
+    }, function(error, data) {
+        if (error) {
+            next(false);
+        } else {
+            next(data);
+        }
+    });
 }
-exports.updateMyCart = function(update_info, type, session, cart_food_ID, next){
-    
+exports.updateMyCart = function(update_info, type, session, cart_food_ID, next) {
+    db.myCart.update({
+        '_id': mongojs.ObjectId(cart_food_ID),
+        'cartType': type,
+        'local_ID': session.localLogin.local_ID
+    }, {
+        $set: {
+            'cartInfo': update_info
+        }
+    }, function(error, data) {
+        if (error) {
+            next(false);
+        } else {
+            next(true);
+        }
+    });
 }
 exports.insertMyCart = function(insert_info, type, session, next) {
     var insertJson = [];
-    insert_info.forEach(function(item){
+    insert_info.forEach(function(item) {
         insertJson.push({
             'cartInfo': item,
             'cartType': type,
@@ -46,8 +81,4 @@ exports.insertMyCart = function(insert_info, type, session, next) {
             next(true);
         }
     });
-}
-
-exports.updateMyCart = function(insert_info, type, session, cart_food_ID, next){
-    var insert
 }
