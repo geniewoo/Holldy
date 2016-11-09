@@ -8,16 +8,13 @@ var async = require('async');
 var myCartDao = require('./myCartDao.js');
 
 router.get('/modal', function(req, res, next) { //모달 띄울 html전달
-    console.log('modal');
     fs.readFile('views/login.html', function(error, data) {
         res.send(data.toString());
     });
 });
 router.get('/get_loginStatus', function(req, res, next) { //현재 로그인 되어있는지 확인 header를 쓰는 매 페이지마다 호출됨.
-    console.log('get_loginStatus', req.session);
     session.loginStatus(req.session, function(result) {
         if (result === 1) {
-            console.log('status', result);
             res.json({
                 'code': result
             });
@@ -29,10 +26,8 @@ router.get('/get_loginStatus', function(req, res, next) { //현재 로그인 되
     });
 });
 router.post('/post_checkLocal', function(req, res, next) { //로컬아이디가 있는지 확인.
-    console.log('checkLocal');
     clientDao.checkLocal(req.body.fb_ID, function(result) {
         if (result) {
-            console.log('session saved');
             cookieCartToDB(function(next) { // 함수에 함수 두개 들어감, 먼저 행할거, 콜백
                 req.session.localLogin = {
                     fb_ID: req.body.fb_ID,
@@ -62,7 +57,6 @@ router.get('/social_join', function(req, res, next) { //social_join 접속했을
 });
 
 router.get('/get_localLogout', function(req, res, next) { //로그아웃 눌렀을 때 session 삭제하기
-    console.log('get_localLogout');
     session.deleteLoginInfo(req.session, function(result) {
         res.json({
             'code': result
@@ -71,9 +65,7 @@ router.get('/get_localLogout', function(req, res, next) { //로그아웃 눌렀�
 });
 
 router.post('/post_social_join', function(req, res, next) { //social_join에서 가입하기 눌렀을 때 암호화해서 clientDao에 집어넣기
-    console.log('0', req.body);
     if (req.body.type == 1) {
-        console.log('1');
         crypto.fbTOlocal(req.body.fb_ID, crypto.getCrypto, function(local_ID) {
             clientDao.insertFBClient({
                 'fb_ID': req.body.fb_ID,
@@ -81,7 +73,6 @@ router.post('/post_social_join', function(req, res, next) { //social_join에서 
                 'name': req.body.name
             }, function(result) {
                 if (result) {
-                    console.log('session saved');
                     cookieCartToDB(function(next) {
                         req.session.localLogin = {
                             fb_ID: req.body.fb_ID,
@@ -112,7 +103,6 @@ var cookieCartToDB = function(first, req, res, next) {
         },
         function(callback) {
             if (req.cookies.cart_food) {
-                console.log('cookies.cart_food', req.cookies.cart_food, typeof req.cookies.cart_food);
                 myCartDao.insertMyCart(req.cookies.cart_food, 'food', req.session, function(result) {
                     if (result) {
                         res.clearCookie('cart_food');

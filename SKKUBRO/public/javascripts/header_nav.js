@@ -79,7 +79,6 @@ function FB_Connect() {
     var isLocalLogin;
 
     window.fbAsyncInit = function() {
-        console.log('이닛');
         FB.init({
             appId: '1705601633093320',
             cookie: true, // enable cookies to allow the server to access
@@ -92,10 +91,8 @@ function FB_Connect() {
         });
     };
 
-    console.log('fb_connect');
     $login_btn = $('#header_login');
     $.get('/login/get_loginStatus', function(result) {
-        console.log('status', result);
         if (result.code === 1) {
             isLocalLogin = true;
             (function(d, s, id) {
@@ -156,27 +153,21 @@ var checkIsOverSize768 = function() {
 }
 
 var notLogin = function($login_btn) {
-    console.log('notLogin');
     $login_btn.text('login');
     $login_btn.click(function(event) {
         event.preventDefault();
         $.get(this.href, function(html) {
             $(html).appendTo('body').modal();
             $('#fbLogin_btn').on('click', function(event) {
-                console.log('fbLogin_btn');
                 event.preventDefault();
-                console.log('으아..');
 
                 FB.login(function(response) {
-                    console.log('으아????');
                     if (response.status === 'connected') {
                         findIsThereLocal();
                     } else if (response.status === 'not_authorized') {
-                        console.log('으아~~??');
                         findIsThereLocal();
                         // 페이스북에는 로그인 되어있으나, 앱에는 로그인 되어있지 않다.
                     } else {
-                        console.log('으아~~?');
                         // 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
                     }
                 }, {
@@ -188,7 +179,6 @@ var notLogin = function($login_btn) {
     });
 }
 var alreadyLogin = function($login_btn) {
-    console.log('alreadyLogin');
     $login_btn.text('logout');
     $login_btn.on('click', function(event) {
         event.preventDefault();
@@ -204,19 +194,15 @@ var alreadyLogin = function($login_btn) {
     });
 }
 var findIsThereLocal = function() {
-    console.log('findIsThereLocal');
     FB.api('/me', function(response) {
-        console.log('findIsThereLocal1');
         $.post('/login/post_checkLocal', {
             fb_ID: response.id,
             name: response.name
         }, function(result) {
             if (result.code === 1) {
                 location.reload(true);
-                console.log('회원가입 완료');
                 //회원가입 안해두 됨.
             } else if (result.code === 2) {
-                console.log('회원가입 덜됨');
                 if (!window.location.href.includes('/login/social_join')) {
                     window.location.replace('/login/social_join');
                 }

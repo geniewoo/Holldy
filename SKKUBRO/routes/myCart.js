@@ -37,7 +37,8 @@ router.post('/post_foodProducts', function(req, res, next) {
                 cartCookiePush(putInCookie);
             }
         } else {
-            myCartDao.insertMyCart([req.body.cart_food], 'food', req.session, function(result) {
+            console.log('here~');
+            myCartDao.insertMyCart([JSON.parse(req.body.cart_product)], 'food', req.session, function(result) {
                 if (result) {
                     res.json({
                         'code': 1
@@ -60,7 +61,6 @@ router.get('/get_foodProducts', function(req, res, next) {
     session.loginStatus(req.session, function(result) {
         if (result === 0) {
             var cart_food = req.cookies.cart_food;
-            console.log('cart_food', cart_food);
             if (cart_food) {
                 makeFoodCartJsonAndSendToFront1(cart_food, res);
             } else {
@@ -71,10 +71,7 @@ router.get('/get_foodProducts', function(req, res, next) {
             }
         } else {
             myCartDao.getMyCart(req.session.localLogin.local_ID, 'food', function(data) {
-                if (data) {
-                    data.forEach(function(item){
-
-                    });
+                if (data && data.length > 0) {
                     makeFoodCartJsonAndSendToFront2(data, res);
                 } else {
                     res.json({
@@ -87,35 +84,52 @@ router.get('/get_foodProducts', function(req, res, next) {
     });
 });
 router.get('/get_changeFoodCart', function(req, res, next) {
-    var index = Number(req.query.index);
-    var cart_food = req.cookies.cart_food;
-    if (index <= cart_food.length) {
-        for (var i = index - 1; i < cart_food.length - 1; i++) {
-            cart_food[i] = cart_food[i + 1];
+    session.loginStatus(req.session, function(result) {
+        if (result === 0) {
+            var index = Number(req.query.index);
+            var cart_food = req.cookies.cart_food;
+            if (index <= cart_food.length) {
+                for (var i = index - 1; i < cart_food.length - 1; i++) {
+                    cart_food[i] = cart_food[i + 1];
+                }
+                cart_food.pop();
+                res.cookie('cart_food', cart_food);
+                res.json({
+                    'code': 1
+                });
+            } else {
+                res.json({
+                    'code': 0,
+                    'err_msg': 'index is longer than cart'
+                });
+            }
+        } else {
+            var cart_food_ID = req.query.cart_food_ID;
+            console.log('cart_food_ID', cart_food_ID);
+            myCartDao.deleteMyCart(cart_food_ID, req.session, 'food', function(result){
+                if(result){
+                    res.json({
+                        'code': 1
+                    });
+                }else{
+                    res.json({
+                        'code': 0,
+                        'err_msg': 'index is longer than cart'
+                    });
+                }
+            });
         }
-        cart_food.pop();
-        res.cookie('cart_food', cart_food);
-        res.json({
-            'code': 1
-        });
-    } else {
-        res.json({
-            'code': 0,
-            'err_msg': 'index is longer than cart'
-        });
-    }
+    });
 });
 var makeFoodCartJsonAndSendToFront1 = function(cart_food, res) {
     var cart_food_Arr = [];
     var cart_food_Num = [];
     var index = 0;
     var getCartFood = function(cart_food, index) {
-        console.log('get_foodProducts3');
         var carts = cart_food[index];
         var carts_Arr = [];
         var carts_Num = [];
         carts.forEach(function(item) {
-            console.log('get_foodProducts4');
             carts_Arr.push({
                 '_id': item._id
             });
@@ -144,22 +158,18 @@ var makeFoodCartJsonAndSendToFront1 = function(cart_food, res) {
             }
         });
     }
-    console.log('get_foodProducts1');
     getCartFood(cart_food, index);
-    console.log('get_foodProducts2');
 }
 var makeFoodCartJsonAndSendToFront2 = function(cart_food, res) {
     var cart_food_Arr = [];
     var cart_food_Num = [];
     var cart_food_ID = [];
     var getCartFood = function(cart_food, index) {
-        console.log('get_foodProducts3');
         var carts = cart_food[index].cartInfo;
         cart_food_ID.push(cart_food[index]._id);
         var carts_Arr = [];
         var carts_Num = [];
         carts.forEach(function(item) {
-            console.log('get_foodProducts4');
             carts_Arr.push({
                 '_id': item._id
             });
@@ -189,9 +199,7 @@ var makeFoodCartJsonAndSendToFront2 = function(cart_food, res) {
             }
         });
     }
-    console.log('get_foodProducts1');
     var index = 0;
     getCartFood(cart_food, index);
-    console.log('get_foodProducts2');
 }
 module.exports = router;

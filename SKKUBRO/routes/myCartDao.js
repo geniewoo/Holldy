@@ -10,13 +10,22 @@ exports.getMyCart = function(local_ID, type, next) {
         'locao_ID': 0,
         'cartType': 0
     }, function(error, data) {
-        console.log(data);
         next(data);
+    });
+}
+exports.deleteMyCart = function(cart_food_ID, session, type, next){
+    console.log(cart_food_ID, type, session.localLogin.local_ID);
+    db.myCart.remove({'_id' :  mongojs.ObjectId(cart_food_ID), 'cartType' : type, 'local_ID' : session.localLogin.local_ID}, function(error, data){
+        console.log('error', error, 'data', data);
+        if(error){
+            next(false);
+        }else{
+            next(true);
+        }
     });
 }
 
 exports.insertMyCart = function(insert_info, type, session, next) {
-    console.log('insertMyCartttttttttttttttttttttttttttttttttttt', session);
     var insertJson = [];
     insert_info.forEach(function(item){
         insertJson.push({
@@ -26,12 +35,9 @@ exports.insertMyCart = function(insert_info, type, session, next) {
         });
     });
     db.myCart.insert(insertJson, function(error, data) {
-        console.log('error', error, data);
         if (error) {
-            console.log('false');
             next(false);
         } else {
-            console.log('true');
             next(true);
         }
     });

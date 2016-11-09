@@ -34,22 +34,21 @@ var makeBusTable = function() {
 }
 var makeFoodTable = function() {
     $.get('/myCart/get_foodProducts', function(result) { //ajax에서 장바구니 가져오기
-        console.log(result);
         $food_check = $('#food_check');
         $cart_food = $('#cart_food');
         if (result.code === 1 || result.code === 2) { //나중에 2면 다른 코드사용 예정.
-            console.log(result.code);
             var cart_food_Arr = JSON.parse(result.cart_food_Arr); //식품정보
             var cart_food_Num = JSON.parse(result.cart_food_Num); //장바구니 개수
-            console.log(cart_food_Arr);
+            var cart_food_ID; //로그인 상태이면 db에 저장된 _id
+            if (result.code === 2) {
+                var cart_food_ID = JSON.parse(result.cart_food_ID);
+            }
             if (cart_food_Arr.length > 0) {
-                console.log(cart_food_Arr.length);
                 $food_check.on('click', function() { //식품 옆에 있는 큰버튼 눌렀을 때
-                    console.log('click trigger');
                     makeFoodTableBody($food_check, cart_food_Arr, cart_food_Num); //테이블 tbody만듬
-                    connectFoodCartCheckBox();
+                    connectFoodCartCheckBox(cart_food_ID);
                 });
-                $food_check.prop('checked', false);// 뒤로 버튼을 누른다던가 하는 경우를 대비하여 무조건 이 페이지에 오면 처음 누른상태로 만들어주기 위함.
+                $food_check.prop('checked', false); // 뒤로 버튼을 누른다던가 하는 경우를 대비하여 무조건 이 페이지에 오면 처음 누른상태로 만들어주기 위함.
                 $food_check.trigger('click'); //큰버튼 한번 눌러준다.
             } else {
                 var tableHTML = makeNoCartString();
@@ -57,7 +56,6 @@ var makeFoodTable = function() {
                 $food_check.attr('disabled', true);
             }
         } else {
-            console.log(result.code);
             var tableHTML = makeNoCartString();
             $cart_food.html(tableHTML);
             $food_check.attr('disabled', true);
@@ -88,7 +86,6 @@ var makeFoodTableBody = function($food_check, cart_food_Arr, cart_food_Num) {
             tableHTML += '</tr>';
         });
         $cart_food.html(tableHTML);
-        console.log('1');
     } else {
         tableHTML += '<tr>';
         tableHTML += '<td colspan="3">';
@@ -99,12 +96,11 @@ var makeFoodTableBody = function($food_check, cart_food_Arr, cart_food_Num) {
     }
 }
 
-var connectFoodCartCheckBox = function() {
+var connectFoodCartCheckBox = function(cart_food_ID) {
     $nowChecked = $('#food_cart_checkbox_1')
     $nowChecked.attr('checked', true);
     $('input:checkbox[name="food_cart"]').each(function(index) {
         $(this).on('click', function() {
-            console.log(this, $nowChecked);
             $nowChecked.prop('checked', false);
             $(this).prop('checked', true);
             $nowChecked = $(this);
@@ -115,12 +111,20 @@ var connectFoodCartCheckBox = function() {
     $('a[name="food_cart"]').each(function(index) {
         $(this).on('click', function(event) {
             event.preventDefault();
-            $.get('/myCart/get_changeFoodCart?index=' + $(this).attr('index'), function(result) {
-                console.log(result.code);
-                if (result.code === 1) {
-                    window.location.reload(true);
-                }
-            });
+            //여기 바꿀 곳.
+            if (cart_food_ID) {
+                $.get('/myCart/get_changeFoodCart?cart_food_ID=' + cart_food_ID[$(this).attr('index') - 1], function(result) {
+                    if (result.code === 1) {
+                        window.location.reload(true);
+                    }
+                });
+            } else {
+                $.get('/myCart/get_changeFoodCart?index=' + $(this).attr('index'), function(result) {
+                    if (result.code === 1) {
+                        window.location.reload(true);
+                    }
+                });
+            }
         });
     });
 }
@@ -144,18 +148,15 @@ var makeNoCartString = function() {
 }
 var connectOrder = function() {
     $('#order_btn').on('click', function(event) {
-        console.log('order_btn');
         event.preventDefault();
         var food_index = $('input:checkbox[name="food_cart"]:checked').attr('index');
         if (food_index) {
-            console.log('gg', food_index);
             //var pension_index = $('input:checkbox[name="pension_cart"]:checked').attr('index');
             //var bus_index = $('input:checkbox[name="bus_cart"]:checked').attr('index');
             $.post('/order/post_tempSave', {
                 type: 1,
                 "food_index": food_index
             }, function(result) {
-                console.log('result', result);
                 if (result.code === 1) {
                     window.location.href = "/order";
                 } else {
