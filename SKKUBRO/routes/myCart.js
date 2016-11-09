@@ -38,17 +38,31 @@ router.post('/post_foodProducts', function(req, res, next) {
             }
         } else {
             console.log('here~');
-            myCartDao.insertMyCart([JSON.parse(req.body.cart_product)], 'food', req.session, function(result) {
-                if (result) {
-                    res.json({
-                        'code': 1
-                    });
-                } else {
-                    res.json({
-                        'code': 0
-                    });
-                }
-            });
+            if (req.body.cart_food_ID) { //수정하는 경우
+                myCartDao.updateMyCart([JSON.parse(req.body.cart_product)], 'food', req.session, req.body.cart_food_ID, function(result) {
+                    if (result) {
+                        res.json({
+                            'code': 1
+                        });
+                    } else {
+                        res.json({
+                            'code': 0
+                        });
+                    }
+                });
+            } else {
+                myCartDao.insertMyCart([JSON.parse(req.body.cart_product)], 'food', req.session, function(result) {
+                    if (result) {
+                        res.json({
+                            'code': 1
+                        });
+                    } else {
+                        res.json({
+                            'code': 0
+                        });
+                    }
+                });
+            }
         }
     });
 });
@@ -106,12 +120,12 @@ router.get('/get_changeFoodCart', function(req, res, next) {
         } else {
             var cart_food_ID = req.query.cart_food_ID;
             console.log('cart_food_ID', cart_food_ID);
-            myCartDao.deleteMyCart(cart_food_ID, req.session, 'food', function(result){
-                if(result){
+            myCartDao.deleteMyCart(cart_food_ID, req.session, 'food', function(result) {
+                if (result) {
                     res.json({
                         'code': 1
                     });
-                }else{
+                } else {
                     res.json({
                         'code': 0,
                         'err_msg': 'index is longer than cart'

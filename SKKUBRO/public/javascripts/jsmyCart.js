@@ -47,6 +47,7 @@ var makeFoodTable = function() {
                 $food_check.on('click', function() { //식품 옆에 있는 큰버튼 눌렀을 때
                     makeFoodTableBody($food_check, cart_food_Arr, cart_food_Num); //테이블 tbody만듬
                     connectFoodCartCheckBox(cart_food_ID);
+                    connectFoodCartToSelectedLink(cart_food_ID);
                 });
                 $food_check.prop('checked', false); // 뒤로 버튼을 누른다던가 하는 경우를 대비하여 무조건 이 페이지에 오면 처음 누른상태로 만들어주기 위함.
                 $food_check.trigger('click'); //큰버튼 한번 눌러준다.
@@ -75,10 +76,11 @@ var makeFoodTableBody = function($food_check, cart_food_Arr, cart_food_Num) {
             tableHTML += '<tr>';
             tableHTML += '<td class="cart_table_check">';
             tableHTML += '<input type="checkbox" name="food_cart" id="food_cart_checkbox_' + (index1 + 1) + '" index="' + (index1 + 1) + '"/>';
+            tableHTML += '<label for="food_cart_checkbox_'  + (index1 + 1) + '"> </label>';
             tableHTML += '<a name="food_cart" href="#" index="' + (index1 + 1) + '"></a>';
             tableHTML += '</td>';
             tableHTML += '<td class="cart_table_name">';
-            tableHTML += '<a href="/food/selected?cart=true&index=' + (index1 + 1) + '">' + aCartName + '</a>';
+            tableHTML += '<a name="foodCartToSelected" href="/food/selected?cart=true&index=' + (index1 + 1) + '">' + aCartName + '</a>';
             tableHTML += '</td>';
             tableHTML += '<td class="cart_table_price">';
             tableHTML += '<p id="food_cart_price_' + (index1 + 1) + '">' + String(aCartPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</p>' + '<p>원</p>';
@@ -94,6 +96,19 @@ var makeFoodTableBody = function($food_check, cart_food_Arr, cart_food_Num) {
         tableHTML += '</tr>';
         $cart_food.html(tableHTML);
     }
+}
+
+var connectFoodCartToSelectedLink = function(cart_food_ID){
+    $('a[name="foodCartToSelected"]').each(function(index){
+        $(this).on('click', function(event){
+            event.preventDefault();
+            if(cart_food_ID){
+                window.location.href = "/food/selected?cart=true&login=true&cart_food_ID=" + cart_food_ID[index + 1];
+            }else{
+                window.location.href = "/food/selected?cart=true&login=false&index=" + (index + 1);
+            }
+        })
+    });
 }
 
 var connectFoodCartCheckBox = function(cart_food_ID) {

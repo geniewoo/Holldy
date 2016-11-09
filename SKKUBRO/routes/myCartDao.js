@@ -42,3 +42,7 @@ exports.insertMyCart = function(insert_info, type, session, next) {
         }
     });
 }
+
+exports.updateMyCart = function(insert_info, type, session, cart_food_ID, next){
+    var insert
+}
