@@ -2,6 +2,8 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 var productsDao = require('./productsDao.js');
+var myCartDao = require('./myCartDao.js');
+var session = require('./session.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,9 +15,17 @@ router.get('/', function(req, res, next) {
 router.get('/get_food_selected', function(req, res, next) {
     if (req.session.food_selected || req.query.cart) {
         var food_selected;
-        if (req.query.cart === 'true') {
+        if (req.query.cart === 'true') {//비로그인 상태
             food_selected = req.cookies.cart_food[req.query.index - 1];
-        } else {
+        } else if (req.query.cart_food_ID){//로그인 상태
+            session.loginStatus(req.session, function(result) {
+            if(result === 0){
+                food_selected = myCartDao.getMyCartOne();
+            }else{
+
+            }
+        }
+        }else{
             food_selected = JSON.parse(req.session.food_selected);
         }
         var food_selected_Arr = [];

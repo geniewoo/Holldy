@@ -24,7 +24,12 @@ exports.deleteMyCart = function(cart_food_ID, session, type, next){
         }
     });
 }
+exports.getMyCartOne = function(local_ID, type, cart_food_ID, next){
 
+}
+exports.updateMyCart = function(update_info, type, session, cart_food_ID, next){
+    
+}
 exports.insertMyCart = function(insert_info, type, session, next) {
     var insertJson = [];
     insert_info.forEach(function(item){
