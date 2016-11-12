@@ -64,9 +64,13 @@ var showStockTable = function($table_stock, option) {
     });
 }
 var connectInsertForm = function() {
-var $submit = $('#newProduct_Btn');
+    var $submit = $('#newProduct_Btn');
     $submit.on('click', function() {
         var _id = $('#newProduct_id').val();
+        if (_id === '') {
+            alert('_id값 필수');
+            return;
+        }
         var name = $('#newProduct_name').val();
         var price = $('#newProduct_price').val();
         var content = $('#newProduct_content').val();
@@ -89,10 +93,11 @@ var $submit = $('#newProduct_Btn');
         };
         console.log(newProduct);
         $.post('/admin12345abcde/stock/insert', {
-            'newProduct' : JSON.stringify(newProduct)
+            'newProduct': JSON.stringify(newProduct)
         }, function(result) {
             if (result.code === 1) {
                 console.log('success');
+                alert('입력 성공');
                 showStockTable($table_stock, []);
             }
         });

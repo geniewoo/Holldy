@@ -23,6 +23,8 @@ $(function(){
 				var today = new Date();
 				$('#datePicker1').val(date2String(new Date()));
 				setDatePicker2($('#datePicker1'),$('#datePicker2'));
+				setTravelCookie();
+
 			}
 
 			$('#datePicker1').on('change',function(){

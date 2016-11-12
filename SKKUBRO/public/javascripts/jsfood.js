@@ -18,8 +18,8 @@ $(function(){
 		$.get('travelCookies', function(data){//쿠키 있으면 가져옴
 			console.log(data);
 			result.products.forEach(function(item){
-				if(item.default && data.travelForm && data.travelForm.travelNum != 0){
-					item.num = (Number(data.travelForm.travelNum) + item.default - 1) / item.default;
+				if(item.default && data.travelForm && data.travelForm.travelNum != 0 && item.default != 0){
+					item.num = parseInt((Number(data.travelForm.travelNum) + (item.default - 1)) / item.default);
 					totalPriceArr.push(item);
 				}else{
 					item.num = 0;
@@ -281,7 +281,7 @@ var compare_id = function(id1, id2){	//비교해서 앞숫자가 크면 1, 작�
 	var id1_cat = Number(id1Sub[0]);
 	var id2Sub = id2.substring(3).split('-');
 	var id2_cat = Number(id2Sub[0]);
-	
+
 	if(id1_cat > id2_cat){
 		return 1;
 	}else if(id1_cat < id2_cat){
