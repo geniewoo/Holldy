@@ -13,12 +13,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/get_food_selected', function(req, res, next) {
+    console.log('디버깅', req.session.food_selected, req.query.cart);
     if (req.session.food_selected || req.query.cart) {
+        console.log('디버깅2');
         var food_selected;
-        if (req.query.cart === 'true') { //비로그인 상태
-            findSelectedAndSendToFront(req.cookies.cart_food[req.query.index - 1]);
-        } else if (req.query.cart_food_ID) { //로그인 상태
+        if (req.query.cart_food_ID) { //로그인 상태 db
+            console.log('디버그');
             session.loginStatus(req.session, function(result) {
+                console.log('디버그2', result);
                 if (result === 0) {
                     res.send({
                         'code': 0,
@@ -26,12 +28,17 @@ router.get('/get_food_selected', function(req, res, next) {
                     });
                 } else {
                     myCartDao.getMyCartOne('food', req.session, req.query.cart_food_ID, function(data) {
-                        findSelectedAndSendToFront(data.cartInfo, req.query.cart_food_ID);
+                        console.log('디버그1');
+                        findSelectedAndSendToFront(data.cartInfo, res, req.query.cart_food_ID);
                     });
                 }
             });
-        } else {
-            findSelectedAndSendToFront(JSON.parse(req.session.food_selected));
+
+        } else if (req.query.cart === 'true') { //비로그인 상태 cookie
+            console.log('디버깅3');
+            findSelectedAndSendToFront(req.cookies.cart_food[req.query.index - 1], res);
+        } else { //food -> selected
+            findSelectedAndSendToFront(JSON.parse(req.session.food_selected), res);
         }
     } else {
         res.json({
@@ -63,7 +70,7 @@ router.get('/get_products', function(req, res, next) {
         });
     });
 });
-var findSelectedAndSendToFront = function(food_selected, cart_food_ID) {
+var findSelectedAndSendToFront = function(food_selected, res, cart_food_ID) {
     var food_selected_Arr = [];
     var food_selected_Num = [];
     food_selected.forEach(function(item, index) {
@@ -72,6 +79,7 @@ var findSelectedAndSendToFront = function(food_selected, cart_food_ID) {
         });
         food_selected_Num.push(item.num);
     });
+    console.log("디버깅3", food_selected_Arr, food_selected_Num);
     productsDao.getProducts(food_selected_Arr, {
         category: 0,
         default: 0,
@@ -79,19 +87,19 @@ var findSelectedAndSendToFront = function(food_selected, cart_food_ID) {
     }, {
         _id: 1
     }, function(data) {
-        if(cart_food_ID){
-        res.json({
-            'code': 1,
-            'food_selected_Arr': JSON.stringify(data),
-            'food_selected_Num': JSON.stringify(food_selected_Num),
-            'cart_food_ID': cart_food_ID
-        });
-        }else{
-        res.json({
-            'code': 1,
-            'food_selected_Arr': JSON.stringify(data),
-            'food_selected_Num': JSON.stringify(food_selected_Num)
-        });
+        if (cart_food_ID) {
+            res.json({
+                'code': 1,
+                'food_selected_Arr': JSON.stringify(data),
+                'food_selected_Num': JSON.stringify(food_selected_Num),
+                'cart_food_ID': cart_food_ID
+            });
+        } else {
+            res.json({
+                'code': 1,
+                'food_selected_Arr': JSON.stringify(data),
+                'food_selected_Num': JSON.stringify(food_selected_Num),
+            });
         }
     });
 }

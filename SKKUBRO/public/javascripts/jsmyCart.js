@@ -103,7 +103,7 @@ var connectFoodCartToSelectedLink = function(cart_food_ID){
         $(this).on('click', function(event){
             event.preventDefault();
             if(cart_food_ID){
-                window.location.href = "/food/selected?cart=true&login=true&cart_food_ID=" + cart_food_ID[index + 1];
+                window.location.href = "/food/selected?cart=true&login=true&cart_food_ID=" + cart_food_ID[index];
             }else{
                 window.location.href = "/food/selected?cart=true&login=false&index=" + (index + 1);
             }

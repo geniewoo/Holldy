@@ -1,16 +1,19 @@
 $(function() {
     var url;
-    var type;
-    if ($.getUrlVar('cart') === 'true' && $.getUrlVar('login' === 'true')) {
+    var type;//1이면 비로그인 상태, session에서 가져오기, 2이면 로그인상태, db에서 가져오기 3이면 food-에서 넘어온 상태
+    if ($.getUrlVar('cart') === 'true' && $.getUrlVar('login') === 'true') {
         url = '/food/get_food_selected?cart=true&login=true&cart_food_ID=' + $.getUrlVar('cart_food_ID');
         type = 2;
+        console.log('??');
     } else if ($.getUrlVar('cart') === 'true' && $.getUrlVar('login' === 'false')) {
         url = '/food/get_food_selected?cart=true&login=false&index=' + $.getUrlVar('index');
         type = 1;
     } else {
         url = '/food/get_food_selected';
         type = 3;
+        console.log('???');
     }
+    console.log('type ', type);
     $.get(url, function(result) {
         $food_selected_table = $('#food_selected_table');
         $food_selected_total = $('#food_selected_total');

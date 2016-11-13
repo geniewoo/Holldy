@@ -37,7 +37,7 @@ router.post('/post_foodProducts', function(req, res, next) {
                 cartCookiePush(putInCookie);
             }
         } else {
-            console.log('here~');
+            console.log('here~', req.body.cart_food_ID);
             if (req.body.cart_food_ID) { //수정하는 경우
                 myCartDao.updateMyCart(JSON.parse(req.body.cart_product), 'food', req.session, req.body.cart_food_ID, function(result) {
                     if (result) {

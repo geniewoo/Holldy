@@ -24,7 +24,6 @@ exports.deleteMyCart = function(cart_food_ID, session, type, next) {
         'cartType': type,
         'local_ID': session.localLogin.local_ID
     }, function(error, data) {
-        console.log('error', error, 'data', data);
         if (error) {
             next(false);
         } else {
@@ -33,6 +32,7 @@ exports.deleteMyCart = function(cart_food_ID, session, type, next) {
     });
 }
 exports.getMyCartOne = function(type, session, cart_food_ID, next) {
+    console.log('디버그2');
     db.myCart.findOne({
         '_id': mongojs.ObjectId(cart_food_ID),
         'cartType': type,
@@ -41,6 +41,7 @@ exports.getMyCartOne = function(type, session, cart_food_ID, next) {
         'locao_ID': 0,
         'cartType': 0
     }, function(error, data) {
+        console.log('디버그3');
         if (error) {
             next(false);
         } else {
@@ -49,6 +50,7 @@ exports.getMyCartOne = function(type, session, cart_food_ID, next) {
     });
 }
 exports.updateMyCart = function(update_info, type, session, cart_food_ID, next) {
+    console.log("update", cart_food_ID);
     db.myCart.update({
         '_id': mongojs.ObjectId(cart_food_ID),
         'cartType': type,
