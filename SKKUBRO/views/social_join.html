@@ -17,9 +17,37 @@
     <div class="header_nav_container" id="header_nav_container"></div>
     <div class="join_container">
         <h1>아래 내용만 입력하면 회원가입이 완료됩니다.</h1>
-        <input type="text" id="join_name" />
-        <input type="text" id="join_phone" />
-        <input type="text" id="join_address" />
+        <input type="text" id="join_email" placeholder="이메일 주소"/>
+        <select id="join_phoneFirst" placeholder="휴대폰 번호">
+            <option value="010">010</option>
+            <!--option value="011">011</option>
+            <option value="016">016</option>
+            <option value="017">017</option>
+            <option value="018">018</option>
+            <option value="019">019</option>
+            <option value="02">02</option>
+            <option value="031">031</option>
+            <option value="032">032</option>
+            <option value="033">033</option>
+            <option value="041">041</option>
+            <option value="042">042</option>
+            <option value="043">043</option>
+            <option value="044">044</option>
+            <option value="051">051</option>
+            <option value="052">052</option>
+            <option value="053">053</option>
+            <option value="054">054</option>
+            <option value="055">055</option>
+            <option value="061">061</option>
+            <option value="062">062</option>
+            <option value="063">063</option>
+            <option value="064">064</option>
+            <option value="070">070</option-->
+        </select>
+        <input type="number" id="join_phoneMiddle" placeholder="0000"/>
+        <input type="number" id="join_phoneLast" placeholder="0000"/>
+        <input type="text" id="join_addressFirst" placeholder="시"/>
+        <input type="text" id="join_addressLast" placeholder="군, 구"/>
         <input type="button" style="cursor:pointer" id="join_btn" value="회원가입하기" />
         <input type="button" style="cursor:pointer" id="fb_logout" value="페이스북 로그아웃" />
     </div>

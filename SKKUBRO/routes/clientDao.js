@@ -15,7 +15,10 @@ exports.insertFBClient = function(insert_info, next) {
     db.clients.insert({
         '_id': insert_info.local_ID,
         'fb_ID': insert_info.fb_ID,
-        'name': insert_info.name
+        'name': insert_info.name,
+        'phoneNum': insert_info.phoneNum,
+        'email': insert_info.email,
+        'address': insert_info.address
     }, function(error, data) {
         console.log('error', error, data);
         if (error) {
