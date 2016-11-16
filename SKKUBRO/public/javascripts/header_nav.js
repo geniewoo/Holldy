@@ -9,14 +9,14 @@ $(function() {
         }
         switch ($header_nav_container.attr("clicked")) {
             case "pension":
-                $('.nav_pensionBtn').addClass('pension_background');
-                break;
+            $('.nav_pensionBtn').addClass('pension_background');
+            break;
             case "bus":
-                $('.nav_busBtn').addClass('bus_background');
-                break;
+            $('.nav_busBtn').addClass('bus_background');
+            break;
             case "food":
-                $('.nav_foodBtn').addClass('food_background');
-                break;
+            $('.nav_foodBtn').addClass('food_background');
+            break;
         }
 
         $(window).on('resize', function() {
@@ -104,7 +104,10 @@ function FB_Connect() {
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
             alreadyLogin($login_btn);
-        } else {
+        } else if(result.code === 2){
+            isLocalLogin = true;
+            alreadyLogin($login_btn);
+        }else {
             isLocalLogin = false;
             (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -114,6 +117,7 @@ function FB_Connect() {
                 js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
+            notLogin($login_btn);
         }
     });
 
@@ -124,7 +128,7 @@ function FB_Connect() {
             } else if (response.status === 'not_authorized') {
                 findIsThereLocal();
             } else {
-                notLogin($login_btn);
+                //notLogin($login_btn);
             }
         }
     }
@@ -158,9 +162,20 @@ var notLogin = function($login_btn) {
         event.preventDefault();
         $.get(this.href, function(html) {
             $(html).appendTo('body').modal();
+            $('#localLogin_btn').on('click', function(event){
+                event.preventDefault();
+                var id = $('#localLogin_id').val();
+                var password = $('#localLogin_password').val();
+                $.post('/login/post_localLogin', {id : id, password : password}, function(result){
+                    if(result.code === 1){
+                        location.reload(true);
+                    }else{
+                        alert('아이디 또는 비밀번호가 맞지 않습니다');
+                    }
+                });
+            });
             $('#fbLogin_btn').on('click', function(event) {
                 event.preventDefault();
-
                 FB.login(function(response) {
                     if (response.status === 'connected') {
                         findIsThereLocal();
@@ -187,7 +202,7 @@ var alreadyLogin = function($login_btn) {
                 FB.logout(function() {
                     location.reload(true);
                 });
-            } else if (result.code === 2) {
+            } else if (result.code === 2) {//자체로그인인 경우 code === 2
                 location.reload(true);
             }
         });

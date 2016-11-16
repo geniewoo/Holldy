@@ -38,7 +38,6 @@ $(function() {
                 phoneNum: join_phoneNum,
                 email: join_email,
                 address: join_address,
-                type: 1
             }, function(result) {
                 console.log('result', result);
                 if (result.code === 1) {
