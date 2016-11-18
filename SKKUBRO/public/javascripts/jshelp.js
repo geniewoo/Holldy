@@ -9,8 +9,8 @@ $(function() {
     var socket = io.connect();
     var roomName = '';
     socket.emit('help_request');
-    $chatTextArea.on('keydown', function(event){
-        if(event.keyCode == 13){
+    $chatTextArea.on('keydown', function(event) {
+        if (event.keyCode == 13) {
             $chatSendBtn.trigger('click');
         }
     });
@@ -31,8 +31,16 @@ $(function() {
     });
     socket.on('help_get_msg', function(data) {
         var msg = data.msg;
+        var text;
         var isClient = data.isClient;
-        var text = makeOthersText(msg, isClient);
+        if(msg.startsWith('close')){
+            text = makeOthersText(msg.substring(5), isClient);
+            $chatSendBtn.attr('disabled', 'disabled');
+            $chatTextArea.attr('disabled', 'disabled');
+            $chatContent.css('background-color', '#bbb');
+        }else{
+            text = makeOthersText(msg, isClient);
+        }
         $chatContent.append(text);
         $chatContent.scrollTop($chatContent.prop("scrollHeight"));
     });
@@ -55,6 +63,7 @@ var initHelpWindow = function($chatContent, $chatSendBtn, $chatTextArea) {
     $chatContent.html(text);
     $chatSendBtn.attr('disabled', 'disabled');
     $chatTextArea.attr('disabled', 'disabled');
+    $chatContent.css('background-color', '#bbb');
 }
 
 var resetHelpWindow = function($chatContent, $chatSendBtn, $chatTextArea) {
@@ -62,14 +71,15 @@ var resetHelpWindow = function($chatContent, $chatSendBtn, $chatTextArea) {
     $chatSendBtn.removeAttr('disabled');
     $chatTextArea.removeAttr('disabled');
     $chatContent.html(text);
+    $chatContent.css('background-color', '#fff');
 }
 
-var resizeWindow = function($chatContent, $chatForm, $chatSendBtn, $chatTextArea){
-    $(window).on('resize',function(){
+var resizeWindow = function($chatContent, $chatForm, $chatSendBtn, $chatTextArea) {
+    $(window).on('resize', function() {
         var height = $(window).innerHeight();
         var width = $(window).innerWidth();
-        $chatContent.height(height-120);
-        $('#chatTitle').css('padding-left', width/2 - 25);
+        $chatContent.height(height - 120);
+        $('#chatTitle').css('padding-left', width / 2 - 25);
         $('#chatTextArea').css('width', width - 75);
     });
     $(window).trigger('resize');

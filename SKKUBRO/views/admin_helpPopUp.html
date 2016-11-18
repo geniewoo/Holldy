@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-	<script src="/javascripts/admin_helpPopUp.js"></script>
+    <script src="/javascripts/admin_helpPopUp.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="/stylesheets/help.css" />
     <title></title>
@@ -12,11 +12,19 @@
 
 <body>
     <div>
-        <div class="chatTitle" id="chatTitle"><h3>admin</h3></div>
+        <div class="chatTitle" id="chatTitle">
+            <h3>admin</h3></div>
         <div class="chatContent" id="chatContent"></div>
         <div class="chatForm" id="chatForm">
             <textarea type="text" id="chatTextArea" placeholder="답변하기"></textarea>
             <input type="button" id="chatSendBtn" value="전송" />
+        </div>
+        <div class="mecro">
+            <a href="#" id="mecro1">관리자가 나갔습니다.</a>
+            <a href="#" id="mecro2">응답이 없어 끊겼습니다.</a>
+            <a href="#" id="mecro3">상담이 끝났습니다. 감사합니다.</a>
+            <a href="#" id="mecro4">??</a>
+            <a href="#" id="mecro5">??</a>
         </div>
     </div>
 </body>

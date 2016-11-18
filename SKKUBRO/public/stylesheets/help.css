@@ -4,14 +4,17 @@ body {
     min-width: 300px;
     overflow: hidden;
 }
-
 @font-face {
     font-family: JejuGothic;
     src: url("font/JejuGothic.eot");
     src: local(""), url("font/JejuGothic.woff") format("woff");
     src: local(""), url("font/JejuGothic.ttf")format("truetype");
 }
+div.mecro > a{
+    display: block;
+}
 p{
+	border: 1px solid #ccc;
 	padding: 8px 3px;
 	margin: 10px;
 	border-radius: 8px;
@@ -54,13 +57,11 @@ input{
 	border: 1px solid #bbb;
 }
 p.admin{
-	border: 1px solid #999;
 	text-align: left;
 	margin-right: 50px;
 	border-bottom-left-radius: 0;
 }
 p.client{
-	border: 1px solid #999;
 	text-align: right;
 	margin-left: 60px;
 	border-bottom-right-radius: 0;

@@ -31,6 +31,7 @@ $(function() {
                 $chatSendBtn.trigger('click');
             }
         });
+        connectMecros(socket, roomName);
     });
 });
 
@@ -45,14 +46,27 @@ var makeOthersText = function(msg, isClient) {
     text += '<p class="' + classStr + '">' + msg + '</p>';
     return text;
 }
-
 var resizeWindow = function($chatContent, $chatForm, $chatSendBtn, $chatTextArea){
     $(window).on('resize',function(){
         var height = $(window).innerHeight();
         var width = $(window).innerWidth();
-        $chatContent.height(height-120);
+        $chatContent.height(height-220);
         $('#chatTitle').css('padding-left', width/2 - 25);
         $('#chatTextArea').css('width', width - 75);
     });
     $(window).trigger('resize');
+}
+
+var connectMecros = function(socket, roomName){
+    $('div.mecro > a').each(function(index){
+        console.log($(this).text());
+        $(this).on('click', function(event){
+            event.preventDefault();
+            socket.emit('help_send_msg', {
+                'msg': 'close' + $(this).text(),
+                'roomName': roomName,
+                'isClient': false
+            });
+        });
+    });
 }
