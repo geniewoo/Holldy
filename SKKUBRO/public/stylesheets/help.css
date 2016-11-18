@@ -1,0 +1,67 @@
+body {
+    margin: 0;
+    font: 14px JejuGothic, "Lucida Grande", Helvetica, Arial, sans-serif;
+    min-width: 300px;
+    overflow: hidden;
+}
+
+@font-face {
+    font-family: JejuGothic;
+    src: url("font/JejuGothic.eot");
+    src: local(""), url("font/JejuGothic.woff") format("woff");
+    src: local(""), url("font/JejuGothic.ttf")format("truetype");
+}
+p{
+	padding: 8px 3px;
+	margin: 10px;
+	border-radius: 8px;
+}
+div.chatTitle{
+	text-align: center;
+	padding: 5px 0;
+}
+div.chatTitle > h3{
+	margin: 0;
+	height: 20px;
+	width: 40px;
+	padding: 15px 5px;
+	background-color: #000;
+	color: #fff;
+	border-radius: 25px;
+}
+div.chatContent{
+	overflow-y: scroll;
+	box-sizing: border-box;
+	border: 1px solid #bbb;
+}
+div.chatForm{
+	height: 54px;
+	padding: 3px;
+}
+textarea{
+	padding: 0;
+    box-sizing: border-box;
+	height: 54px;
+	vertical-align: top;
+}
+input{
+	width: 60px;
+	height: 54px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	background-color: #fff;
+	border: 1px solid #bbb;
+}
+p.admin{
+	border: 1px solid #999;
+	text-align: left;
+	margin-right: 50px;
+	border-bottom-left-radius: 0;
+}
+p.client{
+	border: 1px solid #999;
+	text-align: right;
+	margin-left: 60px;
+	border-bottom-right-radius: 0;
+}

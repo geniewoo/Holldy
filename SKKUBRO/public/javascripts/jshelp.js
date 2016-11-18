@@ -2,12 +2,14 @@ $(function() {
     $chatContent = $('#chatContent');
     $chatTextArea = $('#chatTextArea');
     $chatSendBtn = $('#chatSendBtn');
+    $chatForm = $('#chatForm');
+    resizeWindow($chatContent, $chatForm, $chatSendBtn, $chatTextArea);
+
     initHelpWindow($chatContent, $chatSendBtn, $chatTextArea);
     var socket = io.connect();
     var roomName = '';
     socket.emit('help_request');
     $chatTextArea.on('keydown', function(event){
-        console.log('event');
         if(event.keyCode == 13){
             $chatSendBtn.trigger('click');
         }
@@ -32,6 +34,7 @@ $(function() {
         var isClient = data.isClient;
         var text = makeOthersText(msg, isClient);
         $chatContent.append(text);
+        $chatContent.scrollTop($chatContent.prop("scrollHeight"));
     });
 });
 
@@ -48,15 +51,26 @@ var makeOthersText = function(msg, isClient) {
 }
 
 var initHelpWindow = function($chatContent, $chatSendBtn, $chatTextArea) {
-    var text = '<p class="noAdmin">죄송합니다 관리자가 현재 접속해 있지 않습니다.</p>';
+    var text = '<p class="admin">죄송합니다 관리자가 현재 접속해 있지 않습니다.</p>';
     $chatContent.html(text);
     $chatSendBtn.attr('disabled', 'disabled');
     $chatTextArea.attr('disabled', 'disabled');
 }
 
 var resetHelpWindow = function($chatContent, $chatSendBtn, $chatTextArea) {
-    var text = '<p class="noAdmin">관리자가 실시간 답변이 가능합니다.</p>';
+    var text = '<p class="admin">관리자가 실시간 답변이 가능합니다.</p>';
     $chatSendBtn.removeAttr('disabled');
     $chatTextArea.removeAttr('disabled');
     $chatContent.html(text);
+}
+
+var resizeWindow = function($chatContent, $chatForm, $chatSendBtn, $chatTextArea){
+    $(window).on('resize',function(){
+        var height = $(window).innerHeight();
+        var width = $(window).innerWidth();
+        $chatContent.height(height-120);
+        $('#chatTitle').css('padding-left', width/2 - 25);
+        $('#chatTextArea').css('width', width - 75);
+    });
+    $(window).trigger('resize');
 }

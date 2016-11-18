@@ -2,6 +2,8 @@ $(function() {
     $chatContent = $('#chatContent');
     $chatTextArea = $('#chatTextArea');
     $chatSendBtn = $('#chatSendBtn');
+    $chatForm = $('#chatForm');
+    resizeWindow($chatContent, $chatForm, $chatSendBtn, $chatTextArea);
 
     $.get('/admin12345abcde/get_help_clineID', function(data) {
         var roomName = data.clientID;
@@ -21,6 +23,7 @@ $(function() {
             var isClient = data.isClient;
             var text = makeOthersText(msg, isClient);
             $chatContent.append(text);
+            $chatContent.scrollTop($chatContent.prop("scrollHeight"));
         });
         $chatTextArea.on('keydown', function(event){
             console.log('event');
@@ -41,4 +44,15 @@ var makeOthersText = function(msg, isClient) {
     }
     text += '<p class="' + classStr + '">' + msg + '</p>';
     return text;
+}
+
+var resizeWindow = function($chatContent, $chatForm, $chatSendBtn, $chatTextArea){
+    $(window).on('resize',function(){
+        var height = $(window).innerHeight();
+        var width = $(window).innerWidth();
+        $chatContent.height(height-120);
+        $('#chatTitle').css('padding-left', width/2 - 25);
+        $('#chatTextArea').css('width', width - 75);
+    });
+    $(window).trigger('resize');
 }
