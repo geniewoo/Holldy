@@ -7,7 +7,6 @@ exports.findAClient = function(value, exfieldJson, next) {
         if(error){
             next(false);
         }else{
-            console.log('로그인정보', data);
             next(data);
         }
     });
@@ -23,12 +22,9 @@ exports.insertFBClient = function(insert_info, next) {
         'email': insert_info.email,
         'address': insert_info.address
     }, function(error, data) {
-        console.log('error', error, data);
         if (error) {
-            console.log('false');
             next(false);
         } else {
-            console.log('true');
             next(true);
         }
     });
@@ -42,12 +38,9 @@ exports.insertLocalClient = function(insert_info, next){
         'email': insert_info.email,
         'address': insert_info.address
     }, function(error, data) {
-        console.log('error', error, data);
         if (error) {
-            console.log('false');
             next(false);
         } else {
-            console.log('true');
             next(true);
         }
     });

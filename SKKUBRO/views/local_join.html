@@ -4,10 +4,12 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="/javascripts/header_nav.js"></script>
     <script src="/javascripts/jquery.modal.js"></script>
     <script src="/javascripts/tail_table.js"></script>
     <script src="/javascripts/local_join.js"></script>
+    <link rel="stylesheet" href="/stylesheets/join.css" />
     <link rel="stylesheet" href="/stylesheets/jquery.modal.css" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <title></title>
@@ -17,12 +19,19 @@
     <div class="header_nav_container" id="header_nav_container"></div>
     <div class="join_container">
         <h1>회원가입에는 최소한의 정보만 요구됩니다.</h1>
-        <input type="text" id="join_id" placeholder="ID"/>
-        <input type="password" id="join_password" placeholder="비밀번호"/>
-        <input type="password" id="join_passwordConfirm" placeholder="비밀번호확인"/>
-        <input type="text" id="join_name" placeholder="이름"/>
-        <input type="text" id="join_email" placeholder="이메일 주소"/>
-        <select id="join_phoneFirst" placeholder="휴대폰 번호">
+        <p class="join_text" id="join_id_text"></p>
+        <input type="text" id="join_id" style="display:block" placeholder="ID" />
+        <p class="join_text" id="join_password_text"></p>
+        <input type="password" id="join_password" style="display:block" placeholder="비밀번호" />
+        <p class="join_text" id="join_passwordConfirm_text"></p>
+        <input type="password" id="join_passwordConfirm" style="display:block" placeholder="비밀번호확인" />
+        <p class="join_text" id="join_name_text"></p>
+        <input type="text" id="join_name" style="display:block" placeholder="이름" />
+        <p class="join_text" id="join_email_text"></p>
+        <input type="text" id="join_email" style="display:block" placeholder="이메일 주소" />
+        <div>
+            <p class="join_text" id="join_phone_text"></p>
+            <select id="join_phoneFirst" placeholder="휴대폰 번호">
             <option value="010">010</option>
             <!--option value="011">011</option>
             <option value="016">016</option>
@@ -47,11 +56,16 @@
             <option value="063">063</option>
             <option value="064">064</option>
             <option value="070">070</option-->
-        </select>
-        <input type="number" id="join_phoneMiddle" placeholder="0000"/>
-        <input type="number" id="join_phoneLast" placeholder="0000"/>
-        <input type="text" id="join_addressFirst" placeholder="시"/>
-        <input type="text" id="join_addressLast" placeholder="군, 구"/>
+            </select>
+            <input type="number" id="join_phoneMiddle" placeholder="1234" />
+            <input type="number" id="join_phoneLast" placeholder="5678" />
+        </div>
+        <div>
+            <p class="join_text" id="join_address_text"></p>
+            <input type="text" id="join_addressFirst" placeholder="시" />
+            <input type="text" id="join_addressLast" placeholder="군, 구" />
+        </div>
+        <div class="g-recaptcha" data-sitekey="6LcChgwUAAAAAKs6mXoe_-gfrifO_T5f2KBGIT5j"></div>
         <input type="button" style="cursor:pointer" id="join_btn" value="회원가입하기" />
     </div>
     <div id="tail_table_container" class="tail_table_container"></div>

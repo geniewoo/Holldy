@@ -1,0 +1,27 @@
+div.join_container input {
+    margin-bottom: 20px;
+    border: 1px solid #bbb;
+}
+
+div.join_container>div>select {
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    height: 25px;
+}
+
+
+div.join_container input:hover, div.join_container input:focus {
+    border: 1px solid #feb;
+}
+div.join_container p.join_text{
+    height: 10px;
+    margin: 0;
+    font-size: 8px;
+}
+div.join_container p.correct{
+    color: #0b0;
+}
+div.join_container p.incorrect{
+    color: #b00;
+}

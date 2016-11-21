@@ -9,14 +9,14 @@ $(function() {
         }
         switch ($header_nav_container.attr("clicked")) {
             case "pension":
-            $('.nav_pensionBtn').addClass('pension_background');
-            break;
+                $('.nav_pensionBtn').addClass('pension_background');
+                break;
             case "bus":
-            $('.nav_busBtn').addClass('bus_background');
-            break;
+                $('.nav_busBtn').addClass('bus_background');
+                break;
             case "food":
-            $('.nav_foodBtn').addClass('food_background');
-            break;
+                $('.nav_foodBtn').addClass('food_background');
+                break;
         }
 
         $(window).on('resize', function() {
@@ -87,14 +87,15 @@ function FB_Connect() {
         });
 
         FB.getLoginStatus(function(response) {
+            console.log('callback');
             statusChangeCallback(response);
         });
     };
 
     $login_btn = $('#header_login');
     $.get('/login/get_loginStatus', function(result) {
-        if (result.code === 1) {
-            isLocalLogin = true;
+        if (result.code === 1) { //fb로그인
+            console.log('fb');
             (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
                 if (d.getElementById(id)) return;
@@ -104,10 +105,14 @@ function FB_Connect() {
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
             alreadyLogin($login_btn);
-        } else if(result.code === 2){
+        } else if (result.code === 2) { //자체로그인
+            console.log('자체');
             isLocalLogin = true;
+            if (window.location.href.includes('/login/social_join') || window.location.href.includes('/login/local_join')) {
+                window.location.href = '/main';
+            }
             alreadyLogin($login_btn);
-        }else {
+        } else {
             isLocalLogin = false;
             (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -122,12 +127,17 @@ function FB_Connect() {
     });
 
     function statusChangeCallback(response) {
+        console.log('status');
         if (!isLocalLogin) {
             if (response.status === 'connected') {
-                findIsThereLocal();
+                console.log('connected');
+                findIsThereLocal(false);
             } else if (response.status === 'not_authorized') {
-                findIsThereLocal();
+                console.log('not_authorized');
+                findIsThereLocal(false);
             } else {
+
+                console.log('notlogin?');
                 //notLogin($login_btn);
             }
         }
@@ -136,6 +146,89 @@ function FB_Connect() {
     function checkLoginState() {
         FB.getLoginStatus(function(response) {
             //statusChangeCallback(response);
+        });
+    }
+    var notLogin = function($login_btn) {
+        $login_btn.text('login');
+        $login_btn.click(function(event) {
+            event.preventDefault();
+            $.get(this.href, function(html) {
+                $(html).appendTo('body').modal();
+                $('#localLogin_btn').on('click', function(event) {
+                    event.preventDefault();
+                    var id = $('#localLogin_id').val();
+                    var password = $('#localLogin_password').val();
+                    $.post('/login/post_localLogin', {
+                        id: id,
+                        password: password
+                    }, function(result) {
+                        if (result.code === 1) {
+                            location.reload(true);
+                        } else {
+                            alert('아이디 또는 비밀번호가 맞지 않습니다');
+                        }
+                    });
+                });
+                $('#fbLogin_btn').on('click', function(event) {
+                    event.preventDefault();
+                    FB.login(function(response) {
+                        if (response.status === 'connected') {
+                            findIsThereLocal(true);
+                        } else if (response.status === 'not_authorized') {
+                            findIsThereLocal(true);
+                            // 페이스북에는 로그인 되어있으나, 앱에는 로그인 되어있지 않다.
+                        } else {
+                            // 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
+                        }
+                    }, {
+                        scope: 'email, public_profile',
+                        return_scopes: true
+                    });
+                });
+            });
+        });
+    }
+
+    var findIsThereLocal = function(isLoginBtn) {
+        console.log('find');
+        FB.api('/me', function(response) {
+            $.post('/login/post_checkLocal', {
+                fb_ID: response.id,
+                name: response.name
+            }, function(result) {
+                if (result.code === 1) {
+                    //회원가입 안해두 됨.
+                    if (window.location.href.includes('/login/social_join') || window.location.href.includes('/login/local_join')) {
+                        window.location.href = '/main';
+                    } else {
+                        alreadyLogin();
+                        if (isLoginBtn) {
+                            location.reload(true);
+                        }
+                    }
+                } else if (result.code === 2) {
+                    isLocalLogin = true;
+                    console.log('????');
+                    if (!window.location.href.includes('/login/social_join')) {
+                        window.location.replace('/login/social_join');
+                    }
+                }
+            });
+        });
+    }
+    var alreadyLogin = function() {
+        $login_btn.text('logout');
+        $login_btn.on('click', function(event) {
+            event.preventDefault();
+            $.get('/login/get_localLogout', function(result) {
+                if (result.code === 1) { //fblogin 인 경우 code === 1
+                    FB.logout(function() {
+                        location.reload(true);
+                    });
+                } else if (result.code === 2) { //자체로그인인 경우 code === 2
+                    location.reload(true);
+                }
+            });
         });
     }
 }
@@ -156,75 +249,7 @@ var checkIsOverSize768 = function() {
     }
 }
 
-var notLogin = function($login_btn) {
-    $login_btn.text('login');
-    $login_btn.click(function(event) {
-        event.preventDefault();
-        $.get(this.href, function(html) {
-            $(html).appendTo('body').modal();
-            $('#localLogin_btn').on('click', function(event){
-                event.preventDefault();
-                var id = $('#localLogin_id').val();
-                var password = $('#localLogin_password').val();
-                $.post('/login/post_localLogin', {id : id, password : password}, function(result){
-                    if(result.code === 1){
-                        location.reload(true);
-                    }else{
-                        alert('아이디 또는 비밀번호가 맞지 않습니다');
-                    }
-                });
-            });
-            $('#fbLogin_btn').on('click', function(event) {
-                event.preventDefault();
-                FB.login(function(response) {
-                    if (response.status === 'connected') {
-                        findIsThereLocal();
-                    } else if (response.status === 'not_authorized') {
-                        findIsThereLocal();
-                        // 페이스북에는 로그인 되어있으나, 앱에는 로그인 되어있지 않다.
-                    } else {
-                        // 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
-                    }
-                }, {
-                    scope: 'email, public_profile',
-                    return_scopes: true
-                });
-            });
-        });
-    });
-}
-var alreadyLogin = function($login_btn) {
-    $login_btn.text('logout');
-    $login_btn.on('click', function(event) {
-        event.preventDefault();
-        $.get('/login/get_localLogout', function(result) {
-            if (result.code === 1) { //fblogin 인 경우 code === 1
-                FB.logout(function() {
-                    location.reload(true);
-                });
-            } else if (result.code === 2) {//자체로그인인 경우 code === 2
-                location.reload(true);
-            }
-        });
-    });
-}
-var findIsThereLocal = function() {
-    FB.api('/me', function(response) {
-        $.post('/login/post_checkLocal', {
-            fb_ID: response.id,
-            name: response.name
-        }, function(result) {
-            if (result.code === 1) {
-                location.reload(true);
-                //회원가입 안해두 됨.
-            } else if (result.code === 2) {
-                if (!window.location.href.includes('/login/social_join')) {
-                    window.location.replace('/login/social_join');
-                }
-            }
-        });
-    });
-}
+
 
 /*
 var makeParam = function(date1, date2, number){
