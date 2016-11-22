@@ -14,7 +14,7 @@ var showStockTable = function($table_stock, option) {
             stockProducts.forEach(function(item, index) {
                 text += '<tr>';
                 text += '   <th>';
-                text += '       <input type="checkbox" index="' + (index + 1) + '"/>';
+                text += '       <a href="#" type="checkbox" name="stock" index="' + (index + 1) + '">선택</a>';
                 text += '   </th>';
                 text += '   <th>';
                 text += '       <p>' + item._id + '</p>';
@@ -49,6 +49,21 @@ var showStockTable = function($table_stock, option) {
                 text += '</tr>';
             });
             $table_stock.html(text);
+            $('a[name="stock"]').each(function(){
+                $(this).on('click', function(event){
+                    event.preventDefault();
+                    var index = $(this).attr('index') - 1;
+                    $('#newProduct_id').val(stockProducts[index]._id);
+                    $('#newProduct_name').val(stockProducts[index].name);
+                    $('#newProduct_price').val(stockProducts[index].price);
+                    $('#newProduct_content').val(stockProducts[index].content);
+                    $('#newProduct_unit').val(stockProducts[index].unit);
+                    $('#newProduct_url').val(stockProducts[index].url);
+                    $('#newProduct_category').val(stockProducts[index].category);
+                    $('#newProduct_default').val(stockProducts[index].default);
+                    $('#newProduct_info').val(stockProducts[index].info);
+                });
+            });
             $('a[name="delete"]').each(function() {
                 $(this).on('click', function(event) {
                     event.preventDefault();

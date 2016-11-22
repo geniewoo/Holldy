@@ -199,7 +199,6 @@ $(function() {
                 data: {
                     join_phone: join_phoneFirst + join_phoneMiddle + join_phoneLast
                 },
-                async: false,
                 success: function(result) {
                     if (result.code === 0) {
                         $('#join_phoneMiddle').focus();
@@ -235,7 +234,6 @@ $(function() {
                                 email: join_email,
                                 address: join_address,
                             },
-                            async: false,
                             success: function(result) {
                                 if (result.code === 1) { //회원가입 성공
                                     window.location.replace('/main');

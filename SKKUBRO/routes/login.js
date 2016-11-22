@@ -300,35 +300,53 @@ router.post('/post_social_join', function(req, res, next) { //social_join에서 
             });
             return;
         }
-        clientDao.insertFBClient({
-            'fb_ID': fb_ID,
-            'local_ID': local_ID,
-            'name': name,
-            'phoneNum': phoneNum,
-            'email': email,
-            'address': address
-        }, function(result) {
+        clientDao.findAClient({
+            $or: [{
+                'fb_ID': fb_ID
+            }, {
+                'phoneNum': phoneNum
+            }, {
+                "email": email
+            }]
+        }, {}, function(result) {
             if (result) {
-                cookieCartToDB(function(next) {
-                    req.session.localLogin = {
-                        type: 'fb',
-                        fb_ID: req.body.fb_ID,
-                        local_ID: local_ID,
-                        name: name
-                    };
-                    next();
-                }, req, res, function() {
-                    res.json({
-                        code: 1
-                    });
-                });
-            } else {
                 res.json({
                     code: 0,
-                    err_msg: '회원 추가에 실패했습니다.'
+                    msg: "이메일, 번호 중복이 있습니다"
+                });
+            } else {
+                clientDao.insertFBClient({
+                    'fb_ID': fb_ID,
+                    'local_ID': local_ID,
+                    'name': name,
+                    'phoneNum': phoneNum,
+                    'email': email,
+                    'address': address
+                }, function(result) {
+                    if (result) {
+                        cookieCartToDB(function(next) {
+                            req.session.localLogin = {
+                                type: 'fb',
+                                fb_ID: req.body.fb_ID,
+                                local_ID: local_ID,
+                                name: name
+                            };
+                            next();
+                        }, req, res, function() {
+                            res.json({
+                                code: 1
+                            });
+                        });
+                    } else {
+                        res.json({
+                            code: 0,
+                            err_msg: '회원 추가에 실패했습니다.'
+                        });
+                    }
                 });
             }
         });
+
     });
 });
 

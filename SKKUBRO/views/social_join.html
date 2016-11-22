@@ -8,6 +8,7 @@
     <script src="/javascripts/jquery.modal.js"></script>
     <script src="/javascripts/tail_table.js"></script>
     <script src="/javascripts/social_join.js"></script>
+    <link rel="stylesheet" href="/stylesheets/join.css" />
     <link rel="stylesheet" href="/stylesheets/jquery.modal.css" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <title></title>
@@ -17,8 +18,11 @@
     <div class="header_nav_container" id="header_nav_container"></div>
     <div class="join_container">
         <h1>아래 내용만 입력하면 회원가입이 완료됩니다.</h1>
-        <input type="text" id="join_email" placeholder="이메일 주소"/>
-        <select id="join_phoneFirst" placeholder="휴대폰 번호">
+        <p class="join_text" id="join_email_text"></p>
+        <input type="text" id="join_email" placeholder="이메일 주소" />
+        <div>
+            <p class="join_text" id="join_phone_text"></p>
+            <select id="join_phoneFirst" placeholder="휴대폰 번호">
             <option value="010">010</option>
             <!--option value="011">011</option>
             <option value="016">016</option>
@@ -43,11 +47,15 @@
             <option value="063">063</option>
             <option value="064">064</option>
             <option value="070">070</option-->
-        </select>
-        <input type="number" id="join_phoneMiddle" placeholder="0000"/>
-        <input type="number" id="join_phoneLast" placeholder="0000"/>
-        <input type="text" id="join_addressFirst" placeholder="시"/>
-        <input type="text" id="join_addressLast" placeholder="군, 구"/>
+            </select>
+            <input type="number" id="join_phoneMiddle" placeholder="0000" />
+            <input type="number" id="join_phoneLast" placeholder="0000" />
+        </div>
+        <div>
+            <p class="join_text" id="join_address_text"></p>
+            <input type="text" id="join_addressFirst" placeholder="시" />
+            <input type="text" id="join_addressLast" placeholder="군, 구" />
+        </div>
         <input type="button" style="cursor:pointer" id="join_btn" value="회원가입하기" />
         <input type="button" style="cursor:pointer" id="fb_logout" value="페이스북 로그아웃" />
     </div>
