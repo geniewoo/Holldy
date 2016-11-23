@@ -40,12 +40,3 @@ div.main_sub_img_container>a {
         height: 300px;
     }
 }
-
-
-
-@media(min-width: 1200px) {
-    div.main_container {
-        margin: 0 auto;
-        width: 1200px;
-    }
-}

@@ -149,3 +149,9 @@ div.header_nav_container {
 div.main_container {
     width: 100%;
 }
+@media(min-width: 1200px) {
+    div.main_container {
+        margin: 0 auto;
+        width: 1200px;
+    }
+}

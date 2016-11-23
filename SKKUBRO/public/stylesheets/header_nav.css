@@ -111,13 +111,18 @@ div.header_nav>div.header_nav_right>lu.mobile {
 div.login p{
     margin: 0;
 }
-div.login > a.modal_a > p > img {
-    margin: 3px;
-    display: block;
-    height: 24px;
-    width: 24px;
+div.login > a.modal_a > img {
+    margin: 4px;
     display: inline-block;
-    vertical-align: bottom;
+    height: 26px;
+    width: 26px;
+    display: inline-block;
+    vertical-align: middle;
+}
+div.login > a.modal_a > p {
+    display: inline-block;
+    color: #fff;
+    margin: 0 10px;
 }
 div.login > a.modal_a{
     display: block;
@@ -127,13 +132,15 @@ div.login > p{
     text-align: right;
 }
 div.login > p, div.login > a.modal_a {
-    height: 30px;
+    height: 14px;
+    padding: 10px 0;
     border: 1.5px solid #ddd;
     margin: 20px 5px;
     border-radius: 5px;
 }
 div.login > p > input{
-    width: 80%;
+    width: 90%;
+    height: 30px;
     border-left: 1.5px solid #ddd;
     border-right-width: 0;
     border-top-width: 0;
@@ -142,8 +149,21 @@ div.login > p > input{
     border-bottom-right-radius: 5px;
     height: inherit;
     padding: 0;
+    text-align: center
 }
-
+div.login > a.fbBtn{
+    padding: 0;
+    height: 34px;
+    vertical-align: top;
+}
+div.login > div.find > a{
+    padding: 3px 0;
+    font-size: 12px;
+    display: inline-block;
+    width: 29%;
+    text-align: center;
+    margin: 0 10%;
+}
 @media(min-width: 500px) {
     div.header_nav>div.header_nav_right>lu.mobile {
         right: 100%;
