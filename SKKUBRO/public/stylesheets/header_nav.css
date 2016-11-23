@@ -1,0 +1,38 @@
+.fb_color{
+    background-color: #36a;
+}
+div.login p{
+    margin: 0;
+}
+div.login > a.modal_a > p > img {
+    margin: 3px;
+    display: block;
+    height: 24px;
+    width: 24px;
+    display: inline-block;
+    vertical-align: bottom;
+}
+div.login > a.modal_a{
+    display: block;
+    text-align: center;
+}
+div.login > p{
+    text-align: right;
+}
+div.login > p, div.login > a.modal_a {
+    height: 30px;
+    border: 1.5px solid #ddd;
+    margin: 20px 5px;
+    border-radius: 5px;
+}
+div.login > p > input{
+    width: 80%;
+    border-left: 1.5px solid #ddd;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    height: inherit;
+    padding: 0;
+}

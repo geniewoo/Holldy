@@ -66,19 +66,10 @@ input[type="checkbox"]:checked+label:before {
 }
 
 input {
-    border-width: 3px;
+    border-width: 1px;
     outline: none;
-    border-radius: 5px;
     border-color: transparent;
     height: 25px;
-}
-
-input:hover {
-    border: 3px solid #feb;
-}
-
-input:focus {
-    border: 3px solid #feb;
 }
 
 li {
@@ -107,7 +98,9 @@ table td, table th {
 table tr:first-child th {
     border-top: 0;
 }
-
+input:-webkit-autofill {
+   -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+}
 table tr:last-child td {
     border-bottom: 0;
 }
@@ -118,33 +111,6 @@ table tr td:first-child, table tr th:first-child {
 
 table tr td:last-child, table tr th:last-child {
     border-right: 0;
-}
-
-div.login>a {
-    margin-top: 3px;
-    display: inline-block;
-    height: 30px;
-    background-color: #36a;
-}
-
-div.login>a>img {
-    margin: 3px;
-    display: block;
-    height: 24px;
-    width: 24px;
-    display: inline-block;
-    vertical-align: bottom;
-}
-
-div.login>input {
-    width: 32%;
-}
-
-div.login>a>p {
-    margin: 3px;
-    color: #fff;
-    font-size: 24px;
-    display: inline-block;
 }
 
 div.cart_charge>a {
