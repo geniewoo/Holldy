@@ -19,9 +19,11 @@ div.join_container>input{
     width: 100%;
 }
 div.join_container>input[type="button"]{
-    margin-top: 20px;
     background-color: #000;
     color: #fff;
+}
+div.join_container>input.afterRecaptcha{
+    margin-top: 20px;
 }
 div.join_container>div.form_phone > input{
     width: 40%;
