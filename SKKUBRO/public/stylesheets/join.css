@@ -4,10 +4,12 @@ div.join_container{
 }
 div.join_container > h1{
     font-size: 16px;
+    margin-top: 20px;
+    text-align: center;
 }
 div.join_container input, div.join_container select{
     box-sizing: border-box;
-    border: 1.5px solid #ddd;
+    border: 1.5px solid #bbb;
     text-align: center;
     margin-bottom: 20px;
     border-radius: 5px;
@@ -15,6 +17,11 @@ div.join_container input, div.join_container select{
 }
 div.join_container>input{
     width: 100%;
+}
+div.join_container>input[type="button"]{
+    margin-top: 20px;
+    background-color: #000;
+    color: #fff;
 }
 div.join_container>div.form_phone > input{
     width: 40%;
@@ -27,24 +34,28 @@ div.join_container>div.form_phone> p.devine{
     display: inline-block;
     font-size: 14px;
     text-align: center;
-    color: #ddd;
+    color: #bbb;
 }
 div.join_container>div.form_phone > select{
     width: 12%;
 }
 div.join_container>div.form_address>input{
-    width: 48%;
-    margin: 0 auto;
+    width: 40%;
+    margin-left: 4%;
+}
+div.join_container>div.form_address>p.info{
+    width: 12%;
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    color: #999;
 }
 div.join_container>div.form_address{
     margin-bottom: 20px;
     font-size: 0;
 }
-#join_addressFirst{
-    margin-right: 4%;
-}
 div.join_container input:hover, div.join_container input:focus {
-    border: 1px solid #feb;
+    border: 1.5px solid #fda;
 }
 div.join_container p.join_text{
     height: 10px;
