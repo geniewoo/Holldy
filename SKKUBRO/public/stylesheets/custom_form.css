@@ -1,0 +1,94 @@
+form.imp_custom_form>div.travelDate_container {
+    margin: 0 5%;
+}
+
+form.imp_custom_form div.travelNum_container {
+    margin: 0 5%;
+}
+
+form.imp_custom_form>div.travelDate_container>p, form.imp_custom_form div.travelNum_container>p {
+    margin: 0;
+    color: #fff;
+}
+
+
+/*form.imp_custom_form div.travelNum_container > div.travelNum_col > input.travelNum_btn{
+	padding: 0;
+	text-align: center;
+	font-size: 15px;
+	width: 100%;
+}
+form.imp_custom_form div.travelNum_container > div.travelNum_col > p{
+	margin : 5px 0;
+	text-align: center;
+	color: #fff;
+}
+form.imp_custom_form div.travelNum_container > div.travelNum_col{
+display: inline-block;
+margin: 5px 3%;
+width: 20%;
+}*/
+
+form.imp_custom_form div.travelNum_container>div>input.travelNum_input {
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+    width: 43%;
+}
+
+form.imp_custom_form>div.travelNum_container>div>p.travelNum_aft {
+    height: 25px;
+    display: inline-block;
+    padding: 0;
+    width: 15%;
+    text-align: center;
+    bottom: 25px;
+    font: 18px JejuGothic;
+    color: #fff;
+}
+
+form.imp_custom_form {
+    padding: 10px 0;
+    background-color: #444;
+    position: relative;
+    z-index: 2;
+}
+
+form.imp_custom_form>div.travelDate_container>input.travelDate {
+    margin: 10px 0;
+    display: inline-block;
+    width: 43%;
+    font: 14px JejuGothic;
+    text-align: center;
+}
+
+@media(min-width: 500px) {
+    form.imp_custom_form>div.travelDate_container {
+        width: 45%;
+        margin: 0 2.5%;
+        display: inline-block;
+        float: left
+    }
+    form.imp_custom_form>div.travelNum_container {
+        width: 45%;
+        margin: 0 2.5%;
+        display: inline-block;
+    }
+}
+
+@media(min-width: 768px) {
+    form.imp_custom_form>div.travelDate_container {
+        width: 45%;
+        margin: 0 2.5%;
+    }
+    form.imp_custom_form>div.travelNum_container {
+        width: 45%;
+        display: inline-block;
+    }
+    form.imp_custom_form>div.travelDate_container>input.travelDate {
+        width: 140px;
+    }
+    form.imp_custom_form div.travelNum_container>div>input.travelNum_input {
+        width: 140px;
+    }
+}

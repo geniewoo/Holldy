@@ -1,0 +1,132 @@
+
+div.food_selected_del {
+    color: #357;
+    margin-left: 5%;
+    padding: 5px 0;
+}
+
+div.food_selected_del>a {
+    color: #456;
+}
+
+table.selected_table>tfoot>tr>td {
+    padding: 5px 0;
+}
+
+table.selected_table>tfoot>tr>td>p {
+    width: 50%;
+    display: inline-block;
+    color: #d00;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+}
+
+table.selected_table>tfoot>tr>td>a {
+    display: inline-block;
+    width: 50%;
+    font-size: 18px;
+    text-align: center;
+}
+
+table.skb_table {
+    margin-left: 2%;
+    margin-bottom: 10px;
+    width: 96%;
+}
+
+table.selected_table>tbody>tr>td {
+    font-size: 12px
+}
+
+table.selected_table>tbody>tr>td.selected_table_check {
+    width: 10px;
+}
+
+table.selected_table>tbody>tr>td.selected_table_img>a {
+    display: block;
+    width: 70px;
+    height: 70px;
+}
+
+table.selected_table>tbody>tr>td.selected_table_img {
+    width: 70px;
+}
+
+table.selected_table>tbody>tr>td.selected_table_name {
+    width: 45%;
+}
+
+table.selected_table>tbody>tr>td.selected_table_info {
+    width: 15%;
+    min-width: 55px;
+}
+
+table.selected_table>tbody>tr>td.selected_table_total {
+    width: 15%;
+    min-width: 55px;
+}
+
+table.selected_table>tbody>tr>td.selected_table_num, table.selected_table>tbody>tr>td.selected_table_num>* {
+    text-align: center;
+    width: 35px;
+}
+
+table.selected_table>tbody>tr>td.selected_table_num>input {
+    margin: 0 auto;
+    display: block;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 3px solid #ccf;
+}
+
+table.selected_table>tbody>tr>td.selected_table_num>a {
+    margin: 3px auto;
+    font-size: 18px;
+    display: block;
+}
+
+div.food_selected_title>h1 {
+    display: inline-block;
+    padding: 0 20px;
+    color: #000;
+    font-size: 20px;
+}
+
+div.food_selected_title>p {
+    display: inline-block;
+    color: #000;
+    font-size: 12px;
+}
+
+@media(min-width: 500px) {
+    table.selected_table>tbody>tr>td.selected_table_name {
+        padding-left: 2%;
+    }
+    table.selected_table>tbody>tr>td.selected_table_info {
+        padding-left: 2%;
+    }
+    table.selected_table>tbody>tr>td.selected_table_total {
+        padding-left: 2%;
+    }
+    table.selected_table>tbody>tr>td {
+        font-size: 14px
+    }
+    table.skb_table {
+        margin-left: 5%;
+        margin-bottom: 10px;
+        width: 90%;
+    }
+    table.selected_table>tbody>tr>td.selected_table_img {}
+    table.selected_table>tbody>tr>td.selected_table_img>a {
+        margin: 0 auto;
+        width: 90px;
+        height: 90px;
+    }
+    div.food_selected_title>h1 {
+        font-size: 30px;
+    }
+    div.food_selected_title>p {
+        font-size: 14px;
+    }
+}

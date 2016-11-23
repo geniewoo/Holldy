@@ -1,0 +1,103 @@
+div.myCart_title>h1 {
+    display: inline-block;
+    padding: 0 20px;
+    color: #000;
+    font-size: 20px;
+}
+
+div.myCart_title>p {
+    display: inline-block;
+    color: #000;
+    font-size: 12px;
+}
+
+div.cart_charge>a {
+    margin-left: 10%;
+    font-size: 25px;
+    padding: 10px;
+    display: inline-block;
+    border: solid 2px #aaa;
+    border-radius: 10px;
+}
+
+div.cart_charge>p {
+    float: right;
+    display: inline-block;
+    margin-right: 10%;
+}
+
+div.cart_charge {
+    margin: 10px 0;
+}
+table>tbody>tr>td.cart_table_check {
+    width: 40px;
+}
+
+table>tbody>tr>td.cart_table_name {
+    font-size: 11px;
+}
+
+table>tbody>tr>td.cart_table_price>p {
+    display: inline-block;
+}
+
+table>tbody>tr>td.cart_table_price {
+    font-size: 11px;
+    width: 80px;
+}
+
+table>tbody>tr>td.cart_table_check>a {
+    display: block;
+    width: 23px;
+    height: 23px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-image: url(../images/delete.png);
+}
+
+div.cart_container>div>div>input {
+    height: 40px;
+    width: 40px;
+    margin: 0;
+    border-radius: 0;
+    margin-left: 5px;
+}
+
+div.cart_container>div>div>h1 {
+    padding-left: 2%;
+    margin: 0;
+    float: left;
+    padding: 6px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+div.cart_container>div {
+    margin: 20px 0;
+}
+
+div.cart_container>div>div {
+    height: 40px;
+    margin: 5px 0;
+}
+
+@media(min-width: 500px) {
+    div.myCart_title>h1 {
+        font-size: 30px;
+    }
+    div.myCart_title>p {
+        font-size: 14px;
+    }
+    div.cart_container>div>div>h1 {
+        padding-left: 5%;
+    }
+    table>tbody>tr>td.cart_table_name {
+        font-size: 14px;
+    }
+    table>tbody>tr>td.cart_table_price {
+        font-size: 14px;
+        width: 100px;
+    }
+}

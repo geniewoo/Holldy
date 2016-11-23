@@ -1,0 +1,231 @@
+div.food_zoomed {
+	display: none;
+	position: fixed;
+	width: 100%;
+	border: 3px solid black;
+	background-color: #fff;
+}
+div.food_categories>ul {
+	display: inline;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+div.food_categories>ul>li {
+	width: 25%;
+	display: inline-block;
+}
+
+div.food_categories>ul>li>a.clicked {
+	background-color: #7d7;
+}
+
+div.food_categories>ul>li>a {
+	border: 1px solid #ddd;
+	padding-top: 12px;
+	text-align: center;
+	height: 24px;
+	display: block;
+	width: 100%;
+	color: #000;
+	font-size: 12px;
+}
+
+div.food_categories>ul>li>a:hover {
+	background-color: #7d7;
+}
+
+div.food_products>ul {
+	padding: 0;
+}
+
+div.food_products>ul>li {
+	width: 50%;
+	display: inline-block;
+}
+
+div.food_products>ul>li>div.food_products_img>a {
+	display: block;
+	padding-top: 100%;
+	width: 100%;
+	background-size: cover;
+	background-position: center center;
+}
+
+div.food_products>ul>li>div.food_products_info>div {
+	display: inline-block;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_res {
+	margin-left: 50%;
+	width: 25%;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_res>div>p.food_products_content {
+	margin-top: 15px;
+	margin-bottom: 0;
+	font-size: 12px;
+	color: #aaa;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_res>div>p.food_products_totalprice {
+	margin-top: 5px;
+	margin-bottom: 0;
+	font-size: 12px;
+	color: #aaa;
+}
+
+div.food_products>ul>li>div.food_products_info {
+	padding: 8px 10px;
+}
+
+div.food_products>ul>li>div.food_products_info>p.food_products_name {
+	margin: 10px 0;
+	font-size: 16px;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_res>div>p.food_products_price {
+	margin: 0;
+	font-weight: bold;
+	font-size: 16px;
+	display: inline;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_res>div>p.food_products_won {
+	margin: 0;
+	font-size: 11px;
+	display: inline;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_con {
+	width: 25%;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_con>a, div.food_products>ul>li>div.food_products_info>div.food_products_con>input {
+	width: 100%;
+	display: block;
+	text-align: center;
+	border-radius: 0;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_con>a.food_products_con_top {
+	padding-top: 2px;
+	padding-bottom: 3px;
+	background-color: #999;
+	color: #fff;
+	font-size: 12px;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_con>a.food_products_con_bot {
+	padding-bottom: 2px;
+	padding-top: 3px;
+	background-color: #999;
+	color: #fff;
+	font-size: 12px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+div.food_products>ul>li>div.food_products_info>div.food_products_con>input {
+	margin: 0 0;
+	padding: 3px 0;
+	box-shadow: inset 0px 0px 0px 2px #999;
+	border-width: 0;
+	height: 20px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+div.next_page_btn {
+    text-align: center;
+    padding: 0;
+}
+
+div.next_page_btn>a {
+    display: inline-block;
+    padding: 10px 0;
+    margin: 10px 5%;
+    height: 30px;
+    width: 200px;
+    font-size: 30px;
+    border-radius: 10px;
+    background-color: #eee;
+    color: #b00;
+}
+
+div.next_page_btn>a {
+    color: #00b;
+}
+
+
+div.total_price>p {
+    margin-left: 20px;
+    color: #777;
+    font-size: 18px;
+}
+div.subPage_container {
+    margin: 10px;
+    text-align: center;
+}
+
+div.subPage_container>a {
+    display: inline-block;
+    font-size: 18px;
+    color: #999;
+}
+
+div.subPage_container>a.clicked {
+    font-weight: bold;
+    display: inline-block;
+    color: #000;
+    pointer-events: none;
+}
+
+div.subPage_container>p {
+    margin: 0;
+    width: 30px;
+    display: inline-block;
+}
+@media(min-width: 500px) {
+	div.food_products>ul>li {
+		width: 240px;
+		display: inline-block;
+	}
+	div.food_products>ul {
+		width: 480px;
+		margin: 0px auto;
+	}
+}
+@media(min-width: 768px) {
+	div.food_zoomed {
+		display: none;
+		position: fixed;
+		width: 600px;
+	}
+    div.food_categories>ul>li {
+        width: 12.5%;
+    }
+}
+@media(min-width: 750px) {
+	div.food_products>ul {
+		width: 720px;
+	}
+}
+
+@media(min-width: 900px) {
+	div.food_products>ul {
+		width: 870px;
+	}
+	div.food_products>ul>li {
+		width: 290px;
+	}
+}
+
+@media(min-width: 1200px) {
+	div.food_products>ul {
+		width: 1160px;
+	}
+}
