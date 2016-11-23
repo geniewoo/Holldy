@@ -1,16 +1,48 @@
-div.join_container input {
+div.join_container{
+    width: 300px;
+    margin: 0px auto;
+}
+div.join_container > h1{
+    font-size: 16px;
+}
+div.join_container input, div.join_container select{
+    box-sizing: border-box;
+    border: 1.5px solid #ddd;
+    text-align: center;
     margin-bottom: 20px;
-    border: 1px solid #bbb;
-}
-
-div.join_container>div>select {
-    outline: none;
     border-radius: 5px;
-    border: 1px solid #bbb;
-    height: 25px;
+    height: 34px;
 }
-
-
+div.join_container>input{
+    width: 100%;
+}
+div.join_container>div.form_phone > input{
+    width: 40%;
+}
+div.join_container>div.form_phone{
+    font-size: 0;
+}
+div.join_container>div.form_phone> p.devine{
+    width: 4%;
+    display: inline-block;
+    font-size: 14px;
+    text-align: center;
+    color: #ddd;
+}
+div.join_container>div.form_phone > select{
+    width: 12%;
+}
+div.join_container>div.form_address>input{
+    width: 48%;
+    margin: 0 auto;
+}
+div.join_container>div.form_address{
+    margin-bottom: 20px;
+    font-size: 0;
+}
+#join_addressFirst{
+    margin-right: 4%;
+}
 div.join_container input:hover, div.join_container input:focus {
     border: 1px solid #feb;
 }
@@ -24,4 +56,19 @@ div.join_container p.correct{
 }
 div.join_container p.incorrect{
     color: #b00;
+}
+@media(min-width: 500px){
+    div.join_container{
+        width: 60%;
+        margin-left: 20%;
+    }
+}
+@media(min-width: 768px){
+    div.join_container{
+        width: 450px;
+        margin: 0px auto;
+    }
+    div.join_container > h1{
+        font-size: 20px;
+    }
 }

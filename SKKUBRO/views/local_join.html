@@ -31,11 +31,11 @@
             <input type="text" id="join_name" style="display:block" placeholder="이름" />
             <p class="join_text" id="join_email_text"></p>
             <input type="text" id="join_email" style="display:block" placeholder="이메일 주소" />
-            <div>
+            <div class="form_phone">
                 <p class="join_text" id="join_phone_text"></p>
                 <select id="join_phoneFirst" placeholder="휴대폰 번호">
-                    <!--option value="010">010</option>
-                    <option value="011">011</option>
+                    <option value="010">010</option>
+                    <!--option value="011">011</option>
                     <option value="016">016</option>
                     <option value="017">017</option>
                     <option value="018">018</option>
@@ -59,10 +59,12 @@
                     <option value="064">064</option>
                     <option value="070">070</option-->
                 </select>
+                <p class="devine">-</p>
                 <input type="number" id="join_phoneMiddle" placeholder="1234" />
+                <p class="devine">-</p>
                 <input type="number" id="join_phoneLast" placeholder="5678" />
             </div>
-            <div>
+            <div class="form_address">
                 <p class="join_text" id="join_address_text"></p>
                 <input type="text" id="join_addressFirst" placeholder="시" />
                 <input type="text" id="join_addressLast" placeholder="군, 구" />
