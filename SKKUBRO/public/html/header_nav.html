@@ -10,10 +10,19 @@
 	<div id="header_nav_right_btn" class="header_nav_right">
 		<a class="nav_btn" id="nav_btn" href="#"></a>
 		<lu class="header_nav_right_lu">
-			<li><a class="nav_list" href="/login/modal" id="header_login"></a></li>
+			<li><a class="js-open-modal" href="#" data-modal-id="loginModal" id="header_login"></a></li>
 			<li><a id="nav_helpBtn" class="nav_list" href="#">상담</a></li>
 			<li><a class="nav_list" href="/community">커뮤니티</a></li>
 			<li><a class="nav_list" href="/myCart">장바구니</a></li>
 		</lu>
 	</div>
+</div>
+<div id="loginModal" class="modal login modal-box">
+    <p>ID <input type="text" id="localLogin_id"></p>
+    <p>PW <input type="password" id="localLogin_password"></p>
+    <a class="modal_a" id="localLogin_btn" href="#">로그인</a>
+    <a class="modal_a" id="localJoin_btn" href="/login/local_join">회원가입</a>
+    <a class="modal_a fb_color fbBtn" id="fbLogin_btn" href="#">
+    <img src="../images/FB_btn.png" alt="" /><p>  페이스북 </p></a>
+    <div class="find"><a href="#">아이디 찾기</a> <a href="#">비밀번호 찾기</a></div>
 </div>

@@ -7,12 +7,6 @@ var session = require('./session.js');
 var async = require('async');
 var myCartDao = require('./myCartDao.js');
 var request = require('request');
-
-router.get('/modal', function(req, res, next) { //모달 띄울 html전달
-    fs.readFile('views/login.html', function(error, data) {
-        res.send(data.toString());
-    });
-});
 router.get('/get_loginStatus', function(req, res, next) { //현재 로그인 되어있는지 확인 header를 쓰는 매 페이지마다 호출됨.
     session.loginStatus(req.session, function(result) { //1은 페북 2는 로컬
         if (result === 1 || result === 2) {
