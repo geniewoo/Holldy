@@ -150,7 +150,10 @@ function FB_Connect() {
         });
     }
     var notLogin = function($login_btn) {
-        $login_btn.text('login');
+        $login_btn.text('로그인');
+        $('#myPage').on('click', function(){//로그인 먼저 해야하기때문에 로그인버트 트리거를 사용
+            $('a[data-modal-id]').trigger('click');
+        });
     }
 
     var findIsThereLocal = function(isLoginBtn) {
@@ -181,7 +184,7 @@ function FB_Connect() {
         });
     }
     var alreadyLogin = function() {
-        $login_btn.text('logout');
+        $login_btn.text('로그아웃');
         $login_btn.on('click', function(event) {
             event.preventDefault();
             $.get('/login/get_localLogout', function(result) {
@@ -194,6 +197,9 @@ function FB_Connect() {
                 }
             });
         });
+        $('#myPage').on('click', function(){
+            window.location.href = '/login/myPage';
+        }
     }
 }
 
@@ -242,6 +248,11 @@ var modal = function(){
 
     $(window).resize();
 
+    $('#localLogin_password').on('keydown', function(event){
+        if(event.keyCode == 13){
+            $('#localLogin_btn').trigger('click');
+        }
+    });
     $('#localLogin_btn').on('click', function(event) {
         event.preventDefault();
         var id = $('#localLogin_id').val();
@@ -274,6 +285,7 @@ var modal = function(){
             return_scopes: true
         });
     });
+    
 }
 /*
 var makeParam = function(date1, date2, number){

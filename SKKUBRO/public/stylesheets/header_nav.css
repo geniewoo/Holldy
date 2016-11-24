@@ -85,14 +85,14 @@ div.header_nav>div.header_nav_mid>a {
 }
 
 div.header_nav>div.header_nav_right>lu.mobile>li>a {
-    font-size: 18px;
+    font-size: 14px;
     margin: 13px 13px;
 }
 
 div.header_nav>div.header_nav_right>lu.mobile>li {
     width: 300px;
-    height: 18px;
-    padding: 16px 0;
+    height: 14px;
+    padding: 13px 0;
 }
 
 div.header_nav>div.header_nav_right>lu.mobile {
