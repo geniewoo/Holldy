@@ -9,14 +9,14 @@ $(function() {
         }
         switch ($header_nav_container.attr("clicked")) {
             case "pension":
-            $('.nav_pensionBtn').addClass('pension_background');
-            break;
+                $('.nav_pensionBtn').addClass('pension_background');
+                break;
             case "bus":
-            $('.nav_busBtn').addClass('bus_background');
-            break;
+                $('.nav_busBtn').addClass('bus_background');
+                break;
             case "food":
-            $('.nav_foodBtn').addClass('food_background');
-            break;
+                $('.nav_foodBtn').addClass('food_background');
+                break;
         }
 
         $(window).on('resize', function() {
@@ -153,48 +153,6 @@ function FB_Connect() {
         $login_btn.text('login');
     }
 
-    var findIsThereLocal = function(isLoginBtn) {
-        console.log('find');
-        FB.api('/me', function(response) {
-            $.post('/login/post_checkLocal', {
-                fb_ID: response.id,
-                name: response.name
-            }, function(result) {
-                if (result.code === 1) {
-                    //회원가입 안해두 됨.
-                    if (window.location.href.includes('/login/social_join') || window.location.href.includes('/login/local_join')) {
-                        window.location.href = '/main';
-                    } else {
-                        alreadyLogin();
-                        if (isLoginBtn) {
-                            location.reload(true);
-                        }
-                    }
-                } else if (result.code === 2) {
-                    isLocalLogin = true;
-                    console.log('????');
-                    if (!window.location.href.includes('/login/social_join')) {
-                        window.location.replace('/login/social_join');
-                    }
-                }
-            });
-        });
-    }
-    var alreadyLogin = function() {
-        $login_btn.text('logout');
-        $login_btn.on('click', function(event) {
-            event.preventDefault();
-            $.get('/login/get_localLogout', function(result) {
-                if (result.code === 1) { //fblogin 인 경우 code === 1
-                    FB.logout(function() {
-                        location.reload(true);
-                    });
-                } else if (result.code === 2) { //자체로그인인 경우 code === 2
-                    location.reload(true);
-                }
-            });
-        });
-    }
 }
 
 var checkIsOverSize1200 = function() {
@@ -213,11 +171,58 @@ var checkIsOverSize768 = function() {
     }
 }
 
-var modal = function(){
+function alreadyLogin() {
+    $login_btn.text('logout');
+    $login_btn.on('click', function(event) {
+        event.preventDefault();
+        $.get('/login/get_localLogout', function(result) {
+            if (result.code === 1) { //fblogin 인 경우 code === 1
+                FB.logout(function() {
+                    location.reload(true);
+                });
+            } else if (result.code === 2) { //자체로그인인 경우 code === 2
+                location.reload(true);
+            }
+        });
+    });
+}
+
+function findIsThereLocal(isLoginBtn) {
+    console.log('find');
+    FB.api('/me', function(response) {
+        $.post('/login/post_checkLocal', {
+            fb_ID: response.id,
+            name: response.name
+        }, function(result) {
+            if (result.code === 1) {
+                //회원가입 안해두 됨.
+                if (window.location.href.includes('/login/social_join') || window.location.href.includes('/login/local_join')) {
+                    window.location.href = '/main';
+                } else {
+                    alreadyLogin();
+                    if (isLoginBtn) {
+                        location.reload(true);
+                    }
+                }
+            } else if (result.code === 2) { //로그인 해야함
+                isLocalLogin = true;
+                console.log('????');
+                if (!window.location.href.includes('/login/social_join')) {
+                    window.location.replace('/login/social_join');
+                }
+            }
+        });
+    });
+}
+
+function modal() {
     console.log('modal');
-    var appendthis =  ("<div class='modal-overlay js-modal-close'></div>");
+    var appendthis = ("<div class='modal-overlay js-modal-close'></div>");
 
     $('a[data-modal-id]').click(function(e) {
+        if ($(this).text() === "logout") {
+            return;
+        }
         console.log('modal click');
         e.preventDefault();
         $("body").append(appendthis);
@@ -230,8 +235,8 @@ var modal = function(){
         $(".modal-overlay").fadeTo(500, 0.7);
         //$(".js-modalbox").fadeIn(500);
         var modalBox = $(this).attr('data-modal-id');
-        $('#'+modalBox).fadeIn($(this).data());
-    });  
+        $('#' + modalBox).fadeIn($(this).data());
+    });
 
     $(window).resize(function() {
         $(".modal-box").css({
@@ -260,6 +265,7 @@ var modal = function(){
     $('#fbLogin_btn').on('click', function(event) {
         event.preventDefault();
         FB.login(function(response) {
+            console.log(response.status);
             if (response.status === 'connected') {
                 findIsThereLocal(true);
             } else if (response.status === 'not_authorized') {
