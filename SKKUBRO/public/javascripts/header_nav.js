@@ -260,6 +260,7 @@ var modal = function(){
     $('#fbLogin_btn').on('click', function(event) {
         event.preventDefault();
         FB.login(function(response) {
+            console.log(response.status);
             if (response.status === 'connected') {
                 findIsThereLocal(true);
             } else if (response.status === 'not_authorized') {

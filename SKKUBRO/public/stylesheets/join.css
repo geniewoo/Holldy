@@ -26,7 +26,7 @@ div.join_container>input.afterRecaptcha{
     margin-top: 20px;
 }
 div.join_container>div.form_phone > input{
-    width: 40%;
+    width: 38%;
 }
 div.join_container>div.form_phone{
     font-size: 0;
@@ -39,14 +39,14 @@ div.join_container>div.form_phone> p.devine{
     color: #bbb;
 }
 div.join_container>div.form_phone > select{
-    width: 12%;
+    width: 16%;
 }
 div.join_container>div.form_address>input{
-    width: 40%;
+    width: 38%;
     margin-left: 4%;
 }
 div.join_container>div.form_address>p.info{
-    width: 12%;
+    width: 16%;
     display: inline-block;
     text-align: center;
     font-size: 14px;

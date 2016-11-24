@@ -344,6 +344,47 @@ router.post('/post_social_join', function(req, res, next) { //social_join에서 
     });
 });
 
+router.get('/findedID', function(req, res, next){
+    fs.readFile('views/findedID.html', function(error, data) {
+        res.send(data.toString());
+    });
+});
+router.get('/findID', function(req, res, next){
+    fs.readFile('views/findID.html', function(error, data) {
+        res.send(data.toString());
+    });
+});
+router.get('/isThereID', function(req, res, next){
+    var findVar = req.query.findVar;
+    if ((/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/).test(findVar)) {
+        clientDao.({email:findVar},{},function(){
+            if(data){
+                if(data.fb_ID){
+                    res.json({code:2, msg:"페이스북으로 회원가입 되어있습니다"});
+                }else{
+                    res.json({code:1, findID:data._id});
+                }
+            }
+        });
+    }else if((/^[0-9]{11}$/).test(findVar)){
+        clientDao.({phoneNum:findVar},{},function(){
+            if(data){
+                if(data.fb_ID){
+                    res.json({code:2, msg:"페이스북으로 회원가입 되어있습니다"});
+                }else{
+                    res.json({code:1, findID:data._id});
+                }
+            }
+        });
+    } else {
+        res.json({code:0, err_msg : "형식이 잘못되었습니다."});
+    }
+});
+router.get('/findPW', function(req, res, next){
+    fs.readFile('views/findPW.html', function(error, data) {
+        res.send(data.toString());
+    });
+});
 router.get('/get_notAbot', function(req, res, next) {
     var requestQuery = req.query;
     if (requestQuery != undefined && requestQuery != '' && requestQuery != null && requestQuery.response != undefined && requestQuery.response != '' && requestQuery.response != null) {
@@ -406,12 +447,12 @@ var cookieCartToDB = function(first, req, res, next) {
                 callback(null);
             }
         }
-    ], function(err) {
-        if (err) {
-            console('오류오류');
-        } else {
-            next();
-        }
-    });
+        ], function(err) {
+            if (err) {
+                console('오류오류');
+            } else {
+                next();
+            }
+        });
 }
 module.exports = router;
