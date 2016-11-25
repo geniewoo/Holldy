@@ -151,59 +151,12 @@ function FB_Connect() {
     }
     var notLogin = function($login_btn) {
         $login_btn.text('로그인');
-        $('#myPage').on('click', function(){//로그인 먼저 해야하기때문에 로그인버트 트리거를 사용
+        $('#myPage').on('click', function(event){//로그인 먼저 해야하기때문에 로그인버트 트리거를 사용
+            event.preventDefault();
             $('a[data-modal-id]').trigger('click');
         });
     }
 
-<<<<<<< HEAD
-    var findIsThereLocal = function(isLoginBtn) {
-        console.log('find');
-        FB.api('/me', function(response) {
-            $.post('/login/post_checkLocal', {
-                fb_ID: response.id,
-                name: response.name
-            }, function(result) {
-                if (result.code === 1) {
-                    //회원가입 안해두 됨.
-                    if (window.location.href.includes('/login/social_join') || window.location.href.includes('/login/local_join')) {
-                        window.location.href = '/main';
-                    } else {
-                        alreadyLogin();
-                        if (isLoginBtn) {
-                            location.reload(true);
-                        }
-                    }
-                } else if (result.code === 2) {
-                    isLocalLogin = true;
-                    console.log('????');
-                    if (!window.location.href.includes('/login/social_join')) {
-                        window.location.replace('/login/social_join');
-                    }
-                }
-            });
-        });
-    }
-    var alreadyLogin = function() {
-        $login_btn.text('로그아웃');
-        $login_btn.on('click', function(event) {
-            event.preventDefault();
-            $.get('/login/get_localLogout', function(result) {
-                if (result.code === 1) { //fblogin 인 경우 code === 1
-                    FB.logout(function() {
-                        location.reload(true);
-                    });
-                } else if (result.code === 2) { //자체로그인인 경우 code === 2
-                    location.reload(true);
-                }
-            });
-        });
-        $('#myPage').on('click', function(){
-            window.location.href = '/login/myPage';
-        }
-    }
-=======
->>>>>>> 75b602f4f180ac22bc6f1d0266f99b2d2afbb359
 }
 
 var checkIsOverSize1200 = function() {
@@ -223,7 +176,7 @@ var checkIsOverSize768 = function() {
 }
 
 function alreadyLogin() {
-    $login_btn.text('logout');
+    $login_btn.text('로그아웃');
     $login_btn.on('click', function(event) {
         event.preventDefault();
         $.get('/login/get_localLogout', function(result) {
@@ -236,8 +189,10 @@ function alreadyLogin() {
             }
         });
     });
+    $('#myPage').on('click', function(){
+        window.location.href = '/myPage';
+    });
 }
-
 function findIsThereLocal(isLoginBtn) {
     console.log('find');
     FB.api('/me', function(response) {
@@ -245,6 +200,7 @@ function findIsThereLocal(isLoginBtn) {
             fb_ID: response.id,
             name: response.name
         }, function(result) {
+            console.log('result.code', result.code);
             if (result.code === 1) {
                 //회원가입 안해두 됨.
                 if (window.location.href.includes('/login/social_join') || window.location.href.includes('/login/local_join')) {
@@ -271,7 +227,7 @@ function modal() {
     var appendthis = ("<div class='modal-overlay js-modal-close'></div>");
 
     $('a[data-modal-id]').click(function(e) {
-        if ($(this).text() === "logout") {
+        if ($(this).text() === "로그아웃") {
             return;
         }
         console.log('modal click');
@@ -335,7 +291,7 @@ function modal() {
             return_scopes: true
         });
     });
-    
+
 }
 /*
 var makeParam = function(date1, date2, number){

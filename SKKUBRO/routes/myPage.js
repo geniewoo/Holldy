@@ -3,8 +3,10 @@ var fs = require('fs');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    fs.readFile('views/myPage.html', function(error, data){
-       	res.send(data.toString());
+    console.log('myPage');
+    fs.readFile('views/myPage.html', function(error, data) {
+        console.log(data);
+        res.send(data.toString());
     });
 });
 module.exports = router;

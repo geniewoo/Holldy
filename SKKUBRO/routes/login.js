@@ -357,23 +357,28 @@ router.get('/findID', function(req, res, next){
 router.get('/isThereID', function(req, res, next){
     var findVar = req.query.findVar;
     if ((/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/).test(findVar)) {
-        clientDao.findAClient({email:findVar},{},function(){
+        clientDao.findAClient({email:findVar},{},function(data){
             if(data){
                 if(data.fb_ID){
                     res.json({code:2, msg:"페이스북으로 회원가입 되어있습니다"});
                 }else{
                     res.json({code:1, findID:data._id});
+                }
+                else{
+                    res.json({code:0, err_msg : "해당 정보가 없습니다."});
                 }
             }
         });
     }else if((/^[0-9]{11}$/).test(findVar)){
-        clientDao.findAClient({phoneNum:findVar},{},function(){
+        clientDao.findAClient({phoneNum:findVar},{},function(data){
             if(data){
                 if(data.fb_ID){
                     res.json({code:2, msg:"페이스북으로 회원가입 되어있습니다"});
                 }else{
                     res.json({code:1, findID:data._id});
                 }
+            }else{
+                res.json({code:0, err_msg : "해당 정보가 없습니다."});
             }
         });
     } else {
