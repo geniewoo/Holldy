@@ -7,7 +7,7 @@ div.find_container{
 	background-color: #dddddd;
 }
 div.findID > input[type='text']{
-	width: 50%;
+	width: 80%;
 }
 div.findID > input{
 	margin:0 auto;

@@ -8,7 +8,8 @@ $(function() {
 			$('#findID_text').text('이메일이나 휴대폰번호 형식이 옳지않습니다.').removeClass('correct').addClass('incorrect');
 		}
 	});
-	$('#findID_btn').on('click', function(){
+	$('#findID_btn').on('click', function(event){
+		event.preventDefault();
 		console.log('click');
 		if ((/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/).test($('#findID_input').val()) || (/^[0-9]{11}$/).test($('#findID_input').val())) {
 			$.get('/login/isThereID?findVar=' + $('#findID_input').val(), function(result){

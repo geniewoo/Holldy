@@ -1,0 +1,39 @@
+div.pensionInfo{
+	font-size: 0;
+}
+div.pensionInfo p.pension_subject{
+	font-size: 14px;
+	width: 17%;
+	text-align: center;
+	display: inline-block;
+	margin: 0;
+	vertical-align: top;
+	padding: 10px 0;
+}
+div.pensionInfo div.pension_subsection > input[type="checkbox"]+label.label1 {
+	padding: 10px 0;
+	font-size: 12px;
+	width: 30%;
+	padding-left: 3.33%;
+}
+div.pensionInfo div.pension_subsection > input[type="checkbox"]+label.label2 {
+	padding: 10px 0;
+	font-size: 12px;
+	width: 63.33%;
+	padding-left: 3.33%;
+}
+div.pensionInfo div.pension_subsection > input[type="checkbox"]+label:before {
+	width: 12px;
+	height: 12px;
+	line-height: 12px;
+	border: 1.5px solid black;
+}
+div.pensionInfo div.pension_subsection{
+	width: 83%;
+	display: inline-block;
+	background-color: #ddd;
+	padding-bottom: 20px;
+}
+div.pensionInfo{
+	margin: 10px 2%;
+}

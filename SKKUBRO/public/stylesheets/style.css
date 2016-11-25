@@ -44,15 +44,15 @@ input[type="checkbox"]+label:before {
     /* 가짜 체크박스 */
     content: ' ';
     display: inline-block;
-    width: 21px;
+    width: 20px;
     /* 체크박스의 너비를 지정 */
-    height: 21px;
+    height: 20px;
     /* 체크박스의 높이를 지정 */
-    line-height: 21px;
+    line-height: 20px;
     /* 세로정렬을 위해 높이값과 일치 */
     margin: -2px 8px 0 0;
     text-align: center;
-    vertical-align: middle;
+    vertical-align: bottom;
     border: 1px solid #cacece;
     border-radius: 3px;
 }
@@ -149,6 +149,9 @@ div.header_nav_container {
 
 div.main_container {
     width: 100%;
+}
+div.main_container > h1{
+    margin-left: 5%;
 }
 @media(min-width: 1200px) {
     div.main_container {
