@@ -364,9 +364,8 @@ router.get('/isThereID', function(req, res, next){
                 }else{
                     res.json({code:1, findID:data._id});
                 }
-                else{
-                    res.json({code:0, err_msg : "해당 정보가 없습니다."});
-                }
+            }else{
+                res.json({code:0, err_msg : "해당 정보가 없습니다."});
             }
         });
     }else if((/^[0-9]{11}$/).test(findVar)){

@@ -1,6 +1,10 @@
 $(function(){
 	var findID = $.getUrlVar('findID');
 	$('#findedID').text(findID);
+    $('#localLogin_btn').on('click',function(event){
+        event.preventDefault();
+        $('a[data-modal-id]').trigger('click');//header_nav에 있는 버튼 누르기 trigger
+    });
 });
 
 $.extend({

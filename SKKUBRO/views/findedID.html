@@ -14,11 +14,15 @@
 <body>
 	<div class="header_nav_container" id="header_nav_container" clicked="food"></div>
 	<div class="main_container">
-		<div class="findedID">
+		<div class="find_div">
 			<h1>아이디 찾기</h1>
-			<p>해당아이디는 <p id="findedID"></p> 입니다.</p>
-			<a href="/login/findPW">비밀번호 찾기</a>
-			<a class="modal_a" id="localLogin_btn" href="#">로그인</a>
+			<div class="find_container findedID">
+				<p>찾으시는 아이디는</p> <p id="findedID" class="findedID"></p><p> 입니다.</p>
+			</div>
+			<div class="action">
+				<a href="/login/findPW">비밀번호찾기</a>
+				<a class="modal_a" id="localLogin_btn" href="#">로그인</a>
+			</div>
 		</div>
 	</div>
 	<div id="tail_table_container" class="tail_table_container"></div>

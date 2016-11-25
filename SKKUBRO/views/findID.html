@@ -14,12 +14,16 @@
 <body>
 	<div class="header_nav_container" id="header_nav_container" clicked="food"></div>
 	<div class="main_container">
-		<div class="findID">
+		<div class="find_div">
 			<h1>아이디 찾기</h1>
-			<p>고객님 계정의 이메일을 입력하거나 휴대폰번호를 '-' 없이 입력해 주세요</p>
-			<p id="findID_text"></p>
-			<input type="text" id="findID_input">
-			<input type="button" id="findID_btn" style="cursor:pointer" value="아이디 찾기"/>
+			<div class="find_container findID">
+				<p>고객님 계정의 이메일이나 휴대폰번호를 '-' 없이 입력해 주세요</p>
+				<p id="findID_text" class="findID_text"></p>
+				<input type="text" id="findID_input">
+			</div>
+			<div class="action">
+			<a id="findID_btn" href="#">아이디 검색</a>
+			</div>
 		</div>
 	</div>
 	<div id="tail_table_container" class="tail_table_container"></div>
