@@ -4,8 +4,43 @@ var router = express.Router();
 var productsDao = require('./productsDao.js');
 var session = require('./session.js');
 var myCartDao = require('./myCartDao.js');
+var async = require('async');
 /* GET home page. */
-
+router.post('/post_pensionOptions', function(req, res, next){
+    session.loginStatus(req.session, function(result){
+        console.log('options1');
+        if(result === 0 ){//비로그인경우
+            console.log('options2');
+            var pensionOptions = JSON.parse(req.body.pensionOptions);
+            var cookies_cart_pension;
+            async.waterfall([
+                function(callback){
+                    if(req.cookies.cart_pension){
+                        cookies_cart_pension = req.cookies.cart_pension;
+                    }else{
+                        cookies_cart_pension = [];
+                    }
+                    callback(null);
+                },
+                function(callback){
+                    cookies_cart_pension.push(pensionOptions);
+                    callback(null);
+                },
+                function(callback){
+                    res.cookie('cart_pension', cookies_cart_pension);
+                    callback(null);
+                }],
+                function(err){
+                    if(err){
+                    }else{
+                        res.json({code:1});
+                    }
+                }
+                );
+        }
+        console.log('options3');
+    });
+});
 router.post('/post_foodProducts', function(req, res, next) {
     session.loginStatus(req.session, function(result) {
         if (result === 0) {
@@ -36,8 +71,7 @@ router.post('/post_foodProducts', function(req, res, next) {
                 }
                 cartCookiePush(putInCookie);
             }
-        } else {
-            console.log('here~', req.body.cart_food_ID);
+        } else if(result === 1 || result === 2){
             if (req.body.cart_food_ID) { //수정하는 경우
                 myCartDao.updateMyCart(JSON.parse(req.body.cart_product), 'food', req.session, req.body.cart_food_ID, function(result) {
                     if (result) {

@@ -457,6 +457,7 @@ var cookieCartToDB = function(first, req, res, next) {
             } else {
                 next();
             }
-        });
+        }
+        );
 }
 module.exports = router;
