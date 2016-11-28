@@ -1,9 +1,9 @@
 $(function() {
     $('#join_id').on('focus keyup change', function() {
         if (!(/^[0-9a-zA-Z]{8,15}$/).test($('#join_id').val())) {
-            $('#join_id_text').text('영대소문자, 숫자로 8~15자 이어야 합니다.').removeClass('correct').addClass('incorrect');
+            $('#join_id_text').text('영대소문자, 숫자로 8~15자 이어야 합니다').removeClass('correct').addClass('incorrect');
         } else if ((/^[0-9]{8,15}$/).test($('#join_id').val())) {
-            $('#join_id_text').text('영문자를 포함해야 합니다.').removeClass('correct').addClass('incorrect');
+            $('#join_id_text').text('영문자를 포함해야 합니다').removeClass('correct').addClass('incorrect');
         } else {
             $.post('/login/post_duplicateID', {
                 join_id: $('#join_id').val()
@@ -20,7 +20,7 @@ $(function() {
         if (!(/^[0-9a-zA-Z!@#$%^&*()_-]{8,15}$/).test($('#join_password').val())) {
             $('#join_password_text').text('영대소문자, 숫자를 포함해야하고 특수기호"!@#$%^&*()_-"를 사용 할 수 있으며 8~15자 이어야 합니다.').removeClass('correct').addClass('incorrect');
         } else if ((/^[a-zA-Z]{8,15}$/).test(join_password) || !(/[0-9]/).test($('#join_password').val())) {
-            $('#join_password_text').text('숫자와 영문자를 반드시 포함해야 합니다.').removeClass('correct').addClass('incorrect');
+            $('#join_password_text').text('숫자와 영문자를 반드시 포함해야 합니다').removeClass('correct').addClass('incorrect');
         } else {
             $('#join_password_text').text('사용가능합니다').removeClass('incorrect').addClass('correct');
         }
@@ -41,7 +41,7 @@ $(function() {
     });
     $('#join_email').on('focus keyup change', function() {
         if (!(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/).test($('#join_email').val())) {
-            $('#join_email_text').text('이메일 형식이 옳지않습니다.').removeClass('correct').addClass('incorrect');
+            $('#join_email_text').text('이메일 형식이 옳지않습니다').removeClass('correct').addClass('incorrect');
         } else {
             $.post('/login/post_duplicateEmail', {
                 join_email: $('#join_email').val()

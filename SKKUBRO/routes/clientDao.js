@@ -4,9 +4,9 @@ var db = mongojs('SKKUBRO', ['clients']);
 /* GET home page. */
 exports.findAClient = function(value, exfieldJson, next) {
     db.clients.findOne(value, exfieldJson, function(error, data) {
-        if(error){
+        if (error) {
             next(false);
-        }else{
+        } else {
             next(data);
         }
     });
@@ -29,7 +29,7 @@ exports.insertFBClient = function(insert_info, next) {
         }
     });
 }
-exports.insertLocalClient = function(insert_info, next){
+exports.insertLocalClient = function(insert_info, next) {
     db.clients.insert({
         '_id': insert_info.local_ID,
         'hPassword': insert_info.local_password,
@@ -38,6 +38,21 @@ exports.insertLocalClient = function(insert_info, next){
         'email': insert_info.email,
         'address': insert_info.address
     }, function(error, data) {
+        if (error) {
+            next(false);
+        } else {
+            next(true);
+        }
+    });
+}
+exports.updateClient = function(find_info, update_info, next) {
+    console.log('1123', find_info, update_info);
+    db.clients.update(
+        find_info
+    , {
+        $set: update_info
+    }, function(error, data) {
+        console.log('dataassd', data);
         if (error) {
             next(false);
         } else {

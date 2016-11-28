@@ -13,8 +13,22 @@
 </head>
 <body>
 	<div class="header_nav_container" id="header_nav_container" clicked="food"></div>
-	<div class="main_container"></div>
-	<div class="find"></div>
+	<div class="main_container">
+		<div class="find_div">
+			<h1>비밀번호 찾기</h1>
+			<div class="find_container findPW">
+				<p>고객님 계정의 아이디, 이메일, 이름을 입력해 주세요</p>
+				<input type="text" id="findPW_ID" placeholder="아이디">
+				<p id="findPW_emailText" class="find_text"></p>
+				<input type="text" id="findPW_email" placeholder="이메일">
+				<p id="findPW_nameText" class="find_text"></p>
+				<input type="text" id="findPW_name" placeholder="이름">
+			</div>
+			<div class="action">
+			<a id="findPW_btn" href="#">비밀번호 찾기</a>
+			</div>
+		</div>
+	</div>
 	<div id="tail_table_container" class="tail_table_container"></div>
 </body>
 </html>

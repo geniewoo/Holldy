@@ -7,6 +7,9 @@ var session = require('./session.js');
 var async = require('async');
 var myCartDao = require('./myCartDao.js');
 var request = require('request');
+var nodemailer = require('nodemailer');
+var urlencode = require('urlencode');
+
 router.get('/get_loginStatus', function(req, res, next) { //현재 로그인 되어있는지 확인 header를 쓰는 매 페이지마다 호출됨.
     session.loginStatus(req.session, function(result) { //1은 페북 2는 로컬
         if (result === 1 || result === 2) {
@@ -344,48 +347,151 @@ router.post('/post_social_join', function(req, res, next) { //social_join에서 
     });
 });
 
-router.get('/findedID', function(req, res, next){
+router.get('/findedID', function(req, res, next) {
     fs.readFile('views/findedID.html', function(error, data) {
         res.send(data.toString());
     });
 });
-router.get('/findID', function(req, res, next){
+router.get('/findID', function(req, res, next) {
     fs.readFile('views/findID.html', function(error, data) {
         res.send(data.toString());
     });
 });
-router.get('/isThereID', function(req, res, next){
+router.get('/isThereID', function(req, res, next) {
     var findVar = req.query.findVar;
     if ((/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/).test(findVar)) {
-        clientDao.findAClient({email:findVar},{},function(data){
-            if(data){
-                if(data.fb_ID){
-                    res.json({code:2, msg:"페이스북으로 회원가입 되어있습니다"});
-                }else{
-                    res.json({code:1, findID:data._id});
+        clientDao.findAClient({
+            email: findVar
+        }, {}, function(data) {
+            if (data) {
+                if (data.fb_ID) {
+                    res.json({
+                        code: 2,
+                        msg: "페이스북으로 회원가입 되어있습니다"
+                    });
+                } else {
+                    res.json({
+                        code: 1,
+                        findID: data._id
+                    });
                 }
-            }else{
-                res.json({code:0, err_msg : "해당 정보가 없습니다."});
+            } else {
+                res.json({
+                    code: 0,
+                    err_msg: "해당 정보가 없습니다."
+                });
             }
         });
-    }else if((/^[0-9]{11}$/).test(findVar)){
-        clientDao.findAClient({phoneNum:findVar},{},function(data){
-            if(data){
-                if(data.fb_ID){
-                    res.json({code:2, msg:"페이스북으로 회원가입 되어있습니다"});
-                }else{
-                    res.json({code:1, findID:data._id});
+    } else if ((/^[0-9]{11}$/).test(findVar)) {
+        clientDao.findAClient({
+            phoneNum: findVar
+        }, {}, function(data) {
+            if (data) {
+                if (data.fb_ID) {
+                    res.json({
+                        code: 2,
+                        msg: "페이스북으로 회원가입 되어있습니다"
+                    });
+                } else {
+                    res.json({
+                        code: 1,
+                        findID: data._id
+                    });
                 }
-            }else{
-                res.json({code:0, err_msg : "해당 정보가 없습니다."});
+            } else {
+                res.json({
+                    code: 0,
+                    err_msg: "해당 정보가 없습니다."
+                });
             }
         });
     } else {
-        res.json({code:0, err_msg : "형식이 잘못되었습니다."});
+        res.json({
+            code: 0,
+            err_msg: "형식이 잘못되었습니다."
+        });
     }
 });
-router.get('/findPW', function(req, res, next){
+router.get('/findPW', function(req, res, next) {
     fs.readFile('views/findPW.html', function(error, data) {
+        res.send(data.toString());
+    });
+});
+router.get('/findPW/sendEmail', function(req, res, next) {
+    var id = req.query.id;
+    var email = req.query.email;
+    var name = urlencode.decode(req.query.name);
+    console.log('디버깅', id, email, name);
+    clientDao.findAClient({
+        _id: id,
+        email: email,
+        name: name
+    }, {}, function(result) {
+        console.log('디버깅');
+        if (result) {
+            var newPassword = crypto.getCrypto(Date()).substring(0,10);
+            var newHPassword = crypto.getCrypto(newPassword);
+            console.log(newPassword);
+            clientDao.updateClient({
+                '_id': id,
+                'email': email,
+                'name': name
+            }, {
+                'hPassword': newHPassword
+            }, function(result) {
+                if(result){
+                    var smtpTransport = nodemailer.createTransport("SMTP", {
+                        service: 'Gmail',
+                        auth: {
+                            user: 'mandoo992@gmail.com',
+                            pass: 'psw101004'
+                        }
+                    });
+                    var sendHtml = "<h1>HOLDY TRIP</h1><div style='margin : 0 5%; padding: 10px 2%; background-color: #ffb; text-align:center;'>";
+                    sendHtml += "<p style='display:inline-block;'>아이디 </p>";
+                    sendHtml += "<p style='display:inline-block; color: #33c;font-size:18px; font-weight:bold;'>" + id + "</p>";
+                    sendHtml += "<p style='display:inline-block;'> 에 대한 임시비밀번호는 </p>";
+                    sendHtml += "<p style='display:inline-block; color: #33c;font-size:18px; font-weight:bold;'>" + newPassword + "</p>";
+                    sendHtml += "<p style='display:inline-block;'>입니다. 로그인 후 비밀번호를 변경 해 주세요</p>";
+                    sendHtml += "<a style='display:block; text-decoration:none;color: #888; font-weight:bold; font-size:12px;' href='http://112.186.111.99:30000/main'>HOLDY TRIP 바로가기</a></div>";
+
+                    var mailOptions = {
+                        from: 'HOLDY_TRIP <mandoo992@gmail.com>',
+                        to: email,
+                        subject: 'HOLDY_TRIP 임시비밀번호 입니다.',
+                        text: 'HOLDY',
+                        html: sendHtml
+                    };
+
+                    smtpTransport.sendMail(mailOptions, function(error, response) {
+                        if (error) {
+                            console.log(error);
+                            res.send({
+                                'code': 0,
+                                'err_msg': '메일보내기 오류'
+                            });
+                        } else {
+                            console.log("Message sent : " + response.message);
+                            res.json({
+                                code: 1
+                            });
+                        }
+                        smtpTransport.close();
+                    });
+                }
+            });
+
+        } else {
+            console.log('디버깅~~');
+            res.send({
+                'code': 0,
+                'err_msg': '해당되는 정보가 없습니다'
+            });
+        }
+    });
+});
+router.get('/findedPW', function(req, res, next) {
+    fs.readFile('views/findedPW.html', function(error, data) {
         res.send(data.toString());
     });
 });
@@ -451,13 +557,12 @@ var cookieCartToDB = function(first, req, res, next) {
                 callback(null);
             }
         }
-        ], function(err) {
-            if (err) {
-                console('오류오류');
-            } else {
-                next();
-            }
+    ], function(err) {
+        if (err) {
+            console('오류오류');
+        } else {
+            next();
         }
-        );
+    });
 }
 module.exports = router;

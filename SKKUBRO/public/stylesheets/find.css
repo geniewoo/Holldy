@@ -6,16 +6,17 @@ div.find_container{
 	padding: 30px 40px;
 	background-color: #dddddd;
 }
-div.findID > input[type='text']{
+div.findID > input[type='text'], div.findPW > input[type='text']{
 	width: 80%;
 }
-div.findID > input{
+div.findID > input, div.findPW > input{
 	margin:0 auto;
 	display: block;
 	border-radius: 5px;
+	text-align: center;
 }
 
-div.find_container > p.findID_text{
+div.find_container > p.find_text{
     height: 10px;
     margin: 0;
     font-size: 8px;
