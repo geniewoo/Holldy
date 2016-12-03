@@ -5,6 +5,7 @@ module.exports = function(io) {
     var adminRoom = 'admin_8972';
     var clientID = '';
     var productsDao = require('./productsDao.js');
+    var clientDao = require('./clientDao.js');
 
     router.get('/', function(req, res, nex) {
         fs.readFile('views/admin_login.html', function(error, data) {
@@ -72,6 +73,38 @@ module.exports = function(io) {
             res.json({
                 'code': 0,
                 'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
+
+    router.get('/visitor', function(req, res, next) {
+        if (confirmAdmin(req)) {
+            console.log('여기까지');
+            fs.readFile('views/admin_visitor.html', function(error, data) {
+                res.send(data.toString());
+            });
+        } else {
+            console.log('여기까지2');
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
+    router.get('/visitor/join', function(req, res, next) {
+        if (confirmAdmin(req)) {
+            clientDao.findClients(function(result) {
+                if (result) {
+                    res.json({
+                        code: 0,
+                        clientsData: result
+                    });
+                } else {
+                    res.json({
+                        'code': 0,
+                        'err_msg': '디비오류'
+                    });
+                }
             });
         }
     });

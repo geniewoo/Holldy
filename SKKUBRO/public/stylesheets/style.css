@@ -99,9 +99,11 @@ table td, table th {
 table tr:first-child th {
     border-top: 0;
 }
+
 input:-webkit-autofill {
- -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
 }
+
 table tr:last-child td {
     border-bottom: 0;
 }
@@ -114,7 +116,8 @@ table tr td:last-child, table tr th:last-child {
     border-right: 0;
 }
 
-table>tbody>tr {/*아마 myCart쪽 코드들일것임*/
+table>tbody>tr {
+    /*아마 myCart쪽 코드들일것임*/
     height: 70px;
 }
 
@@ -128,31 +131,31 @@ table>thead>tr>th>input {
     width: 25px;
 }
 
+div.header_nav_container {
+    background-color: #308fbb;
+    height: 40px;
+}
+
 .pension_background {
-    background-color: #f44;
+    background-color: #f0a000;
 }
 
 .bus_background {
-    background-color: #3c3;
+    background-color: #b080f0;
 }
 
 .food_background {
-    background-color: #0cf;
-}
-
-
-
-div.header_nav_container {
-    background-color: #222;
-    height: 40px;
+    background-color: #f056b0;
 }
 
 div.main_container {
     width: 100%;
 }
-div.main_container > h1{
+
+div.main_container>h1 {
     margin-left: 5%;
 }
+
 @media(min-width: 1200px) {
     div.main_container {
         margin: 0 auto;

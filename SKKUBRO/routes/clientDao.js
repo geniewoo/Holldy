@@ -20,7 +20,8 @@ exports.insertFBClient = function(insert_info, next) {
         'name': insert_info.name,
         'phoneNum': insert_info.phoneNum,
         'email': insert_info.email,
-        'address': insert_info.address
+        'address': insert_info.address,
+        'joinDate': insert_info.joinDate
     }, function(error, data) {
         if (error) {
             next(false);
@@ -36,7 +37,8 @@ exports.insertLocalClient = function(insert_info, next) {
         'name': insert_info.name,
         'phoneNum': insert_info.phoneNum,
         'email': insert_info.email,
-        'address': insert_info.address
+        'address': insert_info.address,
+        'joinDate': insert_info.joinDate
     }, function(error, data) {
         if (error) {
             next(false);
@@ -57,6 +59,15 @@ exports.updateClient = function(find_info, update_info, next) {
             next(false);
         } else {
             next(true);
+        }
+    });
+}
+exports.findClients = function(next){
+    db.clients.find(function(error, data){
+        if(error){
+            next(false);
+        }else{
+            next(data);
         }
     });
 }

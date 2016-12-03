@@ -8,7 +8,7 @@ div.header_nav>div.header_nav_mid>a.nav_foodBtn {
 
 div.header_nav>div.header_nav_mid>a.nav_foodBtn:hover {
     color: transparent;
-    background-color: #0cf;
+    background-color: #f056b0;
 }
 
 div.header_nav>div.header_nav_mid>a.nav_pensionBtn {
@@ -17,7 +17,7 @@ div.header_nav>div.header_nav_mid>a.nav_pensionBtn {
 
 div.header_nav>div.header_nav_mid>a.nav_pensionBtn:hover {
     color: transparent;
-    background-color: #f44;
+    background-color: #f0a000;
 }
 
 div.header_nav>div.header_nav_mid>a.nav_busBtn {
@@ -26,7 +26,7 @@ div.header_nav>div.header_nav_mid>a.nav_busBtn {
 
 div.header_nav>div.header_nav_mid>a.nav_busBtn:hover {
     color: transparent;
-    background-color: #3c3;
+    background-color: #b080f0;
 }
 div.header_nav > div.header_nav_right>a.nav_btn {
     height: 23px;
@@ -38,7 +38,7 @@ div.header_nav > div.header_nav_right>a.nav_btn {
 }
 
 div.header_nav>div.header_nav_right>lu>li>a.nav_list:hover {
-    color: #bbb;
+    color: #666;
 }
 
 div.header_nav>div.header_nav_right>a.nav_btn:hover, div.header_nav>div.header_nav_right>a.nav_btn:active {
@@ -46,14 +46,14 @@ div.header_nav>div.header_nav_right>a.nav_btn:hover, div.header_nav>div.header_n
 }
 
 div.header_nav>div.header_nav_left {
-    width: 25%;
+    width: 33%;
     height: 40px;
     float: left;
     overflow: hidden;
 }
 
 div.header_nav>div.header_nav_mid {
-    width: 50%;
+    width: 42%;
     height: 40px;
     float: left;
     overflow: hidden;
@@ -72,7 +72,7 @@ div.header_nav>div.header_nav_left>a {
 }
 
 div.header_nav>div.header_nav_left>a:hover {
-    color: #ff0;
+    color: #ee0;
 }
 
 div.header_nav>div.header_nav_mid>a {
@@ -182,15 +182,14 @@ div.login > div.find > a{
     }
     div.header_nav>div.header_nav_left a {
         font-size: 18px;
-        margin: 11px;
+        margin: 12px;
     }
     div.header_nav>div.header_nav_mid>a {
         width: 32px;
-        height: 16px;
         color: #fff !important;
         background-image: none !important;
         font-size: 16px;
-        padding: 12px 30px;
+        padding: 12px 30px 10px 30px;
         margin: 0;
     }
     div.header_nav>div.header_nav_right>lu {
@@ -198,7 +197,7 @@ div.login > div.find > a{
     }
     div.header_nav>div.header_nav_right>lu a {
         font-size: 12px;
-        margin: 14px 13px;
+        margin: 15px 13px;
         float: right;
     }
     div.header_nav > div.header_nav_right>a.nav_btn {

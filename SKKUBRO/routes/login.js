@@ -215,13 +215,15 @@ router.post('/post_local_join', function(req, res, next) { //자체로그인 요
                 msg: "아이디, 이메일, 번호 중복이 있습니다"
             });
         } else {
+            var nowDate = new Date();
             clientDao.insertLocalClient({
                 'local_ID': local_ID,
                 'local_password': local_password,
                 'name': name,
                 'phoneNum': phoneNum,
                 'email': email,
-                'address': address
+                'address': address,
+                'joinDate': nowDate
             }, function(result) {
                 if (result) {
                     cookieCartToDB(function(next) {
@@ -255,10 +257,18 @@ router.get('/social_join', function(req, res, next) { //social_join 접속했을
 });
 
 router.get('/get_localLogout', function(req, res, next) { //로그아웃 눌렀을 때 session 삭제하기
-    session.deleteLoginInfo(req.session, function(result) { //reult가 1이면 fb 2이면 자체
-        res.json({
-            'code': result
-        });
+    session.loginStatus(req.session, function(isLogin) { //1은 페북 2는 로컬
+        if (isLogin) {
+            session.deleteLoginInfo(req.session, function(result) { //reult가 1이면 fb 2이면 자체
+                res.json({
+                    'code': result
+                });
+            });
+        } else {
+            res.json({
+                'code': 0
+            });
+        }
     });
 });
 
@@ -312,13 +322,16 @@ router.post('/post_social_join', function(req, res, next) { //social_join에서 
                     msg: "이메일, 번호 중복이 있습니다"
                 });
             } else {
+                var nowDate = new Date();
+                console.log('nowDate', nowDate);
                 clientDao.insertFBClient({
                     'fb_ID': fb_ID,
                     'local_ID': local_ID,
                     'name': name,
                     'phoneNum': phoneNum,
                     'email': email,
-                    'address': address
+                    'address': address,
+                    'joinDate': nowDate
                 }, function(result) {
                     if (result) {
                         cookieCartToDB(function(next) {
@@ -429,7 +442,7 @@ router.get('/findPW/sendEmail', function(req, res, next) {
     }, {}, function(result) {
         console.log('디버깅');
         if (result) {
-            var newPassword = crypto.getCrypto(Date()).substring(0,10);
+            var newPassword = crypto.getCrypto(Date()).substring(0, 10);
             var newHPassword = crypto.getCrypto(newPassword);
             console.log(newPassword);
             clientDao.updateClient({
@@ -439,7 +452,7 @@ router.get('/findPW/sendEmail', function(req, res, next) {
             }, {
                 'hPassword': newHPassword
             }, function(result) {
-                if(result){
+                if (result) {
                     var smtpTransport = nodemailer.createTransport("SMTP", {
                         service: 'Gmail',
                         auth: {

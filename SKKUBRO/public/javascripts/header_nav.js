@@ -180,6 +180,7 @@ function alreadyLogin() {
     $login_btn.on('click', function(event) {
         event.preventDefault();
         $.get('/login/get_localLogout', function(result) {
+            console.log('logoutclicked');
             if (result.code === 1) { //fblogin 인 경우 code === 1
                 FB.logout(function() {
                     location.reload(true);
