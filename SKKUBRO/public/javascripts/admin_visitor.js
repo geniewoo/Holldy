@@ -58,11 +58,11 @@ var setJoinInfo = function(year, month, clientsData){
     clientsData.forEach(function (item, index){
         if(today === item.joinDate.substring(0,7)){
             counter ++;
-        thText += "<tr>";
-        thText += "<th></th>";
-        thText += "<th>" + item._id + "</th>";
-        thText += "<th>" + item.joinDate.substring(0,10) + "</th>";
-        thText += "</tr>";
+            thText += "<tr>";
+            thText += "<th></th>";
+            thText += "<th>" + item._id + "</th>";
+            thText += "<th>" + item.joinDate.substring(0,10) + "</th>";
+            thText += "</tr>";
         }
     });
     $('#joinInfo_tbody').html(thText);
