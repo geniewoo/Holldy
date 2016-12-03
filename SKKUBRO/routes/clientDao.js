@@ -62,8 +62,8 @@ exports.updateClient = function(find_info, update_info, next) {
         }
     });
 }
-exports.findClients = function(next){
-    db.clients.find(function(error, data){
+exports.findClients = function(find_info, except_info, sort_info, next){
+    db.clients.find(find_info, except_info).sort(sort_info, function(error, data){
         if(error){
             next(false);
         }else{

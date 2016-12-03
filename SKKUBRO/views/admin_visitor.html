@@ -4,19 +4,34 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-    <script src="/javascripts/jsadmin_visitor.js"></script>
+    <script src="/javascripts/admin_visitor.js"></script>
     <link rel="stylesheet" href="/stylesheets/admin_visitor.css" />
     <title></title>
 </head>
 
 <body>
-    <div>
-        <form class="" action="index.html" method="post">
-            <h1>회원가입</h1>
-            <a href="#" id="joinMonthBtn">월</a>
-            <a href="#" id="joinWeekBtn">주</a>
-            <a href="#" id="joinDayBtn">일</a>
-        </form>
+    <div class="main_container">
+        <h1>회원가입 정보 보기</h1>
+        <div class="selectMonth">
+            <a id="selectMonth_preMonth" href="#">◀</a>
+            <h3 id="selectMonth_nowMonth"></h3>
+            <a id="selectMonth_postMonth" href="#">▶</a>
+        </div>
+        <div class="joinInfo">
+            <h4>총 가입자 수 : </h3>
+            <p id="joinInfo_num"></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>아이디</th>
+                        <th>가입일</th>
+                    </tr>
+                </thead>
+                <tbody id="joinInfo_tbody">
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 

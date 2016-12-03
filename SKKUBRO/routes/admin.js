@@ -93,7 +93,7 @@ module.exports = function(io) {
     });
     router.get('/visitor/join', function(req, res, next) {
         if (confirmAdmin(req)) {
-            clientDao.findClients(function(result) {
+            clientDao.findClients({}, {hPassword:0, name:0, phoneNum:0,email:0,address:0}, {joinDate:1}, function(result) {
                 if (result) {
                     res.json({
                         code: 0,
