@@ -6,6 +6,7 @@ module.exports = function(io) {
     var clientID = '';
     var productsDao = require('./productsDao.js');
     var clientDao = require('./clientDao.js');
+    var visitorsController = require('./visitorsController.js');
 
     router.get('/', function(req, res, nex) {
         fs.readFile('views/admin_login.html', function(error, data) {
@@ -91,7 +92,7 @@ module.exports = function(io) {
             });
         }
     });
-    router.get('/visitor/join', function(req, res, next) {
+    router.get('/visitor/get_join', function(req, res, next) {
         if (confirmAdmin(req)) {
             clientDao.findClients({}, {hPassword:0, name:0, phoneNum:0,email:0,address:0}, {joinDate:1}, function(result) {
                 if (result) {
@@ -103,6 +104,26 @@ module.exports = function(io) {
                     res.json({
                         'code': 0,
                         'err_msg': '디비오류'
+                    });
+                }
+            });
+        }
+    });
+    router.get('/visitor/get_visitors', function(req, res, next){
+        console.log('visitors1');
+        if(confirmAdmin(req)){
+            console.log('visitors2');
+            visitorsController.findVisitors(req, res, req.query.addressName, req.query.date, req.query.type, function(result){
+                console.log('visitors3');
+                if(result){
+                    res.json({
+                        'code': 1,
+                        'data': result
+                    });
+                }else{
+                    res.json({
+                        'code':0,
+                        'err_msg': 'findVisitors 오류'
                     });
                 }
             });

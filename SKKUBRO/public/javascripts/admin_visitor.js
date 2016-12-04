@@ -1,5 +1,5 @@
 $(function() {
-    $.get('/admin12345abcde/visitor/join', function(data) {
+    $.get('/admin12345abcde/visitor/get_join', function(data) {
         console.log(data);
         var clientsData = data.clientsData;
         var today = new Date();
@@ -25,14 +25,17 @@ $(function() {
             setJoinInfo(nowYear, nowMonth, clientsData);
         });
     });
+    $.get('/admin12345abcde/visitor/get_visitors?addressName=/main&date=2016-12-04&type=date', function(data){
+        console.log(data);
+    });
 });
 
 var getDate = function(date){
     var returnDate = date.getFullYear() + '-';
     if(date.getMonth() < 9){
-        returnDate += '0' + (date.getMonth() + 1) + '-';
+        returnDate += '0' + (date.getMonth() + 1);
     }else{
-        returnDate += (date.getMonth() + 1) + '-';
+        returnDate += (date.getMonth() + 1);
     }
     return returnDate;
 }
