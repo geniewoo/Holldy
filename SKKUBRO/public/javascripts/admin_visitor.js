@@ -1,35 +1,52 @@
 $(function() {
     $.get('/admin12345abcde/visitor/get_join', function(data) {
-        console.log(data);
-        var clientsData = data.clientsData;
-        var today = new Date();
-        var nowYear = today.getFullYear();
-        var nowMonth = (today.getMonth()+1);
-        setJoinInfo(nowYear, nowMonth, clientsData);
-
-        $('#selectMonth_preMonth').on('click', function(event) {
-            event.preventDefault();
-            var changed = changeYearMonth({year:nowYear, month:nowMonth, val:-1});
-            console.log(changed.month);
-            nowYear = changed.year;
-            nowMonth = changed.month;
-            console.log(nowYear, nowMonth);
-            setJoinInfo(nowYear, nowMonth, clientsData);
-        });
-
-        $('#selectMonth_postMonth').on('click', function(event) {
-            event.preventDefault();
-            var changed = changeYearMonth({year:nowYear, month:nowMonth, val:1});
-            nowYear = changed.year;
-            nowMonth = changed.month;
-            setJoinInfo(nowYear, nowMonth, clientsData);
-        });
+        connectJoin(data);
     });
-    $.get('/admin12345abcde/visitor/get_visitors?addressName=/main&date=2016-12-04&type=date', function(data){
-        console.log(data);
-    });
+    connectVisitor();
 });
+getVisitorData = function(addressName, nowYear, nowMonth){
+    $.get('/admin12345abcde/visitor/get_visitors?addressName=' + addressName +'&yearMonth=2016-12', function(data){
+        var visitorsData = data.data;
+        setVisitorInfo(nowYear, nowMonth, visitorsData);
+    });
+}
+var connectVisitor = function(){
+    var today = new Date();
+    var nowYear = today.getFullYear();
+    var nowMonth = (today.getMonth()+1);
+    getVisitorData('/main', nowYear, nowMonth);
+    $('a[name="visitor_a"]').each(function(){
+        $(this).on('click', function(event){
+            event.preventDefault();
+            getVisitorData($(this).text(), nowYear, nowMonth);
+        });
+    });
+}
+var connectJoin = function(data){
+    var clientsData = data.clientsData;
+    var today = new Date();
+    var nowYear = today.getFullYear();
+    var nowMonth = (today.getMonth()+1);
+    setJoinInfo(nowYear, nowMonth, clientsData);
 
+    $('#join_selectMonth_preMonth').on('click', function(event) {
+        event.preventDefault();
+        var changed = changeYearMonth({year:nowYear, month:nowMonth, val:-1});
+        console.log(changed.month);
+        nowYear = changed.year;
+        nowMonth = changed.month;
+        console.log(nowYear, nowMonth);
+        setVisitorsInfo(nowYear, nowMonth, clientsData);
+    });
+
+    $('#join_selectMonth_postMonth').on('click', function(event) {
+        event.preventDefault();
+        var changed = changeYearMonth({year:nowYear, month:nowMonth, val:1});
+        nowYear = changed.year;
+        nowMonth = changed.month;
+        setJoinInfo(nowYear, nowMonth, clientsData);
+    });
+}
 var getDate = function(date){
     var returnDate = date.getFullYear() + '-';
     if(date.getMonth() < 9){
@@ -54,7 +71,7 @@ var changeYearMonth = function(info){
 var setJoinInfo = function(year, month, clientsData){
     event.preventDefault();
     var today = year + '-' + month;
-    $('#selectMonth_nowMonth').text(today);
+    $('#join_selectMonth_nowMonth').text(today);
     $('#joinInfo_tbody').html('');
     var counter = 0;
     var thText = '';
@@ -70,4 +87,26 @@ var setJoinInfo = function(year, month, clientsData){
     });
     $('#joinInfo_tbody').html(thText);
     $('#joinInfo_num').text(counter);
+}
+
+var setVisitorInfo = function(year, month, visitorsData){
+    event.preventDefault();
+    var today = year + '-' + month;
+    $('#visitor_selectMonth_nowMonth').text(today);
+    $('#visitorsInfo_tbody').html('');
+    var totalCount = 0;
+    var thText = '';
+    visitorsData.forEach(function (item, index){
+        if(today === item.yearMonth){
+            totalCount += item.count;
+            thText += "<tr>";
+            thText += "<th></th>";
+            thText += "<th>" + item.date + "</th>";
+            thText += "<th>" + item.hour + "</th>";
+            thText += "<th>" + item.count + "</th>";
+            thText += "</tr>";
+        }
+    });
+    $('#visitorInfo_tbody').html(thText);
+    $('#visitorInfo_num').text(totalCount);
 }

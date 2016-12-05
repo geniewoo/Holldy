@@ -4,11 +4,18 @@ var router = express.Router();
 var productsDao = require('./productsDao.js');
 var myCartDao = require('./myCartDao.js');
 var session = require('./session.js');
+var visitorsController = require('./visitorsController.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    fs.readFile('views/food.html', function(error, data) {
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/food', function(result){
+        if(result === true){
+            fs.readFile('views/food.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 
@@ -56,8 +63,14 @@ router.post('/post_selected', function(req, res, next) {
 });
 
 router.get('/selected', function(req, res, next) {
-    fs.readFile('views/food_selected.html', function(error, data) {
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/selected', function(result){
+        if(result === true){
+            fs.readFile('views/food_selected.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 

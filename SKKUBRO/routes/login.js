@@ -9,6 +9,7 @@ var myCartDao = require('./myCartDao.js');
 var request = require('request');
 var nodemailer = require('nodemailer');
 var urlencode = require('urlencode');
+var visitorsController = require('./visitorsController.js');
 
 router.get('/get_loginStatus', function(req, res, next) { //현재 로그인 되어있는지 확인 header를 쓰는 매 페이지마다 호출됨.
     session.loginStatus(req.session, function(result) { //1은 페북 2는 로컬
@@ -128,8 +129,14 @@ router.post('/post_duplicateEmail', function(req, res, next) {
     });
 });
 router.get('/local_join', function(req, res, next) { //social_join 접속했을 때
-    fs.readFile('views/local_join.html', function(error, data) {
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/local_join', function(result){
+        if(result === true){
+            fs.readFile('views/local_join.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 
@@ -251,8 +258,14 @@ router.post('/post_local_join', function(req, res, next) { //자체로그인 요
 });
 
 router.get('/social_join', function(req, res, next) { //social_join 접속했을 때
-    fs.readFile('views/social_join.html', function(error, data) {
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/social_join', function(result){
+        if(result === true){
+            fs.readFile('views/social_join.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 
@@ -361,13 +374,25 @@ router.post('/post_social_join', function(req, res, next) { //social_join에서 
 });
 
 router.get('/findedID', function(req, res, next) {
-    fs.readFile('views/findedID.html', function(error, data) {
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/findID', function(result){
+        if(result === true){
+            fs.readFile('views/findedID.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 router.get('/findID', function(req, res, next) {
-    fs.readFile('views/findID.html', function(error, data) {
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/findID', function(result){
+        if(result === true){
+            fs.readFile('views/findID.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 router.get('/isThereID', function(req, res, next) {
@@ -426,8 +451,14 @@ router.get('/isThereID', function(req, res, next) {
     }
 });
 router.get('/findPW', function(req, res, next) {
-    fs.readFile('views/findPW.html', function(error, data) {
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/findPW', function(result){
+        if(result === true){
+            fs.readFile('views/findPW.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 router.get('/findPW/sendEmail', function(req, res, next) {
@@ -504,8 +535,14 @@ router.get('/findPW/sendEmail', function(req, res, next) {
     });
 });
 router.get('/findedPW', function(req, res, next) {
-    fs.readFile('views/findedPW.html', function(error, data) {
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/findPW', function(result){
+        if(result === true){
+            fs.readFile('views/findedPW.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 router.get('/get_notAbot', function(req, res, next) {
@@ -570,12 +607,12 @@ var cookieCartToDB = function(first, req, res, next) {
                 callback(null);
             }
         }
-    ], function(err) {
-        if (err) {
-            console('오류오류');
-        } else {
-            next();
-        }
-    });
+        ], function(err) {
+            if (err) {
+                console('오류오류');
+            } else {
+                next();
+            }
+        });
 }
 module.exports = router;

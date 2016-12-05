@@ -1,86 +1,48 @@
 var visitorsDao = require('./visitorsDao.js');
 
-exports.controlVisitors = function(req, res, addressName, next) {
+exports.countUpVisitors = function(req, res, addressName, next) {
+	console.log('디버깅2');
 	var today = new Date();
 	var todayHour = today.getHours();
 	today = getDate(today);
-	visitorsDao.insertVisitor({addressName : addressName, date : today, hour : todayHour}, function(result){
-		if(result === true){
-			if(req.cookies.visitorCheck){
-				console.log('old visitor');
-				console.log(req.cookies.visitorCheck);
-				next(true);
-			}else{
-				visitorsDao.insertVisitor({addressName : 'visitor', date : today, hour : todayHour}, function(result){
-					if(result === true){
-						res.cookie('visitorCheck', true,{
-							maxAge : 3600000
-						});
-						console.log('new visitor');
+	console.log('디버깅3');
+	visitorsDao.findAvisitor({
+		addressName : addressName,
+		yearMonth : today.substring(0,7),
+		date : today.substring(8,10),
+		hour : todayHour
+	}, {
+	}, function(result){
+		console.log('디버깅6');
+		if(result){
+			console.log('디버깅7');
+			visitorsDao.updateAvisitor(result, {$set : {count : result.count + 1}}, function(result){
+				if(result){
+					visitorsNum(req, res, addressName, today, todayHour, function(){
+						console.log('디버깅9');
 						next(true);
-					}else{
-						next(false);
-					}
-				});
-			}	
+					});
+				}
+			});
 		}else{
-			next(false);
+			console.log('디버깅8');
+			visitorsDao.insertVisitor({addressName : addressName, yearMonth : today.substring(0,7), date : today.substring(8,10), hour : todayHour, count : 1}, function(result){
+				if(result === true){
+					visitorsNum(req, res, addressName, today, todayHour, function(){
+						next(true);
+					});				
+				}else{
+					next(false);
+				}
+			});
 		}
 	});
 }
-exports.findVisitors = function(req, res, addressName, date, type, next){
-	console.log('visitors4', type);
-	if(type === "date"){
-		visitorsDao.findVisitors({addressName:addressName,date:date}, {}, {hour : 1}, function(result){
-			console.log('visitors5', result.length);
-			if(result){
-				var totalDateNum = result.length;
-				var visitorNumArr = [];
-				var i = 0;
-				var j = 0;
-				while(i < 24 && j < totalDateNum){
-					if(visitorNumArr.length <= i + 1){
-						visitorNumArr.push(0);
-					}
-					if(result[j].hour == i){
-						visitorNumArr[i]++;
-						j ++;
-					}else{
-						i ++;
-					}
-				}
-				console.log('visitors6');
-				next(visitorNumArr);
-			}else{
-				next(false);
-			}
-		});
-	}else{
-		var dateRegExp = new RegExp('^' + date +'-[0-9]{2}$');
-		visitorsDao.findVisitors({addressName:addressName, date:dateRegExp}, {}, {date : 1}, function(result){
-			if(result){
-				var totalMonthNum = result.length;
-				var visitorNumArr = [];
-				var i = 0;
-				var j = 0;
-				while(i < 31 || j < totalMonthNum){
-					if(visitorNumArr.length <= i + 1){
-						visitorNumArr.push(0);
-					}
-					if(result[j].date.substring(8,10) == i){
-						visitorNumArr[i]++;
-						j++;
-					}else{
-						i++;
-					}
-				}
-				return visitorNumArr;
-			}
-			else{
-				return false;
-			}
-		});
-	}
+exports.findVisitors = function(req, res, addressName, yearMonth, next){
+	console.log('visitors4');
+	visitorsDao.findVisitors({addressName:addressName, yearMonth:yearMonth}, {}, {hour : 1}, function(result){
+		next(result);
+	});
 }
 var getDate = function(date){
 	var returnDate = date.getFullYear() + '-';
@@ -95,4 +57,32 @@ var getDate = function(date){
 		returnDate += date.getDate();
 	}
 	return returnDate;
+}
+var visitorsNum = function(req, res, addressName, today, todayHour, next){
+	console.log('디버깅10');
+	if(req.cookies.visitorCheck){
+		next();
+	}else{
+		console.log('디버깅12');
+		visitorsDao.findAvisitor({addressName : 'visitors', yearMonth : today.substring(0,7), date : today.substring(8,10), hour : todayHour}, {}, function(result){
+			if(result){
+				visitorsDao.updateAvisitor(result, {$set : {count : result.count + 1}}, function(result){
+					if(result){
+						next(true);
+					}
+				});
+			}else{
+				visitorsDao.insertVisitor({addressName : 'visitors', yearMonth : today.substring(0,7), date : today.substring(8,10), hour : todayHour, count : 1}, function(ressult){
+					if(result){
+						next(true);
+					}
+				});
+			}
+		});
+		res.cookie('visitorCheck', true,{
+			maxAge : 3600000
+		});
+		console.log('new visitor');
+		next(true);
+	}
 }

@@ -5,6 +5,7 @@ var productsDao = require('./productsDao.js');
 var session = require('./session.js');
 var myCartDao = require('./myCartDao.js');
 var async = require('async');
+var visitorsController = require('./visitorsController.js');
 /* GET home page. */
 router.post('/post_foodProducts', function(req, res, next) {
     session.loginStatus(req.session, function(result) {
@@ -66,8 +67,14 @@ router.post('/post_foodProducts', function(req, res, next) {
     });
 });
 router.get('/', function(req, res, next) {
-    fs.readFile('views/myCart.html', function(error, data) {
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/myCart', function(result){
+        if(result === true){
+            fs.readFile('views/myCart.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 router.get('/get_foodProducts', function(req, res, next) {

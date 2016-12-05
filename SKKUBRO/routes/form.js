@@ -4,10 +4,7 @@ var router = express.Router();
 /* GET home page. */
 router.post('/post_travelInfo', function(req, res, next) {
 	var travel = JSON.parse(req.body.travelForm);
-	console.log(req.cookies.travelForm);
-	console.log(travel);
 	res.cookie('travelForm', travel);
-	console.log(req.cookies.travelForm);
 	res.json({'code' : 1});
 });
 

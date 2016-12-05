@@ -12,13 +12,13 @@
 <body>
     <div class="main_container">
         <h1>회원가입 정보 보기</h1>
-        <div class="selectMonth">
-            <a id="selectMonth_preMonth" href="#">◀</a>
-            <h3 id="selectMonth_nowMonth"></h3>
-            <a id="selectMonth_postMonth" href="#">▶</a>
+        <div class="join_selectMonth">
+            <a id="join_selectMonth_preMonth" href="#">◀</a>
+            <h3 id="join_selectMonth_nowMonth"></h3>
+            <a id="join_selectMonth_postMonth" href="#">▶</a>
         </div>
         <div class="joinInfo">
-            <h4>총 가입자 수 : </h3>
+            <h3>총 가입자 수 : </h3>
             <p id="joinInfo_num"></p>
             <table>
                 <thead>
@@ -29,6 +29,45 @@
                     </tr>
                 </thead>
                 <tbody id="joinInfo_tbody">
+                </tbody>
+            </table>
+        </div>
+        <h1>방문기록 보기</h1>
+        <div class="join_selectCat">
+            <a name="visitor_a" href="#">visitors</a>
+            <a name="visitor_a" href="#">/main</a>
+            <a name="visitor_a" href="#">/food</a>
+            <a name="visitor_a" href="#">/selected</a>
+            <a name="visitor_a" href="#">/myCart</a>
+            <a name="visitor_a" href="#">/pension</a>
+            <a name="visitor_a" href="#">/bus</a>
+            <a name="visitor_a" href="#">/myPage</a>
+            <a name="visitor_a" href="#">/local_join</a>
+            <a name="visitor_a" href="#">/social_join</a>
+            <a name="visitor_a" href="#">/findID</a>
+            <a name="visitor_a" href="#">/findPW</a>
+            <a name="visitor_a" href="#">/err_page</a>
+            <a name="visitor_a" href="#">/help</a>
+            <a name="visitor_a" href="#">/order</a>
+        </div>
+        <div class="visitor_selectMonth">
+            <a id="visitor_selectMonth_preMonth" href="#">◀</a>
+            <h3 id="visitor_selectMonth_nowMonth"></h3>
+            <a id="visitor_selectMonth_postMonth" href="#">▶</a>
+        </div>
+        <div class="visitorInfo">
+            <h3>이번달 방문 횟수 : </h3>
+            <p id="visitorInfo_num"></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>일</th>
+                        <th>시간</th>
+                        <th>명</th>
+                    </tr>
+                </thead>
+                <tbody id="visitorInfo_tbody">
                 </tbody>
             </table>
         </div>

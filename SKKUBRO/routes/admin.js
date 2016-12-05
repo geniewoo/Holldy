@@ -112,8 +112,8 @@ module.exports = function(io) {
     router.get('/visitor/get_visitors', function(req, res, next){
         console.log('visitors1');
         if(confirmAdmin(req)){
-            console.log('visitors2');
-            visitorsController.findVisitors(req, res, req.query.addressName, req.query.date, req.query.type, function(result){
+            console.log('visitors2', req.query.addressName, req.query.yearMonth);
+            visitorsController.findVisitors(req, res, req.query.addressName, req.query.yearMonth, function(result){
                 console.log('visitors3');
                 if(result){
                     res.json({

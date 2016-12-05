@@ -1,12 +1,17 @@
 var express = require('express');
 var fs = require('fs');
 var router = express.Router();
+var visitorsController = require('./visitorsController.js');
 
 router.get('/', function(req, res, next) {
-    console.log('/order');
-    fs.readFile('views/order.html', function(error, data) {
-        console.log('data', data);
-        res.send(data.toString());
+    visitorsController.countUpVisitors(req, res, '/order', function(result){
+        if(result === true){
+            fs.readFile('views/order.html', function(error, data) {
+                res.send(data.toString());
+            });
+        }else{
+            res.send({code:0,err_msg:'visitor error'});
+        }
     });
 });
 router.get('/get_tempSave', function(req, res, next){
