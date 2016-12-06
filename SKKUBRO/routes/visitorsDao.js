@@ -3,7 +3,6 @@ var db = mongojs('SKKUBRO', ['visitors']);
 
 /* GET home page. */
 exports.insertVisitor = function(insertInfo, next) {
-	var nowDate = new Date();
     db.visitors.save(insertInfo, function(error, data) {
         if (error) {
             next(false);

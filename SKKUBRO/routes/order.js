@@ -2,30 +2,45 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 var visitorsController = require('./visitorsController.js');
+var session = require('./session.js');
 
 router.get('/', function(req, res, next) {
-    visitorsController.countUpVisitors(req, res, '/order', function(result){
-        if(result === true){
-            fs.readFile('views/order.html', function(error, data) {
-                res.send(data.toString());
+    session.loginStatus(req.session, function(result) {
+        if (result === 0) {
+            res.json({
+                code: 0,
+                err_msg: "needLogin"
             });
-        }else{
-            res.send({code:0,err_msg:'visitor error'});
+        } else if (result === 1 || result === 2) {
+            visitorsController.countUpVisitors(req, res, '/order', function(result) {
+                if (result === true) {
+                    fs.readFile('views/order.html', function(error, data) {
+                        res.send(data.toString());
+                    });
+                } else {
+                    res.send({
+                        code: 0,
+                        err_msg: 'visitor error'
+                    });
+                }
+            });
         }
     });
 });
-router.get('/get_tempSave', function(req, res, next){
+router.get('/get_tempSave', function(req, res, next) {
     console.log('/get_tempSave');
     var orderTemp = req.session.order;
     console.log(orderTemp);
-    if(orderTemp){
+    if (orderTemp) {
         var foodCart = orderTemp.foodCart;
         var busCart = orderTemp.foodCart;
         var pension = orderTemp.pensionCart;
         console.log('foodCart', foodCart);
         req.session.order = undefined;
         console.log('undefineded');
-        res.json({cart_food : foodCart});
+        res.json({
+            cart_food: foodCart
+        });
     }
 });
 router.post('/post_tempSave', function(req, res, next) {
@@ -40,10 +55,15 @@ router.post('/post_tempSave', function(req, res, next) {
             req.session.order = {
                 "foodCart": foodCart
             }; //나중에 이런식으로 bus, pension 추가.
-            res.json({code : 1});
+            res.json({
+                code: 1
+            });
         }
-    }else{
-        res.json({code : 0, err_msg : "선택된 항목이 없습니다"});
+    } else {
+        res.json({
+            code: 0,
+            err_msg: "선택된 항목이 없습니다"
+        });
     }
 });
 module.exports = router;
