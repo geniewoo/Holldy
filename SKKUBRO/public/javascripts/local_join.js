@@ -76,7 +76,7 @@ $(function() {
         }
     });
     $('#join_phoneMiddle').on('focus keyup change', function() {
-        if ((/^[0-9]{3}$/).test($('#join_phoneFirst').val()) && (/^[0-9]{3,4}$/).test($('#join_phoneMiddle').val()) && (/^[0-9]{4}$/).test($('#join_phoneLast').val())) {
+        if ((/^[0-9]{3}$/).test($('#join_phoneFirst').val()) && (/^[0-9]{4}$/).test($('#join_phoneMiddle').val()) && (/^[0-9]{4}$/).test($('#join_phoneLast').val())) {
             $.ajax({
                 type: "POST",
                 url: '/login/post_duplicatePhone',
@@ -97,7 +97,7 @@ $(function() {
         }
     });
     $('#join_phoneLast').on('focus keyup change', function() {
-        if ((/^[0-9]{3}$/).test($('#join_phoneFirst').val()) && (/^[0-9]{3,4}$/).test($('#join_phoneMiddle').val()) && (/^[0-9]{4}$/).test($('#join_phoneLast').val())) {
+        if ((/^[0-9]{3}$/).test($('#join_phoneFirst').val()) && (/^[0-9]{4}$/).test($('#join_phoneMiddle').val()) && (/^[0-9]{4}$/).test($('#join_phoneLast').val())) {
             $.ajax({
                 type: "POST",
                 url: '/login/post_duplicatePhone',
@@ -192,7 +192,7 @@ $(function() {
             $('#join_email').focus();
             return;
         }
-        if ((/^[0-9]{3}$/).test(join_phoneFirst) && (/^[0-9]{3,4}$/).test(join_phoneMiddle) && (/^[0-9]{4}$/).test(join_phoneLast)) {
+        if ((/^[0-9]{3}$/).test(join_phoneFirst) && (/^[0-9]{4}$/).test(join_phoneMiddle) && (/^[0-9]{4}$/).test(join_phoneLast)) {
             $.ajax({
                 type: "POST",
                 url: '/login/post_duplicatePhone',

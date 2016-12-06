@@ -193,7 +193,7 @@ router.post('/post_local_join', function(req, res, next) { //자체로그인 요
         });
         return;
     }
-    if ((/^[0-9]{10,11}$/).test(phoneNum)) {} else {
+    if ((/^[0-9]{11}$/).test(phoneNum)) {} else {
         res.json({
             code: 0,
             err_msg: '전화번호 형식 오류'
@@ -306,7 +306,7 @@ router.post('/post_social_join', function(req, res, next) { //social_join에서 
             });
             return;
         }
-        if ((/^[0-9]{10,11}$/).test(phoneNum)) {} else {
+        if ((/^[0-9]{11}$/).test(phoneNum)) {} else {
             res.json({
                 code: 0,
                 err_msg: '전화번호 형식 오류'

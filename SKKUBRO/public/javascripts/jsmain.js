@@ -2,8 +2,10 @@ $(function(){
 	if($.getUrlVar('isNeedLogin') === 'true'){
 		// Usage!
 		sleep(500).then(() => {
-			$('a[data-modal-id]').trigger('click');
-			console.log('isNeedLogin~');
+			if($('a[data-modal-id').text() === '로그인'){
+				$('a[data-modal-id]').trigger('click');
+				console.log('isNeedLogin~');
+			}
 		});
 	}
 });

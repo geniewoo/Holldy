@@ -2,8 +2,8 @@ var mongojs = require('mongojs');
 var db = mongojs('SKKUBRO', ['clients']);
 
 /* GET home page. */
-exports.findAClient = function(value, exfieldJson, next) {
-    db.clients.findOne(value, exfieldJson, function(error, data) {
+exports.findAClient = function(findInfo, exfieldJson, next) {
+    db.clients.findOne(findInfo, exfieldJson, function(error, data) {
         if (error) {
             next(false);
         } else {
@@ -12,16 +12,15 @@ exports.findAClient = function(value, exfieldJson, next) {
     });
 }
 
-exports.insertFBClient = function(insert_info, next) {
-
+exports.insertFBClient = function(insertInfo, next) {
     db.clients.insert({
-        '_id': insert_info.local_ID,
-        'fb_ID': insert_info.fb_ID,
-        'name': insert_info.name,
-        'phoneNum': insert_info.phoneNum,
-        'email': insert_info.email,
-        'address': insert_info.address,
-        'joinDate': insert_info.joinDate
+        '_id': insertInfo.local_ID,
+        'fb_ID': insertInfo.fb_ID,
+        'name': insertInfo.name,
+        'phoneNum': insertInfo.phoneNum,
+        'email': insertInfo.email,
+        'address': insertInfo.address,
+        'joinDate': insertInfo.joinDate
     }, function(error, data) {
         if (error) {
             next(false);
@@ -30,15 +29,15 @@ exports.insertFBClient = function(insert_info, next) {
         }
     });
 }
-exports.insertLocalClient = function(insert_info, next) {
+exports.insertLocalClient = function(insertInfo, next) {
     db.clients.insert({
-        '_id': insert_info.local_ID,
-        'hPassword': insert_info.local_password,
-        'name': insert_info.name,
-        'phoneNum': insert_info.phoneNum,
-        'email': insert_info.email,
-        'address': insert_info.address,
-        'joinDate': insert_info.joinDate
+        '_id': insertInfo.local_ID,
+        'hPassword': insertInfo.local_password,
+        'name': insertInfo.name,
+        'phoneNum': insertInfo.phoneNum,
+        'email': insertInfo.email,
+        'address': insertInfo.address,
+        'joinDate': insertInfo.joinDate
     }, function(error, data) {
         if (error) {
             next(false);
@@ -47,12 +46,11 @@ exports.insertLocalClient = function(insert_info, next) {
         }
     });
 }
-exports.updateClient = function(find_info, update_info, next) {
-    console.log('1123', find_info, update_info);
+exports.updateClient = function(findInfo, updateInfo, next) {
     db.clients.update(
-        find_info
+        findInfo
     , {
-        $set: update_info
+        $set: updateInfo
     }, function(error, data) {
         console.log('dataassd', data);
         if (error) {
@@ -62,8 +60,8 @@ exports.updateClient = function(find_info, update_info, next) {
         }
     });
 }
-exports.findClients = function(find_info, except_info, sort_info, next){
-    db.clients.find(find_info, except_info).sort(sort_info, function(error, data){
+exports.findClients = function(findInfo, exceptInfo, sortInfo, next){
+    db.clients.find(findInfo, exceptInfo).sort(sortInfo, function(error, data){
         if(error){
             next(false);
         }else{
