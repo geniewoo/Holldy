@@ -7,11 +7,7 @@ var session = require('./session.js');
 router.get('/', function(req, res, next) {
     session.loginStatus(req.session, function(result) {
         if (result === 0) {
-            res.json({
-                code: 0,
-                isLogin: false,
-                err_msg: "needLogin"
-            })
+            res.redirect('/main?isNeedLogin=true');
         } else if (result === 1 || result === 2) {
             visitorsController.countUpVisitors(req, res, '/myPage', function(result) {
                 if (result === true) {
