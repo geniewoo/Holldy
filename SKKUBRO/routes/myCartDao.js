@@ -18,7 +18,6 @@ exports.getMyCart = function(local_ID, type, next) {
     });
 }
 exports.deleteMyCart = function(cart_food_ID, session, type, next) {
-    console.log(cart_food_ID, type, session.localLogin.local_ID);
     db.myCart.remove({
         '_id': mongojs.ObjectId(cart_food_ID),
         'cartType': type,

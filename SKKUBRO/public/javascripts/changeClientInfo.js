@@ -257,17 +257,17 @@ function connectTextForm(oriData, type){
 		if(isAddressChange === true){
 			changeInfo.address = join_address;
 		}
-		console.log('하이용10');
+		console.log('하이용10', changeInfo);
 		$.ajax({
 			type: "POST",
 			url: '/myPage/changeClientInfo/post_changeClientInfo',
-			data: {changeInfo : changeInfo},
+			data: changeInfo,
 			success: function(result) {
            		if (result.code === 1) { //정보변경 성공
            			window.location.replace('/myPage');
            			console.log('하이용11');
            		} else {
-           			console.log('정보변경 실패');
+           			console.log('정보변경 실패', result);
            		}
            	}
            });

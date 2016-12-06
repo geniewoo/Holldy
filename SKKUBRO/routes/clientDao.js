@@ -47,6 +47,7 @@ exports.insertLocalClient = function(insertInfo, next) {
     });
 }
 exports.updateClient = function(findInfo, updateInfo, next) {
+    console.log('update', findInfo, updateInfo);
     db.clients.update(
         findInfo
     , {
