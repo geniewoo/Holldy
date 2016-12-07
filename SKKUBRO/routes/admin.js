@@ -194,6 +194,18 @@ module.exports = function(io) {
             });
         }
     });
+    router.get('/community', function(req, res, next){
+        if (confirmAdmin(req)) {
+            fs.readFile('views/admin_community.html', function(error, data) {
+                res.send(data.toString());
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
     return router;
 }
 

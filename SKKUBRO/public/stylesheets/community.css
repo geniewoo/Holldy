@@ -1,0 +1,29 @@
+div.comm_container{
+	font-size: 0;
+}
+div.commCat {
+	display: inline-block;
+	width: 100%;
+}
+div.commCat a{
+	font-size: 20px;
+	display: block;
+	width: 100%;
+	text-align: center;
+	margin: 5px 0;
+}
+div.commCont {
+	display: inline-block;
+	width: 100%;
+}
+div.commCont a{
+	font-size: 10px;
+}
+@media(min-width: 500px){
+	div.commCat{
+		width: 20%;
+	}
+	div.commCont{
+		width: 80%;
+	}
+}
