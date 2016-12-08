@@ -94,7 +94,15 @@ module.exports = function(io) {
     });
     router.get('/visitor/get_join', function(req, res, next) {
         if (confirmAdmin(req)) {
-            clientDao.findClients({}, {hPassword:0, name:0, phoneNum:0,email:0,address:0}, {joinDate:1}, function(result) {
+            clientDao.findClients({}, {
+                hPassword: 0,
+                name: 0,
+                phoneNum: 0,
+                email: 0,
+                address: 0
+            }, {
+                joinDate: 1
+            }, function(result) {
                 if (result) {
                     res.json({
                         code: 0,
@@ -109,20 +117,20 @@ module.exports = function(io) {
             });
         }
     });
-    router.get('/visitor/get_visitors', function(req, res, next){
+    router.get('/visitor/get_visitors', function(req, res, next) {
         console.log('visitors1');
-        if(confirmAdmin(req)){
+        if (confirmAdmin(req)) {
             console.log('visitors2', req.query.addressName, req.query.yearMonth);
-            visitorsController.findVisitors(req, res, req.query.addressName, req.query.yearMonth, function(result){
+            visitorsController.findVisitors(req, res, req.query.addressName, req.query.yearMonth, function(result) {
                 console.log('visitors3');
-                if(result){
+                if (result) {
                     res.json({
                         'code': 1,
                         'data': result
                     });
-                }else{
+                } else {
                     res.json({
-                        'code':0,
+                        'code': 0,
                         'err_msg': 'findVisitors 오류'
                     });
                 }
@@ -194,7 +202,7 @@ module.exports = function(io) {
             });
         }
     });
-    router.get('/community', function(req, res, next){
+    router.get('/community', function(req, res, next) {
         if (confirmAdmin(req)) {
             fs.readFile('views/admin_community.html', function(error, data) {
                 res.send(data.toString());
@@ -203,6 +211,43 @@ module.exports = function(io) {
             res.json({
                 'code': 0,
                 'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
+    router.get('/community/writeNotice', function(req, res, next) {
+        if (confirmAdmin(req)) {
+            fs.readFile('views/admin_writeNotice.html', function(error, data) {
+                res.send(data.toString());
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
+
+    router.get('/community/get_noticeCat', function(req, res, next) {
+        if (confirmAdmin(req)) {
+            res.json({
+                code: 1,
+                data: []
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
+    router.post('/community/post_writeNotice', function(req, res, next) {
+        console.log('writeNotice');
+        console.log(req.body);
+        console.log('writeNotice1');
+        if (confirmAdmin(req)) {
+            console.log(req.body);
+            res.json({
+                code: 0
             });
         }
     });

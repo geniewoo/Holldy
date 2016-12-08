@@ -19,6 +19,10 @@ div.commCont {
 div.commCont a{
 	font-size: 10px;
 }
+table.commContTable{
+	font-size: 14px;
+}
+
 @media(min-width: 500px){
 	div.commCat{
 		width: 20%;
