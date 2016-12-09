@@ -1,12 +1,16 @@
 module.exports = function(io) {
     var express = require('express');
     var fs = require('fs');
+    var multer = require('multer');
     var router = express.Router();
     var adminRoom = 'admin_8972';
     var clientID = '';
     var productsDao = require('./productsDao.js');
     var clientDao = require('./clientDao.js');
     var visitorsController = require('./visitorsController.js');
+    var upload = multer({
+        dest: './uploadFolder'
+    });
 
     router.get('/', function(req, res, nex) {
         fs.readFile('views/admin_login.html', function(error, data) {
@@ -240,20 +244,60 @@ module.exports = function(io) {
             });
         }
     });
-    router.post('/community/post_writeNotice', function(req, res, next) {
-        console.log('writeNotice');
-        console.log(req.body);
-        console.log('writeNotice1');
-        if (confirmAdmin(req)) {
-            console.log(req.body);
-            res.json({
-                code: 0
+    router.post('/community/post_writeNotice', upload.array('uploadFile'), function(req, res, next) {
+        console.log('notice', req.files);
+        var filesLength = req.files.length;
+        var uploadCnt = 0;
+        console.log('notice2', filesLength);
+        if (filesLength <= 0) {
+            res.status(500).end();
+            console.log('notice3');
+        } else {
+            console.log('notice4');
+            imageUpload(req.files, 0, filesLength, fs, function(result) {
+                if (result === true) {
+                    res.json({
+                        code: 1
+                    });
+                }
             });
         }
     });
     return router;
 }
 
+function imageUpload(filesArr, index, filesLength, fs, next) {
+    files = filesArr[index];
+    console.log('notice5', files.path);
+    fs.readFile(files.path, function(err, data) {
+        if (err) {
+            console.log('err', err);
+        }
+        var filePath = __dirname + '\\..\\uploadFolder\\' + files.originalname;
+        console.log('notice6', filePath);
+        fs.writeFile(filePath, data, function(error) {
+            console.log('notice7');
+            console.log(error);
+            if (error) {
+                throw error;
+            } else {
+                fs.unlink(files.path, function(removeFileErr) {
+                    console.log('notice8');
+                    if (removeFileErr) {
+                        throw removeFileErr;
+                    } else {
+                        index++;
+                        if (index == filesLength) {
+                            next(true);
+                        } else {
+                            imageUpload(filesArr, index, filesLength, fs, next);
+                        }
+                    }
+                });
+            }
+        });
+    });
+}
 
 var isAdmin = function(id, pw, req) {
     if ('skkubro1209' === id && 'gnlvkr8972' === pw) {

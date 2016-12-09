@@ -24,6 +24,7 @@ var community = require('./routes/community');
 var login = require('./routes/login');
 var order = require('./routes/order');
 var myPage = require('./routes/myPage');
+var upload = require('./routes/upload');
 
 var app = express();
 app.io = io;
@@ -61,6 +62,7 @@ app.use('/community', community);
 app.use('/login', login);
 app.use('/order', order);
 app.use('/myPage', myPage);
+app.use('/upload', upload);
 app.use('/*', err_page);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -69,6 +69,9 @@ var visitorsNum = function(req, res, addressName, today, todayHour, next) {
     if (req.cookies.visitorCheck) {
         next();
     } else {
+        res.cookie('visitorCheck', true, {
+            maxAge: 3600000
+        });
         visitorsDao.findAvisitor({
             addressName: 'visitors',
             yearMonth: today.substring(0, 7),
@@ -99,9 +102,5 @@ var visitorsNum = function(req, res, addressName, today, todayHour, next) {
                 });
             }
         });
-        res.cookie('visitorCheck', true, {
-            maxAge: 3600000
-        });
-        next(true);
     }
 }
