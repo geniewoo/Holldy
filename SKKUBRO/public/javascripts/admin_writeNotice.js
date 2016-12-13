@@ -2,6 +2,10 @@ $(function() {
     $(document).on('click', '#files_send', function() {
         var formData = new FormData();
         var totalSize = 0;
+        if($('#commWriteTitle').val() == ''){
+            alert('제목을 최소 한글자 이상 입력해 주세요');
+            return;
+        }
         for (var i = 0; i < $('#photo_upload')[0].files.length; i++) {
             if (!filecheck($('#photo_upload')[0].files[i].name)) {
                 alert('.jpg, gif, jpeg, bmp, png 파일만 업로드 가능합니다');
@@ -30,7 +34,7 @@ $(function() {
                     console.log(postData);
                     $.post('/admin12345abcde/community/post_writeNoticeText', {commWrite : JSON.stringify(postData)}, function(result){
                         if(result.code === 1){
-                            //window.location.href = '/admin12345abcde/community';
+                            window.location.href = '/admin12345abcde/community';
                         }
                     });
                 }

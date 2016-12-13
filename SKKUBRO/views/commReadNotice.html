@@ -4,27 +4,24 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script src="/javascripts/header_nav.js"></script>
-	<script src="/javascripts/jscommunity.js"></script>
+	<script src="/javascripts/commReadNotice.js"></script>
 	<script src="/javascripts/tail_table.js"></script>
 	<link rel="stylesheet" href="/stylesheets/header_nav.css"/>
 	<link rel="stylesheet" href="/stylesheets/style.css"/>
-	<link rel="stylesheet" href="/stylesheets/community.css"/>
+	<link rel="stylesheet" href="/stylesheets/readComm.css"/>
 	<title></title>
 </head>
 <body>
 	<div class="header_nav_container" id="header_nav_container"></div>
 	<div class="main_container">
-		<div class="comm_container">
-			<div class="commCat">
-				<a name="notice" href="#">공지사항</a>
-				<a name="event" href="#">이벤트</a>
-				<a name="QnA" href="#">Q n A</a>
-			</div>
-			<div class="commCont">
-				<h1 id="commContTitle"></h1>
+		<div class="readComm_container">
+			<div class="readCommTitle"><p id="readCommTitle"></p> <p id="readCommDate"></p></div>
+			<div class="readCommCont">
+				<div class="readCommImg" id="readCommImg"></div>
+				<p id="readCommCont"></p>
 			</div>
 		</div>
-		<a href="#">글쓰기</a>
+		<a href="#">목록</a>
 	</div>
 	<div id="tail_table_container" class="tail_table_container"></div>
 </body>

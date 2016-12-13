@@ -233,10 +233,26 @@ module.exports = function(io) {
     });
 
     router.get('/community/get_noticeCat', function(req, res, next) {
-        if (confirmAdmin(req)) {
-            res.json({
-                code: 1,
-                data: []
+        if(confirmAdmin(req)){
+            var skip = req.query.index - 1;
+            console.log('skiiip', skip);
+            uploadDao.findCommNotice({}, {cont:0, imagePaths:0}, {uploadDate:1}, 10*skip, 10, function(data1){//    {_id:/^adminNotice/}
+                if(data1){
+                    uploadDao.countCommNotice(function(data2){
+                        console.log('index', skip+1);
+                        res.json({
+                            code : 1,
+                            data : data1,
+                            index : req.query.index,
+                            count : data2
+                        });
+                    })
+                }else{
+                    res.json({
+                        code:0,
+                        err_msg:'uploadDao error'
+                    });
+                }
             });
         } else {
             res.json({
@@ -252,7 +268,7 @@ module.exports = function(io) {
             if (filesLength <= 0) {
                 res.status(500).end();
             } else {
-                imageUpload(req.files, 0, filesLength, fs, [], function(result, imagePaths) {
+                imageUpload(req.files, 0, filesLength, fs, 'notice\\', [], function(result, imagePaths) {
                     if (result === true) {
                         console.log('imagePaths', imagePaths);
                         res.json({
@@ -278,9 +294,8 @@ module.exports = function(io) {
             var imagePaths = commWrite.imagePaths;
             var nowDate = new Date();
             var nowTime = nowDate.getTime();
-            nowDate = getDate(nowDate);
             console.log(nowTime, req.body.imagePaths);
-            uploadDao.insertUpload({_id : 'admin' + nowTime, title : title, cont : cont, imagePaths: imagePaths, nowDate:nowDate}, function(result){
+            uploadDao.insertCommNotice({_id : 'adminNotice' + nowTime, title : title, cont : cont, imagePaths: imagePaths, uploadDate:nowDate}, function(result){
                 res.json({
                     code: 1
                 });
@@ -295,24 +310,21 @@ module.exports = function(io) {
     return router;
 }
 
-function imageUpload(filesArr, index, filesLength, fs, imagePaths, next) {
+function imageUpload(filesArr, index, filesLength, fs, folderName, imagePaths, next) {
     files = filesArr[index];
-    console.log('notice5', files.path);
     fs.readFile(files.path, function(err, data) {
         if (err) {
             console.log('err', err);
         }
-        var filePath = __dirname + '\\..\\uploadFolder\\' + files.originalname;
-        imagePaths.push(filePath);
-        console.log('notice6', filePath);
+        var forTime = new Date();
+        files.originalname = forTime.getTime() + files.originalname;
+        var filePath = __dirname + '\\..\\public\\uploadFolder\\' + folderName + files.originalname;
+        imagePaths.push(files.originalname);
         fs.writeFile(filePath, data, function(error) {
-            console.log('notice7');
-            console.log(error);
             if (error) {
                 throw error;
             } else {
                 fs.unlink(files.path, function(removeFileErr) {
-                    console.log('notice8');
                     if (removeFileErr) {
                         throw removeFileErr;
                     } else {
@@ -320,7 +332,7 @@ function imageUpload(filesArr, index, filesLength, fs, imagePaths, next) {
                         if (index == filesLength) {
                             next(true, imagePaths);
                         } else {
-                            imageUpload(filesArr, index, filesLength, fs, imagePaths, next);
+                            imageUpload(filesArr, index, filesLength, fs, folderName, imagePaths, next);
                         }
                     }
                 });
@@ -345,19 +357,4 @@ var confirmAdmin = function(req) {
     } else {
         return false;
     }
-}
-
-var getDate = function(date) {
-    var returnDate = date.getFullYear() + '-';
-    if (date.getMonth() < 9) {
-        returnDate += '0' + (date.getMonth() + 1) + '-';
-    } else {
-        returnDate += (date.getMonth() + 1) + '-';
-    }
-    if (date.getDate() < 10) {
-        returnDate += '0' + date.getDate();
-    } else {
-        returnDate += date.getDate();
-    }
-    return returnDate;
 }
