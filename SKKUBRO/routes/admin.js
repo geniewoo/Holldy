@@ -233,24 +233,29 @@ module.exports = function(io) {
     });
 
     router.get('/community/get_noticeCat', function(req, res, next) {
-        if(confirmAdmin(req)){
+        if (confirmAdmin(req)) {
             var skip = req.query.index - 1;
             console.log('skiiip', skip);
-            uploadDao.findCommNotice({}, {cont:0, imagePaths:0}, {uploadDate:1}, 10*skip, 10, function(data1){//    {_id:/^adminNotice/}
-                if(data1){
-                    uploadDao.countCommNotice(function(data2){
-                        console.log('index', skip+1);
+            uploadDao.findCommNotice({}, {
+                cont: 0,
+                imagePaths: 0
+            }, {
+                uploadDate: -1
+            }, 10 * skip, 10, function(data1) { //    {_id:/^adminNotice/}
+                if (data1) {
+                    uploadDao.countCommNotice(function(data2) {
+                        console.log('index', skip + 1);
                         res.json({
-                            code : 1,
-                            data : data1,
-                            index : req.query.index,
-                            count : data2
+                            code: 1,
+                            data: data1,
+                            index: req.query.index,
+                            count: data2
                         });
                     })
-                }else{
+                } else {
                     res.json({
-                        code:0,
-                        err_msg:'uploadDao error'
+                        code: 0,
+                        err_msg: 'uploadDao error'
                     });
                 }
             });
@@ -266,7 +271,10 @@ module.exports = function(io) {
             var filesLength = req.files.length;
             var uploadCnt = 0;
             if (filesLength <= 0) {
-                res.status(500).end();
+                res.json({
+                    code: 1,
+                    msg: "파일이 없습니다"
+                });
             } else {
                 imageUpload(req.files, 0, filesLength, fs, 'notice\\', [], function(result, imagePaths) {
                     if (result === true) {
@@ -288,14 +296,18 @@ module.exports = function(io) {
     router.post('/community/post_writeNoticeText', function(req, res, next) {
         console.log('NoticeText');
         if (confirmAdmin(req)) {
+            var insertJson = {};
             var commWrite = JSON.parse(req.body.commWrite);
-            var title = commWrite.commWriteTitle;
-            var cont = commWrite.commWriteCont;
-            var imagePaths = commWrite.imagePaths;
+            console.log(commWrite);
+            insertJson.title = commWrite.commWriteTitle;
+            insertJson.cont = commWrite.commWriteCont;
             var nowDate = new Date();
-            var nowTime = nowDate.getTime();
-            console.log(nowTime, req.body.imagePaths);
-            uploadDao.insertCommNotice({_id : 'adminNotice' + nowTime, title : title, cont : cont, imagePaths: imagePaths, uploadDate:nowDate}, function(result){
+            insertJson.uploadDate = nowDate;
+            insertJson._id = 'adminNotice' + nowDate.getTime();
+            if (commWrite.imagePaths) {
+                insertJson.imagePaths = commWrite.imagePaths;
+            }
+            uploadDao.insertCommNotice(insertJson, function(result) {
                 res.json({
                     code: 1
                 });
@@ -305,7 +317,7 @@ module.exports = function(io) {
                 'code': 0,
                 'err_msg': '어드민 로그인 안되어있습니다'
             });
-        } 
+        }
     });
     return router;
 }

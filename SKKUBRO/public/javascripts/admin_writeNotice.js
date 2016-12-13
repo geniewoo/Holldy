@@ -6,40 +6,52 @@ $(function() {
             alert('제목을 최소 한글자 이상 입력해 주세요');
             return;
         }
-        for (var i = 0; i < $('#photo_upload')[0].files.length; i++) {
-            if (!filecheck($('#photo_upload')[0].files[i].name)) {
-                alert('.jpg, gif, jpeg, bmp, png 파일만 업로드 가능합니다');
+        if($('#photo_upload')[0].files.length>0){
+            for (var i = 0; i < $('#photo_upload')[0].files.length; i++) {
+                if (!filecheck($('#photo_upload')[0].files[i].name)) {
+                    alert('.jpg, gif, jpeg, bmp, png 파일만 업로드 가능합니다');
+                    return;
+                }
+                formData.append('uploadFile', $('#photo_upload')[0].files[i]);
+                totalSize += $('#photo_upload')[0].files[i].size;
+            }
+            if (totalSize / 1024 > 20480) {
+                alert('20MB초과입니다');
                 return;
             }
-            formData.append('uploadFile', $('#photo_upload')[0].files[i]);
-            totalSize += $('#photo_upload')[0].files[i].size;
-        }
-        if (totalSize / 1024 > 20480) {
-            alert('20MB초과입니다');
-            return;
-        }
-        $.ajax({
-            url: '/admin12345abcde/community/post_writeNoticeImage',
-            data: formData,
-            processData: false,
-            contentType: false,
-            type: 'POST',
-            success: function(data) {
-                console.log(data);
-                if(data.code === 1){
-                    var imagePaths = data.imagePaths;
-                    var commWriteTitle = $('#commWriteTitle').val();
-                    var commWriteCont = $('#commWriteCont').val();
-                    var postData = {commWriteTitle : commWriteTitle, commWriteCont : commWriteCont, imagePaths: imagePaths};
-                    console.log(postData);
-                    $.post('/admin12345abcde/community/post_writeNoticeText', {commWrite : JSON.stringify(postData)}, function(result){
-                        if(result.code === 1){
-                            window.location.href = '/admin12345abcde/community';
-                        }
-                    });
+            $.ajax({
+                url: '/admin12345abcde/community/post_writeNoticeImage',
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function(data) {
+                    console.log(data);
+                    if(data.code === 1){
+                        var imagePaths = data.imagePaths;
+                        var commWriteTitle = $('#commWriteTitle').val();
+                        var commWriteCont = $('#commWriteCont').val();
+                        var postData = {commWriteTitle : commWriteTitle, commWriteCont : commWriteCont, imagePaths: imagePaths};
+                        console.log(postData);
+                        $.post('/admin12345abcde/community/post_writeNoticeText', {commWrite : JSON.stringify(postData)}, function(result){
+                            if(result.code === 1){
+                                window.location.href = '/admin12345abcde/community';
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            var commWriteTitle = $('#commWriteTitle').val();
+            var commWriteCont = $('#commWriteCont').val();
+            var postData = {commWriteTitle : commWriteTitle, commWriteCont : commWriteCont};
+            console.log(postData);
+            $.post('/admin12345abcde/community/post_writeNoticeText', {commWrite : JSON.stringify(postData)}, function(result){
+                if(result.code === 1){
+                    window.location.href = '/admin12345abcde/community';
+                }
+            });
+        }
     });
     //handleFilesSelect 실행되는지 알방법없음
     function handleFileSelect(evt) {
