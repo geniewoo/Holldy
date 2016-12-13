@@ -1,69 +1,43 @@
 $(function() {
-    $('#commWriteBtn').on('click', function(event) {
-        event.preventDefault();
+    $(document).on('click', '#files_send', function() {
+        var formData = new FormData();
         var totalSize = 0;
-        var formDatas = new FormData();
-        $.each($('#commWriteFile')[0].files, function(index) {
-            console.log(this);
-            if (!filecheck(this.name)) {
+        for (var i = 0; i < $('#photo_upload')[0].files.length; i++) {
+            if (!filecheck($('#photo_upload')[0].files[i].name)) {
                 alert('.jpg, gif, jpeg, bmp, png 파일만 업로드 가능합니다');
                 return;
             }
-            formDatas.append('image' + index, this);
-
-            totalSize += this.size;
-            console.log(totalSize / 1024);
-        });
-        for (var pair of formDatas.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
+            formData.append('uploadFile', $('#photo_upload')[0].files[i]);
+            totalSize += $('#photo_upload')[0].files[i].size;
         }
         if (totalSize / 1024 > 20480) {
             alert('20MB초과입니다');
             return;
-        } else {
-            console.log(formDatas);
-            $.ajax({
-                type: "post",
-                url: '/admin12345abcde/community/post_writeNotice',
-                data: formDatas,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    if (result.code === 1) {
-                        location.replace('admin12345abcde/community');
-                    }
-                },
-                error: function(err) {
-                    console.log(err);
-                    alert('글쓰기 오류');
-                }
-            });
-            /*$.post('/admin12345abcde/community/post_writeNotice', formDatas, function(result) {
-                if (result.code === 1) {
-                    location.replace('admin12345abcde/community');
-                }
-            });*/
         }
-    });
-    $(document).on('click', '#files_send', function() {
-        var formData = new FormData();
-
-        for (var i = 0; i < $('#photo_upload')[0].files.length; i++) {
-            formData.append('uploadFile', $('#photo_upload')[0].files[i]);
-        }
-
         $.ajax({
-            url: '/admin12345abcde/community/post_writeNotice',
+            url: '/admin12345abcde/community/post_writeNoticeImage',
             data: formData,
             processData: false,
             contentType: false,
             type: 'POST',
             success: function(data) {
                 console.log(data);
+                if(data.code === 1){
+                    var imagePaths = data.imagePaths;
+                    var commWriteTitle = $('#commWriteTitle').val();
+                    var commWriteCont = $('#commWriteCont').val();
+                    var postData = {commWriteTitle : commWriteTitle, commWriteCont : commWriteCont, imagePaths: imagePaths};
+                    console.log(postData);
+                    $.post('/admin12345abcde/community/post_writeNoticeText', {commWrite : JSON.stringify(postData)}, function(result){
+                        if(result.code === 1){
+                            //window.location.href = '/admin12345abcde/community';
+                        }
+                    });
+                }
             }
         });
     });
-
+    //handleFilesSelect 실행되는지 알방법없음
     function handleFileSelect(evt) {
         var files = evt.target.files; // FileList object
 
@@ -80,7 +54,7 @@ $(function() {
                     // Render thumbnail.
                     var span = document.createElement('span');
                     span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                        '" title="', escape(theFile.name), '"/>'
+                    '" title="', escape(theFile.name), '"/>'
                     ].join('');
                     document.getElementById('list').insertBefore(span, null);
                 };

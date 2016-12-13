@@ -14,17 +14,11 @@
 <body>
 	<div class="main_container">
 		<div class="commWrite">
-			<form id="ajaxform" action="/admin/community/post_writeNotice" method="post" enctype="multipart/form-data">
-				<input type="file" multiple id="photo_upload">
-				<output id="list"></output>
-				<input type="button" value="완료" id="files_send">
-			</form>
-			<!--form action="/upload" method="post" enctype="multipart/form-data" id="commWriteForm">
-				<input type="text" name="commWrite" id="commWriteTitle" placeholder="제목" />
-				<input type="file" name="commWrite" id="commWriteFile" multiple="multiple" accept="image/gif, image/jpeg, image/png, image/bmp, image/jpg" />
-				<textarea name="commWrite" id="commWriteContent" /></textarea>
-			</form-->
-			<a href="#" id="commWriteBtn">완료</a>
+			<input type="text" id="commWriteTitle">
+			<input type="file" multiple id="photo_upload">
+			<output id="list"></output>
+			<textarea id="commWriteCont"></textarea>
+			<input type="button" value="완료" id="files_send">
 		</div>
 	</div>
 </body>

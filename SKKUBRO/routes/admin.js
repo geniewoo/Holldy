@@ -7,6 +7,7 @@ module.exports = function(io) {
     var clientID = '';
     var productsDao = require('./productsDao.js');
     var clientDao = require('./clientDao.js');
+    var uploadDao = require('./uploadDao.js');
     var visitorsController = require('./visitorsController.js');
     var upload = multer({
         dest: './uploadFolder'
@@ -244,29 +245,57 @@ module.exports = function(io) {
             });
         }
     });
-    router.post('/community/post_writeNotice', upload.array('uploadFile'), function(req, res, next) {
-        console.log('notice', req.files);
-        var filesLength = req.files.length;
-        var uploadCnt = 0;
-        console.log('notice2', filesLength);
-        if (filesLength <= 0) {
-            res.status(500).end();
-            console.log('notice3');
+    router.post('/community/post_writeNoticeImage', upload.array('uploadFile'), function(req, res, next) {
+        if (confirmAdmin(req)) {
+            var filesLength = req.files.length;
+            var uploadCnt = 0;
+            if (filesLength <= 0) {
+                res.status(500).end();
+            } else {
+                imageUpload(req.files, 0, filesLength, fs, [], function(result, imagePaths) {
+                    if (result === true) {
+                        console.log('imagePaths', imagePaths);
+                        res.json({
+                            code: 1,
+                            imagePaths: imagePaths
+                        });
+                    }
+                });
+            }
         } else {
-            console.log('notice4');
-            imageUpload(req.files, 0, filesLength, fs, function(result) {
-                if (result === true) {
-                    res.json({
-                        code: 1
-                    });
-                }
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
             });
         }
+    });
+    router.post('/community/post_writeNoticeText', function(req, res, next) {
+        console.log('NoticeText');
+        if (confirmAdmin(req)) {
+            var commWrite = JSON.parse(req.body.commWrite);
+            var title = commWrite.commWriteTitle;
+            var cont = commWrite.commWriteCont;
+            var imagePaths = commWrite.imagePaths;
+            var nowDate = new Date();
+            var nowTime = nowDate.getTime();
+            nowDate = getDate(nowDate);
+            console.log(nowTime, req.body.imagePaths);
+            uploadDao.insertUpload({_id : 'admin' + nowTime, title : title, cont : cont, imagePaths: imagePaths, nowDate:nowDate}, function(result){
+                res.json({
+                    code: 1
+                });
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        } 
     });
     return router;
 }
 
-function imageUpload(filesArr, index, filesLength, fs, next) {
+function imageUpload(filesArr, index, filesLength, fs, imagePaths, next) {
     files = filesArr[index];
     console.log('notice5', files.path);
     fs.readFile(files.path, function(err, data) {
@@ -274,6 +303,7 @@ function imageUpload(filesArr, index, filesLength, fs, next) {
             console.log('err', err);
         }
         var filePath = __dirname + '\\..\\uploadFolder\\' + files.originalname;
+        imagePaths.push(filePath);
         console.log('notice6', filePath);
         fs.writeFile(filePath, data, function(error) {
             console.log('notice7');
@@ -288,9 +318,9 @@ function imageUpload(filesArr, index, filesLength, fs, next) {
                     } else {
                         index++;
                         if (index == filesLength) {
-                            next(true);
+                            next(true, imagePaths);
                         } else {
-                            imageUpload(filesArr, index, filesLength, fs, next);
+                            imageUpload(filesArr, index, filesLength, fs, imagePaths, next);
                         }
                     }
                 });
@@ -315,4 +345,19 @@ var confirmAdmin = function(req) {
     } else {
         return false;
     }
+}
+
+var getDate = function(date) {
+    var returnDate = date.getFullYear() + '-';
+    if (date.getMonth() < 9) {
+        returnDate += '0' + (date.getMonth() + 1) + '-';
+    } else {
+        returnDate += (date.getMonth() + 1) + '-';
+    }
+    if (date.getDate() < 10) {
+        returnDate += '0' + date.getDate();
+    } else {
+        returnDate += date.getDate();
+    }
+    return returnDate;
 }
