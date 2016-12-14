@@ -41,3 +41,12 @@ exports.findACommNotice = function(findInfo, exceptInfo, next){
 		}
 	});
 }
+exports.deleteANotice = function(deleteInfo, next){
+	commNotice.remove(deleteInfo, function(error, data){
+		if(error){
+			next(false);
+		}else{
+			next(true);
+		}
+	});
+}

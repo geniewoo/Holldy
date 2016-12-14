@@ -242,23 +242,23 @@ module.exports = function(io) {
             }, {
                 uploadDate: -1
             }, 10 * skip, 10, function(data1) { //    {_id:/^adminNotice/}
-                if (data1) {
-                    uploadDao.countCommNotice(function(data2) {
-                        console.log('index', skip + 1);
-                        res.json({
-                            code: 1,
-                            data: data1,
-                            index: req.query.index,
-                            count: data2
-                        });
-                    })
-                } else {
+            if (data1) {
+                uploadDao.countCommNotice(function(data2) {
+                    console.log('index', skip + 1);
                     res.json({
-                        code: 0,
-                        err_msg: 'uploadDao error'
+                        code: 1,
+                        data: data1,
+                        index: req.query.index,
+                        count: data2
                     });
-                }
-            });
+                })
+            } else {
+                res.json({
+                    code: 0,
+                    err_msg: 'uploadDao error'
+                });
+            }
+        });
         } else {
             res.json({
                 'code': 0,
@@ -319,12 +319,91 @@ module.exports = function(io) {
             });
         }
     });
+    router.get('/community/get_delNotice', function(req, res, next){
+        if (confirmAdmin(req)) {
+            var noticeNum = req.query.noticeNum;
+            uploadDao.findACommNotice({_id:'adminNotice' + noticeNum}, {_id:0, title:0, cont:0, uploadDate:0}, function(data){
+                if(data.imagePaths.length > 0){
+                    data.imagePaths.forEach(function(item, index){
+                        fs.rename(__dirname + '\\..\\public\\uploadFolder\\' + 'notice\\' + item, __dirname + '\\..\\public\\uploadFolder\\' + 'notice\\delete\\' + item, function(err){
+                            if(err){
+                                console.log('커뮤니티 공지 사진이 이미 없거나 잘못되었습니다. 정상 진행합니다.');
+
+                                if(index + 1 >= data.imagePaths.length){
+                                    uploadDao.deleteANotice({_id : 'adminNotice' + noticeNum}, function(result){
+                                        if(result){
+                                            res.json({
+                                                code:1
+                                            });
+                                        }else{
+                                            res.json({
+                                                'code': 0,
+                                                'err_msg': '데이터베이스 문제'
+                                            });
+                                        }
+                                    });
+                                }
+                            }else{
+                                if(index + 1 >= data.imagePaths.length){
+                                    uploadDao.deleteANotice({_id : 'adminNotice' + noticeNum}, function(result){
+                                        if(result){
+                                            res.json({
+                                                code:1
+                                            });
+                                        }else{
+                                            res.json({
+                                                'code': 0,
+                                                'err_msg': '데이터베이스 문제'
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    });
+                }else{                    
+                    uploadDao.deleteANotice({_id : 'adminNotice' + noticeNum}, function(result){
+                        if(result){
+                            res.json({
+                                code:1
+                            });
+                        }else{
+                            res.json({
+                                'code': 0,
+                                'err_msg': '데이터베이스 문제'
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            res.json({
+                'code': 0,
+                'err_msg': '어드민 로그인 안되어있습니다'
+            });
+        }
+    });
     return router;
 }
 
 function imageUpload(filesArr, index, filesLength, fs, folderName, imagePaths, next) {
     files = filesArr[index];
-    fs.readFile(files.path, function(err, data) {
+    var forTime = new Date();
+    files.originalname = forTime.getTime() + files.originalname;
+    imagePaths.push(files.originalname);
+    fs.rename(files.path, __dirname + '\\..\\public\\uploadFolder\\' + folderName + files.originalname, function(err){
+        if(err){
+            throw err;
+        }else{
+            index++;
+            if (index == filesLength) {
+                next(true, imagePaths);
+            } else {
+                imageUpload(filesArr, index, filesLength, fs, folderName, imagePaths, next);
+            }
+        }
+    });
+    /*fs.readFile(files.path, function(err, data) {
         if (err) {
             console.log('err', err);
         }
@@ -350,7 +429,7 @@ function imageUpload(filesArr, index, filesLength, fs, folderName, imagePaths, n
                 });
             }
         });
-    });
+    });*/
 }
 
 var isAdmin = function(id, pw, req) {

@@ -1,26 +1,36 @@
 $(function() {
-    $('div.commCat>a').each(function() {
-        $(this).on('click', function(event) {
-            event.preventDefault();
-            if ($(this).attr('name') === "notice") {
-                $.get('/admin12345abcde/community/get_noticeCat?index=1', function(data) {
-                    console.log(data, data.nowIndex);
-                    if (data.code === 1) {
-                        makeNoticeCont(data.data, data.count, data.index);
-                    }
-                });
-            } else if ($(this).attr('name') === "event") {
-                $.get('/admin12345abcde/community/get_eventCat', function(data) {
-                    if (data.code === 1) {
-                        makeEventCont(data.data);
-                    }
-                });
-            } else if ($(this).attr('name') === "QnA") {
-                $.get('/admin12345abcde/community/get_QnACat', function(data) {
-                    if (data.code === 1) {
-                        makeQnACont(data.data);
-                    }
-                });
+    $('a[name="notice"]').on('click', function(event){
+        event.preventDefault();
+        $.get('/admin12345abcde/community/get_noticeCat?index=1', function(data) {
+            console.log(data, data.nowIndex);
+            if (data.code === 1) {
+                makeNoticeCont(data.data, data.count, data.index);
+            }
+        });
+    });
+
+    $('a[name="event"]').on('click', function(event){
+        event.preventDefault();
+        $.get('/admin12345abcde/community/get_eventCat?index=1', function(data) {
+            if (data.code === 1) {
+                makeEventCont(data.data, data.count, data.index);
+            }
+        });
+    });
+
+    $('a[name="QnA"]').on('click', function(event){
+        event.preventDefault();
+        $.get('/admin12345abcde/community/get_QnACat?index=1', function(data) {
+            if (data.code === 1) {
+                makeQnACont(data.data, data.count, data.index);
+            }
+        });
+    });
+    $('a[name="review"]').on('click', function(event){
+        event.preventDefault();
+        $.get('/admin12345abcde/community/get_reviewCat?index=1', function(data) {
+            if (data.code === 1) {
+                makeReviewCont(data.data, data.count, data.index);
             }
         });
     });
@@ -66,12 +76,25 @@ function makeNoticeCont(data, count, index) {
     });
     $('a[name="commContDel"]').each(function() {
         $(this).on('click', function(event) {
-            even.preventDefault();
+            event.preventDefault();
             noticeNum = $(this).attr('id');
             noticeNum = noticeNum.substring(11, noticeNum.length);
             $.get('/admin12345abcde/community/get_delNotice?noticeNum=' + noticeNum, function(result) {
                 if(result.code ===1){
                     window.location.reload(true);
+                }
+            });
+        });
+    });
+
+    $('a[name="index_a"]').each(function(){//인덱스용
+        $(this).on('click', function(event){
+            event.preventDefault();
+            var index = $(this).text();
+            $.get('/admin12345abcde/community/get_noticeCat?index=' + index, function(data) {
+                console.log(data, data.nowIndex);
+                if (data.code === 1) {
+                    makeNoticeCont(data.data, data.count, data.index);
                 }
             });
         });
@@ -84,14 +107,14 @@ function makeCommCatIndex(index, count) {
     if (index == page10 + 1) {
         indexStr += '<a class = "commNowIndex">' + (page10 + 1) + '</a>';
     } else {
-        indexStr += '<a>' + (page10 + 1) + '</a>';
+        indexStr += '<a name="index_a" href="#">' + (page10 + 1) + '</a>';
     }
     for (var i = 1; i < 10; i++) {
         if (count > page10 * 100 + 10 * i) {
             if (page10 + i + 1 == index) {
-                indexStr += '|' + '<a class = "commNowIndex">' + (page10 + i + 1) + '</a>';
+                indexStr += ' | ' + '<a class = "commNowIndex">' + (page10 + i + 1) + '</a>';
             } else {
-                indexStr += '|' + '<a>' + (page10 + i + 1) + '</a>';
+                indexStr += ' | ' + '<a name="index_a" href="#">' + (page10 + i + 1) + '</a>';
             }
         }
     }
@@ -99,9 +122,69 @@ function makeCommCatIndex(index, count) {
     $('#commCatIndex').append(indexStr);
 }
 
-function makeEventCont(data) {
+function makeNoticeCont(data, count, index) {
+    console.log('data', data);
     $('#commContTitle').text('이벤트');
+    var theadStr = '';
+    theadStr += '<tr>';
+    theadStr += '<th></th><th>제목</th><th>작성일</th><th>이벤트 기간</th>';
+    theadStr += '</tr>';
+    $('#commContThead').html('');
+    $('#commContThead').append(theadStr);
 
+    var tbodyStr = '';
+    data.forEach(function(item) {
+        tbodyStr += '<tr>';
+        var uploadDate = new Date(item.uploadDate);
+        tbodyStr += '<th><a href="#" name="commContDel" id="' + item._id + '">삭제</th>';
+        tbodyStr += '<th><a href="#" name="commContOpen" class="commContTbodyTitle" id="' + item._id + '">' + item.title + '</th>';
+        tbodyStr += '<th><p href="#" class="commContTbodyDate">' + getDate(uploadDate) + '</th>';
+        tbodyStr += '<th><p> ' + item.start + ' ~ ' + item.end + ' </p></th>';
+        tbodyStr += '</tr>';
+    });
+    $('#commContTbody').html('');
+    $('#commContTbody').append(tbodyStr);
+
+    makeCommCatIndex(index, count); //밑에 페이지 1|2|3 만드는것
+
+    var activeStr = '';
+    activeStr += '<a href="/admin12345abcde/community/writeEvent">글쓰기</a>';
+    $('#commActive').html('');
+    $('#commActive').append(activeStr);
+
+    $('a[name="commContOpen"]').each(function() {
+        $(this).on('click', function(event) {
+            event.preventDefault();
+            var eventNum = $(this).attr('id');
+            eventNum = eventNum.substring(11, eventNum.length);
+            window.location.href = "/community/readEvent?eventNum=" + eventNum;
+        });
+    });
+    $('a[name="commContDel"]').each(function() {
+        $(this).on('click', function(event) {
+            event.preventDefault();
+            var eventNum = $(this).attr('id');
+            eventNum = eventNum.substring(11, eventNum.length);
+            $.get('/admin12345abcde/community/get_delEvent?eventNum=' + eventNum, function(result) {
+                if(result.code ===1){
+                    window.location.reload(true);
+                }
+            });
+        });
+    });
+
+    $('a[name="index_a"]').each(function(){
+        $(this).on('click', function(event){
+            event.preventDefault();
+            var index = $(this).text();
+            $.get('/admin12345abcde/community/get_eventCat?index=' + index, function(data) {
+                console.log(data, data.nowIndex);
+                if (data.code === 1) {
+                    makeEventCont(data.data, data.count, data.index);
+                }
+            });
+        });
+    });
 }
 
 function makeQnACont(data) {
