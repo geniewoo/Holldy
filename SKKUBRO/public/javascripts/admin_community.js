@@ -49,35 +49,48 @@ function makeNoticeCont(data, count, index) {
     $('#commContTbody').html('');
     $('#commContTbody').append(tbodyStr);
 
-    makeCommCatIndex(index, count);//밑에 페이지 1|2|3 만드는것
+    makeCommCatIndex(index, count); //밑에 페이지 1|2|3 만드는것
 
     var activeStr = '';
     activeStr += '<a href="/admin12345abcde/community/writeNotice">글쓰기</a>';
     $('#commActive').html('');
     $('#commActive').append(activeStr);
 
-    $('a[name="commContOpen"]').each(function(){
-        $(this).on('click', function(event){
+    $('a[name="commContOpen"]').each(function() {
+        $(this).on('click', function(event) {
             event.preventDefault();
             noticeNum = $(this).attr('id');
             noticeNum = noticeNum.substring(11, noticeNum.length);
-            window.location.href="/community/readNotice?noticeNum=" + noticeNum;
+            window.location.href = "/community/readNotice?noticeNum=" + noticeNum;
+        });
+    });
+    $('a[name="commContDel"]').each(function() {
+        $(this).on('click', function(event) {
+            even.preventDefault();
+            noticeNum = $(this).attr('id');
+            noticeNum = noticeNum.substring(11, noticeNum.length);
+            $.get('/admin12345abcde/community/get_delNotice?noticeNum=' + noticeNum, function(result) {
+                if(result.code ===1){
+                    window.location.reload(true);
+                }
+            });
         });
     });
 }
-function makeCommCatIndex(index, count){
-    var page10 = (index-1) % 10;
+
+function makeCommCatIndex(index, count) {
+    var page10 = (index - 1) % 10;
     var indexStr = '';
-    if(index == page10 + 1){
+    if (index == page10 + 1) {
         indexStr += '<a class = "commNowIndex">' + (page10 + 1) + '</a>';
-    }else{
+    } else {
         indexStr += '<a>' + (page10 + 1) + '</a>';
     }
-    for(var i = 1 ; i < 10 ; i ++){
-        if(count > page10 * 100 + 10 * i){
-            if(page10 + i +1 == index){
+    for (var i = 1; i < 10; i++) {
+        if (count > page10 * 100 + 10 * i) {
+            if (page10 + i + 1 == index) {
                 indexStr += '|' + '<a class = "commNowIndex">' + (page10 + i + 1) + '</a>';
-            }else{
+            } else {
                 indexStr += '|' + '<a>' + (page10 + i + 1) + '</a>';
             }
         }
