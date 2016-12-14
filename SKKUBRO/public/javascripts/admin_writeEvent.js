@@ -2,11 +2,15 @@ $(function() {
     $(document).on('click', '#files_send', function() {
         var formData = new FormData();
         var totalSize = 0;
-        if($('#commWriteTitle').val() == ''){
+        if ($('#commWriteTitle').val() == '') {
             alert('제목을 최소 한글자 이상 입력해 주세요');
             return;
         }
-        if($('#photo_upload')[0].files.length>0){
+        if ($('#commWriteStartDate').val() == '' || $('#commWriteEndDate').val() == '') {
+            alert('시작날자 끝날자를 지정해 주세요');
+            return;
+        }
+        if ($('#photo_upload')[0].files.length > 0) {
             for (var i = 0; i < $('#photo_upload')[0].files.length; i++) {
                 if (!filecheck($('#photo_upload')[0].files[i].name)) {
                     alert('.jpg, gif, jpeg, bmp, png 파일만 업로드 가능합니다');
@@ -20,34 +24,53 @@ $(function() {
                 return;
             }
             $.ajax({
-                url: '/admin12345abcde/community/post_uploadImage?catName=notice',
+                url: '/admin12345abcde/community/post_uploadImage?catName=event',
                 data: formData,
                 processData: false,
                 contentType: false,
                 type: 'POST',
                 success: function(data) {
                     console.log(data);
-                    if(data.code === 1){
+                    if (data.code === 1) {
                         var imagePaths = data.imagePaths;
                         var commWriteTitle = $('#commWriteTitle').val();
                         var commWriteCont = $('#commWriteCont').val();
-                        var postData = {commWriteTitle : commWriteTitle, commWriteCont : commWriteCont, imagePaths: imagePaths};
+                        var startDate = $('#commWriteStartDate').val();
+                        var endDate = $('#commWriteEndDate').val();
+                        var postData = {
+                            commWriteTitle: commWriteTitle,
+                            commWriteCont: commWriteCont,
+                            imagePaths: imagePaths,
+                            startDate: startDate,
+                            endDate: endDate
+                        };
                         console.log(postData);
-                        $.post('/admin12345abcde/community/post_writeNoticeText', {commWrite : JSON.stringify(postData)}, function(result){
-                            if(result.code === 1){
+                        $.post('/admin12345abcde/community/post_writeEventText', {
+                            commWrite: JSON.stringify(postData)
+                        }, function(result) {
+                            if (result.code === 1) {
                                 window.location.href = '/admin12345abcde/community';
                             }
                         });
                     }
                 }
             });
-        }else{
+        } else {
             var commWriteTitle = $('#commWriteTitle').val();
             var commWriteCont = $('#commWriteCont').val();
-            var postData = {commWriteTitle : commWriteTitle, commWriteCont : commWriteCont};
+            var startDate = $('#commWriteStartDate').val();
+            var endDate = $('#commWriteEndDate').val();
+            var postData = {
+                commWriteTitle: commWriteTitle,
+                commWriteCont: commWriteCont,
+                startDate: startDate,
+                endDate: endDate
+            };
             console.log(postData);
-            $.post('/admin12345abcde/community/post_writeNoticeText', {commWrite : JSON.stringify(postData)}, function(result){
-                if(result.code === 1){
+            $.post('/admin12345abcde/community/post_writeEventText', {
+                commWrite: JSON.stringify(postData)
+            }, function(result) {
+                if (result.code === 1) {
                     window.location.href = '/admin12345abcde/community';
                 }
             });
@@ -70,7 +93,7 @@ $(function() {
                     // Render thumbnail.
                     var span = document.createElement('span');
                     span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                    '" title="', escape(theFile.name), '"/>'
+                        '" title="', escape(theFile.name), '"/>'
                     ].join('');
                     document.getElementById('list').insertBefore(span, null);
                 };

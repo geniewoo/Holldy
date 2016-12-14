@@ -12,6 +12,7 @@ $(function() {
     $('a[name="event"]').on('click', function(event){
         event.preventDefault();
         $.get('/admin12345abcde/community/get_eventCat?index=1', function(data) {
+            console.log(data, data.nowIndex);
             if (data.code === 1) {
                 makeEventCont(data.data, data.count, data.index);
             }
@@ -51,9 +52,9 @@ function makeNoticeCont(data, count, index) {
     data.forEach(function(item) {
         tbodyStr += '<tr>';
         var uploadDate = new Date(item.uploadDate);
-        tbodyStr += '<th><a href="#" name="commContDel" id="' + item._id + '">삭제</th>';
-        tbodyStr += '<th><a href="#" name="commContOpen" class="commContTbodyTitle" id="' + item._id + '">' + item.title + '</th>';
-        tbodyStr += '<th><p href="#" class="commContTbodyDate">' + getDate(uploadDate) + '</th>';
+        tbodyStr += '<th><a href="#" name="commContDel" id="' + item._id + '">삭제</a></th>';
+        tbodyStr += '<th><a href="#" name="commContOpen" class="commContTbodyTitle" id="' + item._id + '">' + item.title + '</a></th>';
+        tbodyStr += '<th><p class="commContTbodyDate">' + getDate(uploadDate) + '</p></th>';
         tbodyStr += '</tr>';
     });
     $('#commContTbody').html('');
@@ -122,7 +123,7 @@ function makeCommCatIndex(index, count) {
     $('#commCatIndex').append(indexStr);
 }
 
-function makeNoticeCont(data, count, index) {
+function makeEventCont(data, count, index) {
     console.log('data', data);
     $('#commContTitle').text('이벤트');
     var theadStr = '';
@@ -136,10 +137,10 @@ function makeNoticeCont(data, count, index) {
     data.forEach(function(item) {
         tbodyStr += '<tr>';
         var uploadDate = new Date(item.uploadDate);
-        tbodyStr += '<th><a href="#" name="commContDel" id="' + item._id + '">삭제</th>';
-        tbodyStr += '<th><a href="#" name="commContOpen" class="commContTbodyTitle" id="' + item._id + '">' + item.title + '</th>';
-        tbodyStr += '<th><p href="#" class="commContTbodyDate">' + getDate(uploadDate) + '</th>';
-        tbodyStr += '<th><p> ' + item.start + ' ~ ' + item.end + ' </p></th>';
+        tbodyStr += '<th><a href="#" name="commContDel" id="' + item._id + '">삭제</a></th>';
+        tbodyStr += '<th><a href="#" name="commContOpen" class="commContTbodyTitle" id="' + item._id + '">' + item.title + '</a></th>';
+        tbodyStr += '<th><p class="commContTbodyDate">' + getDate(uploadDate) + '</p></th>';
+        tbodyStr += '<th><p> ' + item.startDate + ' ~ ' + item.endDate + ' </p></th>';
         tbodyStr += '</tr>';
     });
     $('#commContTbody').html('');
