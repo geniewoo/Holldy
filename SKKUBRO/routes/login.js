@@ -36,7 +36,8 @@ router.post('/post_localLogin', function(req, res, next) { //자체로그인 시
                     type: 'local',
                     local_ID: req.body.id,
                     local_password: password,
-                    name: result.name
+                    name: result.name,
+                    email: result.email
                 };
                 next();
             }, req, res, function() {
@@ -63,7 +64,8 @@ router.post('/post_checkLocal', function(req, res, next) { //페북으로 로그
                     type: 'fb',
                     fb_ID: req.body.fb_ID,
                     local_ID: result._id,
-                    name: result.name
+                    name: result.name,
+                    email: result.email
                 };
                 next();
             }, req, res, function() {

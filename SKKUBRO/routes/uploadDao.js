@@ -3,7 +3,6 @@ var db = mongojs('SKKUBRO');
 var commNotice = db.collection('commNotice');
 var commEvent = db.collection('commEvent');
 var commQnA = db.collection('commQnA');
-var commReview = db.collection('commReview');
 /* GET home page. */
 exports.insertCommNotice = function(insertInfo, next) {
     console.log('insertUpload', insertInfo);
@@ -98,6 +97,16 @@ exports.deleteAEvent = function(deleteInfo, next) {
             next(false);
         } else {
             next(true);
+        }
+    });
+}
+exports.insertCommQnA = function(insertInfo, next) {
+    console.log('insertUploadQnA', insertInfo);
+    commQnA.insert(insertInfo, function(error, data) {
+        if (error) {
+            next(false);
+        } else {
+            next(data);
         }
     });
 }

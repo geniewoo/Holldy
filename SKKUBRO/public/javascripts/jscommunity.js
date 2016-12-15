@@ -27,14 +27,6 @@ $(function() {
             }
         });
     });
-    $('a[name="review"]').on('click', function(event){
-        event.preventDefault();
-        $.get('/community/get_reviewCat?index=1', function(data) {
-            if (data.code === 1) {
-                makeReviewCont(data.data, data.count, data.index);
-            }
-        });
-    });
     $('a[name="notice"]').trigger('click');
 });
 
@@ -159,7 +151,7 @@ function makeQnACont(data, count, index) {
     $('#commContTitle').text('QnA');
     var theadStr = '';
     theadStr += '<tr>';
-    theadStr += '<th>제목</th><th>작성자</th><th>작성일</th>';
+    theadStr += '<th>공개 여부</th><th>제목</th><th>작성자</th><th>작성일</th>';
     theadStr += '</tr>';
     $('#commContThead').html('');
     $('#commContThead').append(theadStr);
@@ -168,8 +160,19 @@ function makeQnACont(data, count, index) {
     data.forEach(function(item) {
         tbodyStr += '<tr>';
         var uploadDate = new Date(item.uploadDate);
+        if(item.locked == false){
+            tbodyStr += '<th><p class="commContTbodyOpen">비공개</p></th>';   
+        }else if(item.locked == true){
+            tbodyStr += '<th><p class="commContTbodyOpen">공개</p></th>';
+        }else if(item.isLogined == true){
+            tbodyStr += '<th><p class="commContTbodyOpen">회원</p></th>';
+        }
         tbodyStr += '<th><a href="#" name="commContOpen" class="commContTbodyTitle" id="' + item._id + '">' + item.title + '</a></th>';
-        tbodyStr += '<th><p class="commContTbodyWriter>' + item.writer + '</p></th>';
+        if(item.isLogined == true){
+            tbodyStr += '<th><p class="commContTbodyWriter">' + item.email + '</p></th>';
+        }else if(item.isLogined == false){
+            tbodyStr += '<th><p class="commContTbodyWriter">' + item.name + '</p></th>';
+        }
         tbodyStr += '<th><p class="commContTbodyDate">' + getDate(uploadDate) + '</p></th>';
         tbodyStr += '</tr>';
     });
@@ -199,54 +202,13 @@ function makeQnACont(data, count, index) {
             });
         });
     });
+
+    var commActiveStr = '';
+    commActiveStr += '<a href="/community/writeQnA">글쓰기</a>';
+    $('#commActive').html('');
+    $('#commActive').append(commActiveStr);
 }
-function makeReviewCont(data, count, index) {
-    console.log('data', data);
-    $('#commContTitle').text('리뷰');
-    var theadStr = '';
-    theadStr += '<tr>';
-    theadStr += '<th>제목</th><th>작성자</th><th>평점</th><th>작성일</th>';
-    theadStr += '</tr>';
-    $('#commContThead').html('');
-    $('#commContThead').append(theadStr);
 
-    var tbodyStr = '';
-    data.forEach(function(item) {
-        tbodyStr += '<tr>';
-        var uploadDate = new Date(item.uploadDate);
-        tbodyStr += '<th><a href="#" name="commContOpen" class="commContTbodyTitle" id="' + item._id + '">' + item.title + '</a></th>';
-        tbodyStr += '<th><p class="commContTbodyWriter>' + item.writer + '</p></th>';
-        tbodyStr += '<th><p class="commContTbodyStar" id="commContTbodyStar"></p></th>';
-        tbodyStr += '<th><p class="commContTbodyDate">' + getDate(uploadDate) + '</p></th>';
-        tbodyStr += '</tr>';
-    });
-    $('#commContTbody').html('');
-    $('#commContTbody').append(tbodyStr);
-
-    makeCommCatIndex(index, count); //밑에 페이지 1|2|3 만드는것
-
-    $('a[name="commContOpen"]').each(function() {
-        $(this).on('click', function(event) {
-            event.preventDefault();
-            reviewNum = $(this).attr('id');
-            reviewNum = reviewNum.substring(11, reviewNum.length);
-            window.location.href = "/community/readReview?reviewNum=" + reviewNum;
-        });
-    });
-
-    $('a[name="index_a"]').each(function(){//인덱스용
-        $(this).on('click', function(event){
-            event.preventDefault();
-            var index = $(this).text();
-            $.get('/community/get_QnACat?index=' + index, function(data) {
-                console.log(data, data.nowIndex);
-                if (data.code === 1) {
-                    makeQnACont(data.data, data.count, data.index);
-                }
-            });
-        });
-    });
-}
 var getDate = function(date) {
     var returnDate = date.getFullYear() + '-';
     if (date.getMonth() < 9) {

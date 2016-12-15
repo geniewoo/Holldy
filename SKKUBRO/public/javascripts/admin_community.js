@@ -190,7 +190,6 @@ function makeEventCont(data, count, index) {
 
 function makeQnACont(data) {
     $('#commContTitle').text('QnA');
-
 }
 var getDate = function(date) {
     var returnDate = date.getFullYear() + '-';
