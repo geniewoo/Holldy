@@ -128,23 +128,23 @@ router.get('/get_noticeCat', function(req, res, next) {
     }, {
         uploadDate: -1
     }, 10 * skip, 10, function(data1) { //    {_id:/^adminNotice/}
-    if (data1) {
-        uploadDao.countCommNotice(function(data2) {
-            console.log('index', skip + 1);
+        if (data1) {
+            uploadDao.countCommNotice(function(data2) {
+                console.log('index', skip + 1);
+                res.json({
+                    code: 1,
+                    data: data1,
+                    index: req.query.index,
+                    count: data2
+                });
+            })
+        } else {
             res.json({
-                code: 1,
-                data: data1,
-                index: req.query.index,
-                count: data2
+                code: 0,
+                err_msg: 'uploadDao error'
             });
-        })
-    } else {
-        res.json({
-            code: 0,
-            err_msg: 'uploadDao error'
-        });
-    }
-});
+        }
+    });
 });
 router.get('/get_noticeCat', function(req, res, next) {
     var skip = req.query.index - 1;
@@ -155,23 +155,23 @@ router.get('/get_noticeCat', function(req, res, next) {
     }, {
         uploadDate: -1
     }, 10 * skip, 10, function(data1) { //    {_id:/^adminNotice/}
-    if (data1) {
-        uploadDao.countCommNotice(function(data2) {
-            console.log('index', skip + 1);
+        if (data1) {
+            uploadDao.countCommNotice(function(data2) {
+                console.log('index', skip + 1);
+                res.json({
+                    code: 1,
+                    data: data1,
+                    index: req.query.index,
+                    count: data2
+                });
+            })
+        } else {
             res.json({
-                code: 1,
-                data: data1,
-                index: req.query.index,
-                count: data2
+                code: 0,
+                err_msg: 'uploadDao error'
             });
-        })
-    } else {
-        res.json({
-            code: 0,
-            err_msg: 'uploadDao error'
-        });
-    }
-});
+        }
+    });
 });
 
 router.get('/get_QnACat', function(req, res, next) {
@@ -183,23 +183,23 @@ router.get('/get_QnACat', function(req, res, next) {
     }, {
         uploadDate: -1
     }, 10 * skip, 10, function(data1) { //    {_id:/^adminNotice/}
-    if (data1) {
-        uploadDao.countCommQnA(function(data2) {
-            console.log('index', skip + 1);
+        if (data1) {
+            uploadDao.countCommQnA(function(data2) {
+                console.log('index', skip + 1);
+                res.json({
+                    code: 1,
+                    data: data1,
+                    index: req.query.index,
+                    count: data2
+                });
+            })
+        } else {
             res.json({
-                code: 1,
-                data: data1,
-                index: req.query.index,
-                count: data2
+                code: 0,
+                err_msg: 'uploadDao error'
             });
-        })
-    } else {
-        res.json({
-            code: 0,
-            err_msg: 'uploadDao error'
-        });
-    }
-});
+        }
+    });
 });
 router.get('/get_reviewCat', function(req, res, next) {
     var skip = req.query.index - 1;
@@ -210,25 +210,25 @@ router.get('/get_reviewCat', function(req, res, next) {
     }, {
         uploadDate: -1
     }, 10 * skip, 10, function(data1) { //    {_id:/^adminNotice/}
-    if (data1) {
-        uploadDao.countCommReview(function(data2) {
-            console.log('index', skip + 1);
-            res.json({
-                code: 1,
-                data: data1,
-                index: req.query.index,
-                count: data2
+        if (data1) {
+            uploadDao.countCommReview(function(data2) {
+                console.log('index', skip + 1);
+                res.json({
+                    code: 1,
+                    data: data1,
+                    index: req.query.index,
+                    count: data2
+                });
             });
-        });
-    } else {
-        res.json({
-            code: 0,
-            err_msg: 'uploadDao error'
-        });
-    }
+        } else {
+            res.json({
+                code: 0,
+                err_msg: 'uploadDao error'
+            });
+        }
+    });
 });
-});
-router.get('/writeQnA', function(req, res, next){
+router.get('/writeQnA', function(req, res, next) {
     session.loginStatus(req.session, function(result) {
         if (result === 0) {
             fs.readFile('views/writeQnA.html', function(error, data) {
@@ -239,17 +239,17 @@ router.get('/writeQnA', function(req, res, next){
         }
     });
 });
-router.get('/writeQnALogined', function(req, res, next){
-    session.loginStatus(req.session, function(result){
-        if(result === 0){
+router.get('/writeQnALogined', function(req, res, next) {
+    session.loginStatus(req.session, function(result) {
+        if (result === 0) {
             res.send({
-                code : 0,
-                err_msg : '로그인 후 이용해 주세요'
+                code: 0,
+                err_msg: '로그인 후 이용해 주세요'
             });
-        }else if(result ===1 || result === 2){
-            fs.readFile('views/writeQnALogined.html', function(error, data){
+        } else if (result === 1 || result === 2) {
+            fs.readFile('views/writeQnALogined.html', function(error, data) {
                 res.send(data.toString());
-            });   
+            });
         }
     });
 });
@@ -296,12 +296,12 @@ router.post('/post_writeQnAText', function(req, res, next) {
     if (commWrite.imagePaths) {
         insertJson.imagePaths = commWrite.imagePaths;
     }
-    session.loginStatus(req.session, function(result){
-        if(result === 0){
+    session.loginStatus(req.session, function(result) {
+        if (result === 0) {
             insertJson.name = commWrite.commWriteName;
             insertJson.isLogined = false;
             insertJson.locked = commWrite.locked;
-            if(commWrite.locked === true){
+            if (commWrite.locked === true) {
                 insertJson.password = commWrite.password;
             }
             uploadDao.insertCommQnA(insertJson, function(result) {
@@ -309,10 +309,11 @@ router.post('/post_writeQnAText', function(req, res, next) {
                     code: 1
                 });
             });
-        }else if(result ===1 || result === 2){
+        } else if (result === 1 || result === 2) {
             insertJson.local_ID = req.session.localLogin.local_ID;
             insertJson.email = req.session.localLogin.email;
             insertJson.isLogined = true;
+            insertJson.locked = commWrite.locked;
             uploadDao.insertCommQnA(insertJson, function(result) {
                 res.json({
                     code: 1
@@ -321,54 +322,144 @@ router.post('/post_writeQnAText', function(req, res, next) {
         }
     });
 });
-router.get('/get_QnASecretDegree', function(req, res, next){
+router.get('/get_QnASecretDegree', function(req, res, next) {
     var QnANum = req.query.QnANum;
     console.log('secret', QnANum);
     uploadDao.findACommQnA({
-        _id : 'writeQnAQnA' + QnANum
+        _id: 'writeQnAQnA' + QnANum
     }, {
-        title:0,
-        cont:0,
-        uploadDate:0,
-        name:0
-    }, function(data){
+        title: 0,
+        cont: 0,
+        uploadDate: 0,
+        name: 0
+    }, function(data) {
         console.log('secret~', data);
-        if(data.locked === true && data.isLogined === true){
-            if(res.loginStatus && res.loginStatus.email === data.email){
-                res.redirect('/community/readQnA?QnANum' + QnANum);
-            }else{
+        if (data.locked === true && data.isLogined === true) {
+            console.log('degree ture true');
+            if (req.session.localLogin && req.session.localLogin.email === data.email) {
+                console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwhy');
+                res.json({code:3});
+            } else {
                 res.json({
-                    code : 2
+                    code: 2
                 });
             }
-        }else{
+        } else {
             res.json({
-                code : 1,
-                isLogined : data.isLogined,
+                code: 1,
+                isLogined: data.isLogined,
                 locked: data.locked
-            });   
+            });
         }
     });
 });
-router.get('/get_confirmQnAPassword', function(req, res, next){
+router.get('/get_confirmQnAPassword', function(req, res, next) {
     var QnANum = req.query.QnANum;
     var QnAPassword = req.query.QnAPassword;
-    uploadDao.findACommQnA({_id : 'writeQnAQnA' + QnANum}, {
-        title:0,
-        cont:0,
-        uploadDate:0,
-        name:0,
-        isLogined:0,
-        locked:0
-    }, function(data){
-        if(data.password){
-            if(QnAPassword === data.password){
-                res.json({code : 1});
-            }else{
-                res.json({code : 0, err_msg:'비밀번호가 틀렸습니다'});
+    uploadDao.findACommQnA({
+        _id: 'writeQnAQnA' + QnANum
+    }, {
+        title: 0,
+        cont: 0,
+        uploadDate: 0,
+        name: 0,
+        isLogined: 0,
+        locked: 0
+    }, function(data) {
+        if (data.password) {
+            if (QnAPassword === data.password) {
+                req.session.QnAToken = {
+                    QnANum: QnANum,
+                    ms: Date.now()
+                };
+                console.log('nownownow', Date.now());
+                res.json({
+                    code: 1
+                });
+            } else {
+                res.json({
+                    code: 0,
+                    err_msg: '비밀번호가 틀렸습니다'
+                });
             }
-        }else{
-            res.json({code:0});
+        } else {
+            res.json({
+                code: 0
+            });
+        }
+    });
+});
+
+router.get('/readQnA', function(req, res, next) {
+    visitorsController.countUpVisitors(req, res, '/community/readQnA', function(result) {
+        if (result === true) {
+            fs.readFile('views/commReadQnA.html', function(error, data) {
+                res.send(data.toString());
+            });
+        } else {
+            res.send({
+                code: 0,
+                err_msg: 'visitor error'
+            });
+        }
+    });
+});
+router.get('/get_commQnA', function(req, res, next) {
+    var QnANum = req.query.QnANum;
+    uploadDao.findACommQnA({
+        _id: 'writeQnAQnA' + QnANum
+    }, {}, function(data) {
+        if (data.locked === true) {
+            if (data.isLogined === true) {
+                if (req.session.localLogin && data.email && req.session.localLogin.email === data.email) {
+                    res.json({
+                        code: 2,
+                        data: data
+                    });
+                } else {
+                    res.json({
+                        code: 0,
+                        err_msg: "읽을 수 없는 회원 비밀글입니다"
+                    });
+                }
+            } else if (data.isLogined === false) {
+                if (req.session.QnAToken && req.session.QnAToken.QnANum === QnANum) {
+                    if (Date.now() - req.session.QnAToken.ms < 10000) {
+                        delete req.session.QnAToken;
+                        res.json({
+                            code: 1,
+                            data: data
+                        });
+                    } else {
+                        delete req.session.QnAToken;
+                        res.json({
+                            code: 0,
+                            err_msg: "시간오버"
+                        });
+                    }
+                } else {
+                    res.json({
+                        code: 0,
+                        err_msg: "권한이 없는 비회원 비밀글입니다"
+                    });
+                }
+            } else {
+                res.json({
+                    code: 0
+                });
+            }
+        } else {
+            if (data.isLogined === true) {
+                res.json({
+                    code: 2,
+                    data: data
+                });
+            } else {
+                res.json({
+                    code: 1,
+                    data: data
+                });
+            }
         }
     });
 });

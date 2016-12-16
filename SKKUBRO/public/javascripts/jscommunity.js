@@ -148,9 +148,9 @@ function makeEventCont(data, count, index) {
 
 function makeQnACont(data, count, index) {
     var modalStr = '';
-    modalStr += '<div id="QnAPasswordModal" class="modal">';
-    modalStr += '    <div class="modal-content">';
-    modalStr += '        <span class="close">&times;</span>';
+    modalStr += '<div id="QnAPasswordModal" class="simple-modal">';
+    modalStr += '    <div class="simple-modal-content">';
+    modalStr += '        <span class="simple-nodal-close">&times;</span>';
     modalStr += '        <p>비밀번호 입력 : <input type="password" id="QnAPasswordInput"></p>';
     modalStr += '        <a href="#" id="QnAPasswordConfirm">확인</a>';
     modalStr += '    </div>';
@@ -166,7 +166,7 @@ function makeQnACont(data, count, index) {
     $('#commContThead').append(theadStr);
 
     var modal = document.getElementById('QnAPasswordModal');
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName("simple-nodal-close")[0];
     span.onclick = function() {
         modal.style.display = "none";
     }
@@ -222,7 +222,9 @@ function makeQnACont(data, count, index) {
             QnANum = $(this).attr('id');
             QnANum = QnANum.substring(11, QnANum.length);
             $.get("/community/get_QnASecretDegree?QnANum=" + QnANum, function(result){
-                if(result.code === 2){
+                if(result.code ===3){
+                    window.location.href="/community/readQnA?QnANum=" + QnANum;
+                } if(result.code === 2){
                     alert('회원 비공개글 입니다.');
                 }else if(result.code === 1){
                     if(result.locked === true){

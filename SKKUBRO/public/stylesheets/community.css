@@ -32,7 +32,7 @@ table.commContTable{
 	}
 }
 
-.modal {
+.simple-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -46,7 +46,7 @@ table.commContTable{
 }
 
 /* Modal Content/Box */
-.modal-content {
+.simple-modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
@@ -55,15 +55,15 @@ table.commContTable{
 }
 
 /* The Close Button */
-.close {
+.simple-nodal-close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.simple-nodal-close:hover,
+.simple-nodal-close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
