@@ -147,6 +147,15 @@ function makeEventCont(data, count, index) {
 }
 
 function makeQnACont(data, count, index) {
+    var modalStr = '';
+    modalStr += '<div id="QnAPasswordModal" class="modal">';
+    modalStr += '    <div class="modal-content">';
+    modalStr += '        <span class="close">&times;</span>';
+    modalStr += '        <p>비밀번호 입력 : <input type="password" id="QnAPasswordInput"></p>';
+    modalStr += '        <a href="#" id="QnAPasswordConfirm">확인</a>';
+    modalStr += '    </div>';
+    modalStr += '</div>';
+    $('body').append(modalStr);
     console.log('data', data);
     $('#commContTitle').text('QnA');
     var theadStr = '';
@@ -156,13 +165,39 @@ function makeQnACont(data, count, index) {
     $('#commContThead').html('');
     $('#commContThead').append(theadStr);
 
+    var modal = document.getElementById('QnAPasswordModal');
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    $('#QnAPasswordConfirm').on('click', function(event){
+        event.preventDefault();
+        var QnAPassword = $('#QnAPasswordInput').val();
+        var QnANum = $('#QnAPasswordInput').attr('name');
+        console.log(QnAPassword, QnANum);
+        if(QnAPassword != '' && QnANum && QnANum.length === 13){
+            $.get('/community/get_confirmQnAPassword?QnANum=' + QnANum +'&QnAPassword=' + QnAPassword, function(result){
+                if(result.code ===1){
+                    window.location.href = '/community/readQnA?QnANum=' + QnANum;
+                }else{
+                    alert('비밀번호가 틀렸습니다');
+                }
+            });
+        }
+    });
+
     var tbodyStr = '';
     data.forEach(function(item) {
         tbodyStr += '<tr>';
         var uploadDate = new Date(item.uploadDate);
-        if(item.locked == false){
-            tbodyStr += '<th><p class="commContTbodyOpen">비공개</p></th>';   
-        }else if(item.locked == true){
+        if(item.locked === true){
+            tbodyStr += '<th><p class="commContTbodyOpen">비공개</p></th>';
+        }else if(item.locked === false){
             tbodyStr += '<th><p class="commContTbodyOpen">공개</p></th>';
         }else if(item.isLogined == true){
             tbodyStr += '<th><p class="commContTbodyOpen">회원</p></th>';
@@ -186,7 +221,18 @@ function makeQnACont(data, count, index) {
             event.preventDefault();
             QnANum = $(this).attr('id');
             QnANum = QnANum.substring(11, QnANum.length);
-            window.location.href = "/community/readQnA?QnANum=" + QnANum;
+            $.get("/community/get_QnASecretDegree?QnANum=" + QnANum, function(result){
+                if(result.code === 2){
+                    alert('회원 비공개글 입니다.');
+                }else if(result.code === 1){
+                    if(result.locked === true){
+                        modal.style.display = "block";
+                        $('#QnAPasswordInput').attr('name', QnANum);
+                    }else{
+                        window.location.href="/community/readQnA?QnANum=" + QnANum;
+                    }
+                }
+            });
         });
     });
 

@@ -301,7 +301,7 @@ router.post('/post_writeQnAText', function(req, res, next) {
             insertJson.name = commWrite.commWriteName;
             insertJson.isLogined = false;
             insertJson.locked = commWrite.locked;
-            if(commWrite.locked == 'true'){
+            if(commWrite.locked === true){
                 insertJson.password = commWrite.password;
             }
             uploadDao.insertCommQnA(insertJson, function(result) {
@@ -318,6 +318,57 @@ router.post('/post_writeQnAText', function(req, res, next) {
                     code: 1
                 });
             });
+        }
+    });
+});
+router.get('/get_QnASecretDegree', function(req, res, next){
+    var QnANum = req.query.QnANum;
+    console.log('secret', QnANum);
+    uploadDao.findACommQnA({
+        _id : 'writeQnAQnA' + QnANum
+    }, {
+        title:0,
+        cont:0,
+        uploadDate:0,
+        name:0
+    }, function(data){
+        console.log('secret~', data);
+        if(data.locked === true && data.isLogined === true){
+            if(res.loginStatus && res.loginStatus.email === data.email){
+                res.redirect('/community/readQnA?QnANum' + QnANum);
+            }else{
+                res.json({
+                    code : 2
+                });
+            }
+        }else{
+            res.json({
+                code : 1,
+                isLogined : data.isLogined,
+                locked: data.locked
+            });   
+        }
+    });
+});
+router.get('/get_confirmQnAPassword', function(req, res, next){
+    var QnANum = req.query.QnANum;
+    var QnAPassword = req.query.QnAPassword;
+    uploadDao.findACommQnA({_id : 'writeQnAQnA' + QnANum}, {
+        title:0,
+        cont:0,
+        uploadDate:0,
+        name:0,
+        isLogined:0,
+        locked:0
+    }, function(data){
+        if(data.password){
+            if(QnAPassword === data.password){
+                res.json({code : 1});
+            }else{
+                res.json({code : 0, err_msg:'비밀번호가 틀렸습니다'});
+            }
+        }else{
+            res.json({code:0});
         }
     });
 });

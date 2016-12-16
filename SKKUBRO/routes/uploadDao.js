@@ -139,23 +139,3 @@ exports.countCommQnA = function(next) {
         }
     });
 }
-
-exports.findCommReview = function(findInfo, exceptInfo, sortInfo, skipInfo, limitInfo, next) {
-    commReview.find(findInfo, exceptInfo).sort(sortInfo).skip(skipInfo).limit(limitInfo, function(error, data) {
-        console.log('findCommReview');
-        if (error) {
-            next(false);
-        } else {
-            next(data);
-        }
-    });
-}
-exports.countCommReview = function(next) {
-    commReview.count(function(error, data) {
-        if (error) {
-            next(false);
-        } else {
-            next(data);
-        }
-    });
-}
